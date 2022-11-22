@@ -1,6 +1,6 @@
 package Domain;
 
-public class CadernoCampo {
+public class CadernoCampo extends Quinta{
 
     private int idCaderno;
     private String tipoFertilizacao;
@@ -8,7 +8,8 @@ public class CadernoCampo {
     private String dadosSensores;
     private String dadosRegas;
 
-    public CadernoCampo(int idCaderno, String tipoFertilizacao, String registoColheita, String dadosSensores, String dadosRegas) {
+    public CadernoCampo(int idQuinta, int idUtilizador, int idCaderno, String tipoFertilizacao, String registoColheita, String dadosSensores, String dadosRegas) {
+        super(idQuinta, idUtilizador);
         this.idCaderno = idCaderno;
         this.tipoFertilizacao = tipoFertilizacao;
         this.registoColheita = registoColheita;
