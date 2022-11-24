@@ -17,13 +17,13 @@ public class main {
         final Graph<Local,Integer> map=new MapGraph<>(true);
         File file1=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
         File file2=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-
-        CsvReader.ReadDistancias(file1,file2,",",map);
+        CsvReader readFiles=new CsvReader();
+        readFiles.ReadDistancias(file1,file2,",",map);
 
 
         //VERTICES
         for (Local loc:map.vertices()){
-            System.out.println(loc.getName()+"   "+"  "+loc.getLng()+"   "+"  "+loc.getLat());
+            System.out.println(loc.getName()+"   "+"  "+loc.getLng()+"   "+"  "+loc.getLat()+"  "+loc.getDestinatário());
         }
 
 

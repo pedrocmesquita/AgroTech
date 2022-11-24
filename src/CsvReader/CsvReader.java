@@ -14,7 +14,7 @@ public class CsvReader {
 
 
 
-    public static void ReadDistancias(File file1,File file2, String separatorRegex, Graph<Local,Integer> graph) throws FileNotFoundException {
+    public void ReadDistancias(File file1,File file2, String separatorRegex, Graph<Local,Integer> graph) throws FileNotFoundException {
         Scanner reader = new Scanner(file1);
         String header = reader.nextLine();
         BST<Local> locais=ReadClientesProdutores(file2,",");
@@ -51,7 +51,7 @@ public class CsvReader {
         }
     }
 
-    private static BST<Local> ReadClientesProdutores(File file, String separatorRegex) throws FileNotFoundException {
+    private BST<Local> ReadClientesProdutores(File file, String separatorRegex) throws FileNotFoundException {
         BST<Local> locais=new BST<>();
         Scanner reader = new Scanner(file);
         String header = reader.nextLine();
@@ -67,7 +67,7 @@ public class CsvReader {
                 }
                 //System.out.println();
 
-                locais.insert(new Local(split[0],split[1],split[2]));
+                locais.insert(new Local(split[0],split[1],split[2],split[3]));
                 //System.out.println("insert"+split[0]);
 
 
@@ -81,17 +81,17 @@ public class CsvReader {
         return locais;
     }
 
-    private static String cleanString(String s){
+    private String cleanString(String s){
         s = s.replace("\"", "");
         s = s.replace("'", "");
         return s;
     }
 
-    public static Local findLocal(BST<Local> locais,String str){
+    private Local findLocal(BST<Local> locais,String str){
         return findLocal(locais.root,str);
     }
 
-    public static Local findLocal(BST.Node<Local> node, String str){
+    private Local findLocal(BST.Node<Local> node, String str){
         //int a=comp(node.getElement(),str);
        // System.out.println("---"+str+"  "+node.getElement().getName());
         //System.out.println(comp(node.getElement(),str));
@@ -108,7 +108,7 @@ public class CsvReader {
 
 
 
-    public static int comp(Local o,String str) {
+    private static int comp(Local o,String str) {
         if (str.compareTo(o.getName())==0)return 0;
         if (str.compareTo(o.getName())>0){
             return 1;

@@ -5,10 +5,13 @@ public class Local implements Comparable<Local> {
     private String lat;
     private String lng;
 
-    public Local(String name, String lat, String lng) {
+    private String destinatário;
+
+    public Local(String name, String lat, String lng,String destinatário) {
         this.name = name;
         this.lat = lat;
         this.lng = lng;
+        this.destinatário = destinatário;
     }
 
     public String getName() {
@@ -23,6 +26,9 @@ public class Local implements Comparable<Local> {
         return lng;
     }
 
+    public String getDestinatário() {
+        return destinatário;
+    }
 
     @Override
     public int compareTo(Local o) {
