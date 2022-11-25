@@ -1,14 +1,13 @@
 package CsvReader;
 
 
+import Domain.Cabazes;
 import Domain.Local;
 import Shared.Graphs.Graph;
 import Shared.BST.BST;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+
+import java.io.*;
+import java.util.*;
 
 public class CsvReader {
 
@@ -79,6 +78,53 @@ public class CsvReader {
 
         }
         return locais;
+    }
+
+    public List<Cabazes> ReadCabazes(String fileName){
+        List<Cabazes> cabazesList = new ArrayList<>();
+
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            br.readLine();
+            String line = br.readLine();
+
+            while (line != null){
+                String[] coluna = line.split(",");
+                String codigo = coluna[0];
+                String dia = coluna[1];
+                int prod1 = Integer.parseInt(coluna[2]);
+                int prod2 = Integer.parseInt(coluna[3]);
+                int prod3 = Integer.parseInt(coluna[4]);
+                int prod4 = Integer.parseInt(coluna[5]);
+                int prod5 = Integer.parseInt(coluna[6]);
+                int prod6 = Integer.parseInt(coluna[7]);
+                int prod7 = Integer.parseInt(coluna[8]);
+                int prod8 = Integer.parseInt(coluna[9]);
+                int prod9 = Integer.parseInt(coluna[10]);
+                int prod10 = Integer.parseInt(coluna[11]);
+                int prod11 = Integer.parseInt(coluna[12]);
+                int prod12 = Integer.parseInt(coluna[13]);
+                int prod13 = Integer.parseInt(coluna[14]);
+                int prod14 = Integer.parseInt(coluna[15]);
+                int prod15 = Integer.parseInt(coluna[16]);
+                int prod16 = Integer.parseInt(coluna[17]);
+                int prod17 = Integer.parseInt(coluna[18]);
+                int prod18 = Integer.parseInt(coluna[19]);
+                int prod19 = Integer.parseInt(coluna[20]);
+                int prod20 = Integer.parseInt(coluna[21]);
+
+                Cabazes cabazes = new Cabazes(codigo, dia, prod1, prod2, prod3, prod4, prod5,prod6,prod7,prod8,prod9,prod10,prod11,prod12,
+                        prod13,prod14,prod15,prod16,prod17,prod18,prod19,prod20);
+
+                cabazesList.add(cabazes);
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return cabazesList;
     }
 
     private String cleanString(String s){
