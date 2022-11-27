@@ -1,0 +1,262 @@
+
+-- <<<<<<<<<<<<<<<<<<<< DROP TABLES >>>>>>>>>>>>>>>>>>>> --
+
+DROP TABLE caderno_campo;
+DROP TABLE cabaz;
+DROP TABLE hub;
+DROP TABLE cliente_encomenda;
+DROP TABLE estacao_meteorologica;
+DROP TABLE sensor;
+DROP TABLE dados_sensor;
+DROP TABLE complexidade;
+DROP TABLE rega;
+DROP TABLE fator_Producao;
+DROP TABLE colheita;
+DROP TABLE cultura;
+DROP TABLE cultura_colheita;
+DROP TABLE plano_rega;
+DROP TABLE tipo_sensor;
+DROP TABLE parcela;
+DROP TABLE parcela_fator_producao;
+DROP TABLE parcela_sistema_rega;
+DROP TABLE parcela_sensor;
+DROP TABLE edificio;
+DROP TABLE produtor;
+DROP TABLE incidente;
+DROP TABLE encomenda;
+DROP TABLE cliente;
+DROP TABLE empresa;
+DROP TABLE quinta;
+
+
+
+-- <<<<<<<<<<<<<<<<<<<< CREATE TABLES >>>>>>>>>>>>>>>>>>>> --
+
+CREATE TABLE quinta (
+    id_quinta INT PRIMARY KEY,
+    nome CHAR(255) NOT NULL
+);
+
+CREATE TABLE produtor (
+    id_produtor INT PRIMARY KEY,
+    id_quinta INT,
+    nome CHAR(40) NOT NULL,
+    email CHAR(40) NOT NULL,
+    morada CHAR(40) NOT NULL,
+    CONSTRAINT FK_Produtor_Quinta FOREIGN KEY (id_quinta) REFERENCES quinta(id_quinta)
+);
+
+CREATE TABLE empresa (
+    id_empresa INT PRIMARY KEY,
+    designacao CHAR(255) NOT NULL,
+    email CHAR(255) NOT NULL,
+    morada CHAR(255) NOT NULL
+);
+
+CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL,
+    email VARCHAR(40) NOT NULL,
+    NIF INT NOT NULL,
+    morada_correspondencia VARCHAR(40) NOT NULL,
+    morada_entrega VARCHAR(40) NOT NULL,
+    plafond INT NOT NULL,
+    n_encomendas_ultimo_ano INT NOT NULL ,
+    data_utlimo_incidente DATE NOT NULL ,
+    n_incidente INT NOT NULL ,
+    valor_encomendas_ultimo_ano INT NOT NULL
+);
+
+CREATE TABLE encomenda (
+    id_encomenda INT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    data_venda DATE NOT NULL,
+    valor INT NOT NULL,
+    quantidade_cabazes INT NOT NULL,
+    CONSTRAINT FK_Encomenda_Cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+CREATE TABLE cliente_encomenda (
+    id_encomenda INT NOT NULL,
+    id_venda INT NOT NULL,
+    CONSTRAINT FK_venda FOREIGN KEY (id_venda) REFERENCES encomenda(id_encomenda),
+    CONSTRAINT FK_cliente FOREIGN KEY (id_encomenda) REFERENCES cliente(id_cliente),
+    CONSTRAINT FK_cliente_encomenda PRIMARY KEY (id_encomenda, id_venda)
+);
+
+CREATE TABLE hub (
+    id_hub INT PRIMARY KEY,
+    ncabazes_disponiveis INT NOT NULL
+);
+
+CREATE TABLE colheita (
+    numero_colheita INT PRIMARY KEY,
+    quantidade INT NOT NULL,
+    data DATE NOT NULL,
+    parcelas CHAR(255) NOT NULL,
+    produto CHAR(255) NOT NULL
+);
+
+CREATE TABLE cabaz (
+    id_cabaz INT PRIMARY KEY,
+    produto CHAR(255) NOT NULL,
+    quantidade INT NOT NULl,
+    preco INT NOT NULL,
+    id_hub INT,
+    numero_colheita int,
+    constraint fk_hub foreign key (id_hub) references hub(id_hub),
+    constraint fk_colheita foreign key (numero_colheita) references colheita(numero_colheita)
+);
+
+CREATE TABLE incidente (
+    id_incidente INT PRIMARY KEY,
+    id_encomenda INT NOT NULL,
+    data DATE NOT NULL,
+    valor INT NOT NULL,
+    CONSTRAINT FK_Incidente_Encomenda FOREIGN KEY (id_encomenda) REFERENCES encomenda(id_encomenda)
+);
+
+CREATE TABLE edificio (
+    numero_edificio INT PRIMARY KEY,
+    id_quinta INT NOT NULL,
+    CONSTRAINT FK_Edificio_Quinta FOREIGN KEY (id_quinta) REFERENCES quinta(id_quinta)
+);
+
+CREATE TABLE parcela (
+    designcacao char(255) PRIMARY KEY,
+    ID_Quinta INT NOT NULL,
+    numero_colheita INT NOT NULL,
+    area INT NOT NULL,
+    CONSTRAINT FK_Parcela_Quinta FOREIGN KEY (ID_Quinta) REFERENCES Quinta(ID_Quinta)
+);
+
+CREATE TABLE fator_producao (
+    id_fator INT PRIMARY KEY,
+    nome CHAR(255) NOT NULL,
+    classificacao CHAR(255) NOT NULL,
+    formulacao CHAR(255) NOT NULL,
+    ficha_tecnica CHAR(255) NOT NULL,
+    tipo_fertilizacao CHAR(255) NOT NULL,
+    CONSTRAINT CK_Fator_Producao_Formulacao CHECK (Formulacao = 'Liquido' OR Formulacao = 'Granulado' OR Formulacao = 'Po'),
+    CONSTRAINT CK_Fator_Producao_Tipo CHECK (classificacao = 'Fertilizante' OR classificacao = 'Adubo' OR classificacao = 'Corretivo' OR classificacao = 'Fitofarmaco')
+);
+
+CREATE TABLE plano_rega (
+    id_plano INT PRIMARY KEY,
+    tempo_rega INT,
+    ordem_parcelas CHAR(255),
+    periodicidade INT
+);
+
+CREATE TABLE rega (
+    id_rega INT PRIMARY KEY,
+    id_plano INT,
+    id_sistema INT,
+    quantidade INT,
+    tipo_rega CHAR(255) NOT NULL,
+    distribuicao CHAR(255) NOT NULL,
+    data_rega DATE NOT NULL,
+    CONSTRAINT CK_Rega_Tipo CHECK (tipo_rega = 'Gravidade' OR tipo_rega = 'Bombeada'),
+    CONSTRAINT CK_Rega_Distribuicao CHECK (Distribuicao = 'Aspersao' OR Distribuicao = 'Gotejamento' OR Distribuicao = 'Pulverizacao'),
+    CONSTRAINT FK_Plano FOREIGN KEY (id_plano) REFERENCES plano_rega(id_plano),
+    CONSTRAINT FK_Sistema_Rega FOREIGN KEY (id_sistema) REFERENCES sistema_rega(id_sistema)
+);
+
+
+CREATE TABLE sistema_rega (
+    id_sistema INT PRIMARY KEY,
+    tipo_solucao CHAR(255) NOT NULL,
+    CONSTRAINT CK_Fertirrega_Tipo CHECK (tipo_solucao = 'Agua' OR tipo_solucao = 'Soluçao Aquosa')
+);
+
+CREATE TABLE parcela_fator_producao (
+    designacao CHAR(255) NOT NULL,
+    ID_Fator INT NOT NULL,
+    CONSTRAINT FK_Parcela_Fator1 FOREIGN KEY (designacao) REFERENCES Parcela(designcacao),
+    CONSTRAINT FK_Parcela_Fator2 FOREIGN KEY (ID_Fator) REFERENCES Fator_Producao(ID_Fator),
+    CONSTRAINT PK_Parcela_Fator PRIMARY KEY (designacao, ID_Fator)
+);
+
+CREATE TABLE parcela_sensor (
+    designcao CHAR(255) NOT NULL,
+    id_sensor INT NOT NULL,
+    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designcao) REFERENCES Parcela(designcacao),
+    CONSTRAINT FK_Parcela_Rega2 FOREIGN KEY (id_sensor) REFERENCES sensor(ID_Sensor),
+    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designcao, id_sensor)
+);
+
+CREATE TABLE parcela_sistema_rega (
+    designcao CHAR(255) NOT NULL,
+    id_sistema INT NOT NULL,
+    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designcao) REFERENCES Parcela(designcacao),
+    CONSTRAINT FK_Parcela_Rega2 FOREIGN KEY (id_sistema) REFERENCES sistema_rega(id_sistema),
+    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designcao, id_sistema)
+);
+
+create table complexidade (
+    id_sistema int,
+    variedade_fp char(255) not null,
+    quantidade_agua int not null,
+    qualidade_agua char(255),
+    nculturas int not null,
+    nparcelas int not null,
+    dimensao_exploracao int not null,
+    constraint fk_sistema foreign key (id_sistema) references sistema_rega(id_sistema),
+    constraint pk_sistema primary key (id_sistema)
+);
+
+CREATE TABLE cultura (
+    ID_Cultura INT PRIMARY KEY,
+    Tipo CHAR(255) NOT NULL,
+    objetivo CHAR(255) NOT NULL,
+    CONSTRAINT CK_Cultura_Tipo CHECK (Tipo = 'Temporario' OR Tipo = 'Permanente'),
+    CONSTRAINT CK_Cultura_Objetivo CHECK (objetivo = 'Consumo humano' OR objetivo = 'Consumo animal' OR objetivo = 'Adubacao')
+);
+
+CREATE TABLE cultura_colheita (
+    id_cultura INT NOT NULL,
+    numero_colheita INT NOT NULL,
+    CONSTRAINT FK_cultura FOREIGN KEY (id_cultura) REFERENCES cultura(ID_Cultura),
+    CONSTRAINT FK_colheita FOREIGN KEY (numero_colheita) REFERENCES colheita(numero_colheita),
+    CONSTRAINT PK_colheita_cultura PRIMARY KEY (id_cultura, numero_colheita)
+);
+
+CREATE TABLE estacao_meteorologica (
+    id_estacao INT NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE sensor (
+    ID_Sensor INT PRIMARY KEY,
+    id_estacao INT NOT NULL ,
+    CONSTRAINT FK_estacao FOREIGN KEY (id_estacao) REFERENCES estacao_meteorologica(id_estacao)
+);
+
+CREATE TABLE tipo_sensor (
+    id_sensor INT NOT NULL,
+    tipo CHAR(255) NOT NULL,
+    quantidade_sensor_tipo INT NOT NULL,
+    CONSTRAINT CK_Sensor_Tipo CHECK (Tipo = 'Pluviosidade' OR Tipo = 'Temperatura solo' OR Tipo = 'Humidade solo'
+                                            OR Tipo = 'Velocidade vento' OR Tipo = 'Temperatura atmosferica' OR Tipo = 'Pressao atmosferica'
+                                            OR Tipo = 'Humidade ar'),
+    CONSTRAINT PK_sensor FOREIGN KEY (id_sensor) REFERENCES sensor(ID_Sensor),
+    CONSTRAINT PK_tipo_sensor PRIMARY KEY (id_sensor)
+);
+
+CREATE TABLE dados_sensor (
+    id_dados INT PRIMARY KEY,
+    id_sensor INT NOT NULL,
+    data DATE NOT NULL,
+    valor INT NOT NULL ,
+    unidade CHAR(255) NOT NULL,
+    CONSTRAINT FK_Registo_Sensor FOREIGN KEY (id_sensor) REFERENCES Sensor(ID_Sensor)
+);
+
+create table caderno_campo (
+    id_caderno int primary key,
+    id_quinta int,
+    tipo_fertilizacao char(255) not null,
+    registo_colheita char(255) not null,
+    dados_sensores char(255) not null,
+    dados_regas char(255) not null,
+    constraint fk_quinta foreign key (id_quinta) references quinta(id_quinta)
+);
