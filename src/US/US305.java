@@ -3,7 +3,6 @@ package US;
 import Domain.Local;
 import Shared.Graphs.Edge;
 import Shared.Graphs.Graph;
-import Shared.Graphs.MapGraph;
 
 import java.util.Arrays;
 
@@ -135,21 +134,35 @@ public class US305 {
         }
     }
 
-    public void controller(){
+    public void controller(int v, int e, Graph<Local, Integer> map){
 
-        Graph<Local, Integer> map = new MapGraph<>(true);
-        int numberVertices = map.numVertices();
-        int numberEdges = map.numEdges();
-        US305 grafo = new US305(numberVertices,numberEdges);
+        US305 grafo = new US305(v,e);
+        String[][] vertexPositions = vertexNameToIntPosition(map);
 
-        for (Edge<Local, Integer> edge : map.edges()){
-            int i = 0;
+        for (int i = 0; i < edges; i++){
 
-            //grafo.arrayEdges[i].origem = edge.getVOrig().getName();
-            //grafo.arrayEdges[i].destino =edge.getVDest().getName();
-            grafo.arrayEdges[i].peso = edge.getWeight();
+            grafo.arrayEdges[i].origem = Integer.parseInt(vertexPositions[i][0]);
+            grafo.arrayEdges[i].destino = Integer.parseInt(vertexPositions[i][1]);
+            grafo.arrayEdges[i].peso = Integer.parseInt(vertexPositions[i][2]);
         }
 
         grafo.KruskalAlgo();
+    }
+
+    public String[][] vertexNameToIntPosition(Graph<Local,Integer> map){
+
+        String[][] vertexPositions = new String[edges][3];
+
+        int i = 0;
+        for (Edge<Local, Integer> ed: map.edges()) {
+
+            String strOri = ed.getVOrig().getName();
+            String strDest = ed.getVDest().getName();
+            vertexPositions[i][0] = strOri.substring(strOri.indexOf("CT") + 2);
+            vertexPositions[i][1] = strDest.substring(strDest.indexOf("CT") + 2);
+            vertexPositions[i][2] = String.valueOf(ed.getWeight());
+            i++;
+        }
+        return vertexPositions;
     }
 }

@@ -1,6 +1,7 @@
 import CsvReader.CsvReader;
 import Domain.Destinatário;
 import Shared.BST.BST;
+import Shared.Graphs.Edge;
 import Shared.Graphs.Graph;
 import Shared.Graphs.MapGraph;
 import Domain.Local;
@@ -23,12 +24,15 @@ public class main {
         BST<Local> locais=readFiles.ReadClientesProdutores(file2,",");//arvore dos locais
         BST<Destinatário> destinatários=readFiles.getDestinatários();//arvore dos destinatários
         readFiles.ReadDistancias(file1,file2,",",map,locais);//grafo (vertices-locais)
-/*
+        System.out.println(readFiles);
 
+/*
         //VERTICES
         for (Local loc:map.vertices()){
             System.out.println(loc.getName()+"   "+"  "+loc.getLng()+"   "+"  "+loc.getLat()+"  "+loc.getDestinatário());
         }
+
+
 
 
         //Edges
@@ -36,10 +40,15 @@ public class main {
             System.out.println(ed.getVOrig().getName()+"----"+ed.getVDest().getName()+"  ->"+ed.getWeight());
         }
 
-*/
+ */
+
+
         // US305
-        US305 us305 = new US305();
-        us305.controller();
+        int v = map.numVertices(), e = map.numEdges();
+        US305 us305 = new US305(v,e);
+        us305.controller(v,e, map);
+
+
 
     }
 }
