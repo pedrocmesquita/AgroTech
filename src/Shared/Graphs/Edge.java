@@ -9,8 +9,8 @@ import java.util.Objects;
  */
 public class Edge<V, E> {
     final private V vOrig;        // vertex origin
-    final private V vDest;        // vertex destination
-    private E weight;             // Edge weight
+    final private V vDest;        // vertex destino
+    private E weight;             // Edge peso
 
 
     public Edge(V vOrig, V vDest, E weight) {

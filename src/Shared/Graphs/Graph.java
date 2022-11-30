@@ -84,7 +84,7 @@ public interface Graph<V, E> extends Cloneable {
     /** Finds an edge in the graph given its end vertices
      *
      * @param vOrig origin vertex
-     * @param vDest destination vertex
+     * @param vDest destino vertex
      * @return the edge from vOrig to vDest, or null if vertices are not adjacent
      */
     Edge<V, E> edge(V vOrig, V vDest);
@@ -104,10 +104,10 @@ public interface Graph<V, E> extends Cloneable {
      */
     int outDegree(V vert);
     
-    /** Finds the number of edges for which a vertex is the destination
+    /** Finds the number of edges for which a vertex is the destino
      * 
      * @param vert the vertex of interest
-     * @return the number of edges for which vert is the destination
+     * @return the number of edges for which vert is the destino
      */
     int inDegree(V vert);
 
@@ -118,10 +118,10 @@ public interface Graph<V, E> extends Cloneable {
      */
     Collection<Edge<V, E>> outgoingEdges(V vert);
 
-    /** Finds the edges for which a vertex is the destination
+    /** Finds the edges for which a vertex is the destino
      * 
      * @param vert the vertex of interest
-     * @return a collection of edges for which vert is the destination
+     * @return a collection of edges for which vert is the destino
      */
     Collection<Edge<V, E>> incomingEdges(V vert);
 
@@ -135,8 +135,8 @@ public interface Graph<V, E> extends Cloneable {
     /** Adds a new edge between two vertices. If the vertices are not already in the graph, they are added.
      * 
      * @param vOrig origin vertex
-     * @param vDest destination vertex
-     * @param weight the weight of the edge
+     * @param vDest destino vertex
+     * @param weight the peso of the edge
      * @return false if edge is already present, true otherwise
      */
     boolean addEdge(V vOrig, V vDest, E weight);
@@ -151,7 +151,7 @@ public interface Graph<V, E> extends Cloneable {
     /** Removes the edge between two vertices
      *
      * @param vOrig vertex origin of the edge
-     * @param vDest vertex destination of the edge
+     * @param vDest vertex destino of the edge
      * @return  true if an edge between vOrig and vDest was present in the graph, false otherwise
      */
     boolean removeEdge(V vOrig, V vDest);
