@@ -3,6 +3,7 @@ package CsvReader;
 
 import Domain.Cabazes;
 import Domain.Destinatário;
+import Domain.GrafoDistancia;
 import Domain.Local;
 import Shared.Graphs.Graph;
 import Shared.BST.BST;
@@ -41,6 +42,30 @@ public class CsvReader {
             }
 
         }
+    }
+
+    public ArrayList<GrafoDistancia> ReadDistancias(File file1, File file2, String separatorRegex) throws FileNotFoundException {
+        Scanner reader = new Scanner(file1);
+        String header = reader.nextLine();
+        GrafoDistancia grafoDistancia;
+        ArrayList<GrafoDistancia> arrayList = new ArrayList<>();
+
+        while (reader.hasNextLine()) {
+
+            String[] split = reader.nextLine().split(separatorRegex);
+            try {
+                for (String s:split) {
+                    cleanString(s);
+
+                }
+                grafoDistancia = new GrafoDistancia(split[0], split[1], Integer.parseInt(split[0].substring(split[0].indexOf("CT") + 2)), Integer.parseInt(split[1].substring(split[1].indexOf("CT") + 2)), Integer.parseInt(split[2]));
+                arrayList.add(grafoDistancia);
+
+            }
+            catch (NumberFormatException e) {
+            }
+        }
+        return arrayList;
     }
 
     public BST<Local> ReadClientesProdutores(File file, String separatorRegex) throws FileNotFoundException {
