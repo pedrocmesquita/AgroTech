@@ -1,0 +1,12 @@
+create or replace PROCEDURE get_fator_producao(
+    id_fator fator_producao.id_fator%TYPE,
+    nome fator_producao.nome%TYPE,
+    formulacao fator_producao.FORMULACAO%TYPE,
+    tipo_formulacao fator_producao.TIPO_FERTILIZACAO%TYPE)
+IS
+BEGIN
+    INSERT INTO fator_producao (id_fator, nome, formulacao, tipo_fertilizacao)
+    VALUES (id_fator, nome, formulacao, tipo_formulacao);
+    DBMS_OUTPUT.PUT_LINE('Fator de Produção : ' || id_fator);
+END;
+/

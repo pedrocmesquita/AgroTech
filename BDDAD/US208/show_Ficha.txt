@@ -1,0 +1,76 @@
+create or replace PROCEDURE show_ficha(
+    id_fator fator_producao.id_fator%TYPE)
+IS
+
+    var_id fator_producao.id_fator%TYPE;
+    var_nome fator_producao.nome%TYPE;
+    var_tipo fator_producao.TIPO_FERTILIZACAO%TYPE;
+    var_formulacao fator_producao.formulacao%TYPE;
+
+    var_id_substancia substancia.id_substancia%TYPE;
+    var_nome_substancia substancia.NOME%TYPE;
+    var_quantidade_substancia fator_substancia.quantidade%TYPE;
+    var_unidade_substancia fator_substancia.unidade%TYPE;
+
+    var_id_nutriente nutriente.id_nutriente%TYPE;
+    var_nome_nutriente nutriente.NOME%TYPE;
+    var_quantidade_nutriente fator_nutriente.quantidade%TYPE;
+    var_unidade_nutriente fator_nutriente.unidade%TYPE;
+
+BEGIN
+
+    SELECT id_fator, nome, TIPO_FERTILIZACAO, formulacao
+    INTO var_id, var_nome, var_tipo, var_formulacao
+    FROM fator_producao
+    WHERE fator_producao.id_fator = id_fator;
+
+    DBMS_OUTPUT.PUT_LINE(' ======== FICHA TECNICA FATOR PRODUCAO ========');
+    DBMS_OUTPUT.PUT_LINE('ID: ' || var_id);
+    DBMS_OUTPUT.PUT_LINE('Nome: ' || var_nome);
+    DBMS_OUTPUT.PUT_LINE('Tipo de fator de producao: ' || var_tipo);
+    DBMS_OUTPUT.PUT_LINE('Formulacao do fator de producao: ' || var_formulacao);
+    DBMS_OUTPUT.PUT_LINE('-----------------------------------------------');
+
+    DBMS_OUTPUT.PUT_LINE('<<<<<<< SUBSTANCIAS ORGANICAS >>>>>>>');
+    FOR C IN (
+        SELECT fator_substancia.id_substancia, fator_substancia.quantidade, fator_substancia.unidade, substancia.NOME
+        INTO var_id_substancia, var_quantidade_substancia , var_unidade_substancia , var_nome_substancia
+        FROM fator_substancia, substancia
+        WHERE fator_substancia.id_fator = id_fator
+        AND fator_substancia.id_substancia = substancia.id_substancia
+    )
+
+    LOOP
+        var_id_substancia := C.id_substancia;
+        var_quantidade_substancia := C.quantidade;
+        var_unidade_substancia := C.unidade;
+        var_nome_substancia := C.NOME;
+        DBMS_OUTPUT.PUT_LINE('ID: ' || var_id_substancia);
+        DBMS_OUTPUT.PUT_LINE('Nome: ' || var_nome_substancia);
+        DBMS_OUTPUT.PUT_LINE('Quantidade: ' || var_quantidade_substancia);
+        DBMS_OUTPUT.PUT_LINE('Unidade: ' || var_unidade_substancia);
+        DBMS_OUTPUT.PUT_LINE('--------------------------------------');
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('<<<<<<< NUTRIENTES ORGANICOS >>>>>>>');
+    FOR C IN (
+        SELECT fator_nutriente.id_nutriente, fator_nutriente.quantidade, fator_nutriente.unidade, Nutriente.NOME
+        INTO var_id_nutriente, var_quantidade_nutriente, var_unidade_nutriente, var_nome_nutriente
+        FROM fator_nutriente, nutriente
+        WHERE fator_nutriente.id_fator = id_fator
+        AND fator_nutriente.id_nutriente = nutriente.id_nutriente
+    )
+
+    LOOP
+        var_id_nutriente := C.id_nutriente;
+        var_quantidade_nutriente:= C.quantidade;
+        var_unidade_nutriente := C.unidade;
+        var_nome_nutriente := C.NOME;
+        DBMS_OUTPUT.PUT_LINE('ID: ' || var_id_nutriente);
+        DBMS_OUTPUT.PUT_LINE('Nome: ' || var_nome_nutriente);
+        DBMS_OUTPUT.PUT_LINE('Quantidade: ' || var_quantidade_nutriente);
+        DBMS_OUTPUT.PUT_LINE('Unidade: ' || var_unidade_nutriente);
+        DBMS_OUTPUT.PUT_LINE('-------------------------------------');
+    END LOOP;
+END;
+/

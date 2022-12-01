@@ -2,30 +2,34 @@
 -- <<<<<<<<<<<<<<<<<<<< DROP TABLES >>>>>>>>>>>>>>>>>>>> --
 
 DROP TABLE caderno_campo;
-DROP TABLE cabaz;
-DROP TABLE hub;
-DROP TABLE cliente_encomenda;
-DROP TABLE estacao_meteorologica;
-DROP TABLE sensor;
-DROP TABLE dados_sensor;
-DROP TABLE complexidade;
-DROP TABLE rega;
-DROP TABLE fator_Producao;
-DROP TABLE colheita;
-DROP TABLE cultura;
-DROP TABLE cultura_colheita;
-DROP TABLE plano_rega;
-DROP TABLE tipo_sensor;
-DROP TABLE parcela;
-DROP TABLE parcela_fator_producao;
-DROP TABLE parcela_sistema_rega;
-DROP TABLE parcela_sensor;
-DROP TABLE edificio;
-DROP TABLE produtor;
-DROP TABLE incidente;
-DROP TABLE encomenda;
-DROP TABLE cliente;
-DROP TABLE empresa;
+DROP TABLE cabaz CASCADE CONSTRAINTS PURGE;
+DROP TABLE hub CASCADE CONSTRAINTS PURGE;
+DROP TABLE cliente_encomenda CASCADE CONSTRAINTS PURGE;
+DROP TABLE dados_sensor CASCADE CONSTRAINTS PURGE;
+DROP TABLE complexidade CASCADE CONSTRAINTS PURGE;
+DROP TABLE rega CASCADE CONSTRAINTS PURGE;
+DROP TABLE fator_Producao CASCADE CONSTRAINTS PURGE;
+DROP TABLE cultura CASCADE CONSTRAINTS PURGE;
+DROP TABLE cultura_colheita CASCADE CONSTRAINTS PURGE;
+DROP TABLE plano_rega CASCADE CONSTRAINTS PURGE;
+DROP TABLE tipo_sensor CASCADE CONSTRAINTS PURGE;
+DROP TABLE parcela CASCADE CONSTRAINTS PURGE;
+DROP TABLE parcela_fator_producao CASCADE CONSTRAINTS PURGE;
+DROP TABLE parcela_sistema_rega CASCADE CONSTRAINTS PURGE;
+DROP TABLE parcela_sensor CASCADE CONSTRAINTS PURGE;
+DROP TABLE edificio CASCADE CONSTRAINTS PURGE;
+DROP TABLE produtor CASCADE CONSTRAINTS PURGE;
+DROP TABLE incidente CASCADE CONSTRAINTS PURGE;
+DROP TABLE encomenda CASCADE CONSTRAINTS PURGE;
+DROP TABLE estacao_meteorologica CASCADE CONSTRAINTS PURGE;
+DROP TABLE sensor CASCADE CONSTRAINTS PURGE;
+DROP TABLE cliente CASCADE CONSTRAINTS PURGE;
+DROP TABLE empresa CASCADE CONSTRAINTS PURGE;
+DROP TABLE colheita CASCADE CONSTRAINTS PURGE;
+DROP TABLE SUBSTANCIA CASCADE CONSTRAINTS PURGE;
+DROP TABLE nutriente CASCADE CONSTRAINTS PURGE;
+DROP TABLE FATOR_NUTRIENTE CASCADE CONSTRAINTS PURGE;
+DROP TABLE FATOR_SUBSTANCIA CASCADE CONSTRAINTS PURGE;
 DROP TABLE quinta;
 
 
@@ -48,21 +52,21 @@ CREATE TABLE produtor (
 
 CREATE TABLE empresa (
     id_empresa INT PRIMARY KEY,
-    designacao CHAR(255) NOT NULL,
+    nome CHAR(255) NOT NULL,
     email CHAR(255) NOT NULL,
     morada CHAR(255) NOT NULL
 );
 
 CREATE TABLE cliente (
     id_cliente INT PRIMARY KEY,
-    nome VARCHAR(40) NOT NULL,
-    email VARCHAR(40) NOT NULL,
+    nome CHAR(255) NOT NULL,
+    email CHAR(255) NOT NULL,
     NIF INT NOT NULL,
-    morada_correspondencia VARCHAR(40) NOT NULL,
-    morada_entrega VARCHAR(40) NOT NULL,
+    morada_correspondencia CHAR(255) NOT NULL,
+    morada_entrega CHAR(255) NOT NULL,
     plafond INT NOT NULL,
     n_encomendas_ultimo_ano INT NOT NULL ,
-    data_utlimo_incidente DATE NOT NULL ,
+    data_ultimo_incidente DATE NOT NULL ,
     n_incidente INT NOT NULL ,
     valor_encomendas_ultimo_ano INT NOT NULL
 );
@@ -111,7 +115,7 @@ CREATE TABLE cabaz (
 CREATE TABLE incidente (
     id_incidente INT PRIMARY KEY,
     id_encomenda INT NOT NULL,
-    data DATE NOT NULL,
+    data_incidente DATE NOT NULL,
     valor INT NOT NULL,
     CONSTRAINT FK_Incidente_Encomenda FOREIGN KEY (id_encomenda) REFERENCES encomenda(id_encomenda)
 );
@@ -123,22 +127,55 @@ CREATE TABLE edificio (
 );
 
 CREATE TABLE parcela (
-    designcacao char(255) PRIMARY KEY,
+    designacao char(255) PRIMARY KEY,
     ID_Quinta INT NOT NULL,
     numero_colheita INT NOT NULL,
     area INT NOT NULL,
     CONSTRAINT FK_Parcela_Quinta FOREIGN KEY (ID_Quinta) REFERENCES Quinta(ID_Quinta)
 );
 
+
 CREATE TABLE fator_producao (
     id_fator INT PRIMARY KEY,
     nome CHAR(255) NOT NULL,
-    classificacao CHAR(255) NOT NULL,
     formulacao CHAR(255) NOT NULL,
-    ficha_tecnica CHAR(255) NOT NULL,
     tipo_fertilizacao CHAR(255) NOT NULL,
-    CONSTRAINT CK_Fator_Producao_Formulacao CHECK (Formulacao = 'Liquido' OR Formulacao = 'Granulado' OR Formulacao = 'Po'),
-    CONSTRAINT CK_Fator_Producao_Tipo CHECK (classificacao = 'Fertilizante' OR classificacao = 'Adubo' OR classificacao = 'Corretivo' OR classificacao = 'Fitofarmaco')
+    CONSTRAINT ck_fator_producao_formulacao CHECK (formulacao = 'liquido' OR formulacao = 'granulado' OR formulacao = 'po'),
+    CONSTRAINT ck_fator_producao_tipo CHECK (tipo_fertilizacao = 'fertilizante' OR tipo_fertilizacao = 'adubo' OR tipo_fertilizacao = 'corretivo' OR tipo_fertilizacao = 'fitofarmaco')
+);
+
+
+CREATE TABLE substancia (
+    id_substancia INT PRIMARY KEY,
+    nome CHAR(255) NOT NULL
+);
+
+
+CREATE TABLE nutriente (
+    id_nutriente INT PRIMARY KEY,
+    nome CHAR(255) NOT NULL
+);
+
+
+CREATE TABLE fator_substancia (
+    id_fator INT NOT NULL,
+    id_substancia INT NOT NULL,
+    unidade CHAR(255) NOT NULL,
+    quantidade INT NOT NULL,
+    CONSTRAINT fk_fator_substancia1 FOREIGN KEY (id_fator) REFERENCES fator_producao(id_fator),
+    CONSTRAINT fk_fator_substancia2 FOREIGN KEY (id_substancia) REFERENCES substancia(id_substancia),
+    CONSTRAINT pk_fator_substancia PRIMARY KEY (id_fator, id_substancia)
+);
+
+
+CREATE TABLE fator_nutriente (
+    id_fator INT NOT NULL,
+    id_nutriente INT NOT NULL,
+    unidade CHAR(255) NOT NULL,
+    quantidade INT NOT NULL,
+    CONSTRAINT fk_fator_nutriente1 FOREIGN KEY (id_fator) REFERENCES fator_producao(id_fator),
+    CONSTRAINT fk_fator_nutriente2 FOREIGN KEY (id_nutriente) REFERENCES nutriente(id_nutriente),
+    CONSTRAINT pk_fator_nutriente PRIMARY KEY (id_fator, id_nutriente)
 );
 
 CREATE TABLE plano_rega (
@@ -146,6 +183,12 @@ CREATE TABLE plano_rega (
     tempo_rega INT,
     ordem_parcelas CHAR(255),
     periodicidade INT
+);
+
+CREATE TABLE sistema_rega (
+    id_sistema INT PRIMARY KEY,
+    tipo_solucao CHAR(255) NOT NULL,
+    CONSTRAINT CK_sistema_tipo CHECK (tipo_solucao = 'Agua' OR tipo_solucao = 'Soluçao Aquosa')
 );
 
 CREATE TABLE rega (
@@ -163,35 +206,33 @@ CREATE TABLE rega (
 );
 
 
-CREATE TABLE sistema_rega (
-    id_sistema INT PRIMARY KEY,
-    tipo_solucao CHAR(255) NOT NULL,
-    CONSTRAINT CK_Fertirrega_Tipo CHECK (tipo_solucao = 'Agua' OR tipo_solucao = 'Soluçao Aquosa')
-);
 
 CREATE TABLE parcela_fator_producao (
     designacao CHAR(255) NOT NULL,
     ID_Fator INT NOT NULL,
-    CONSTRAINT FK_Parcela_Fator1 FOREIGN KEY (designacao) REFERENCES Parcela(designcacao),
+    CONSTRAINT FK_Parcela_Fator1 FOREIGN KEY (designacao) REFERENCES Parcela(designacao),
     CONSTRAINT FK_Parcela_Fator2 FOREIGN KEY (ID_Fator) REFERENCES Fator_Producao(ID_Fator),
     CONSTRAINT PK_Parcela_Fator PRIMARY KEY (designacao, ID_Fator)
 );
 
+
 CREATE TABLE parcela_sensor (
-    designcao CHAR(255) NOT NULL,
+    designacao CHAR(255) NOT NULL,
     id_sensor INT NOT NULL,
-    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designcao) REFERENCES Parcela(designcacao),
+    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designacao) REFERENCES parcela(designacao),
     CONSTRAINT FK_Parcela_Rega2 FOREIGN KEY (id_sensor) REFERENCES sensor(ID_Sensor),
-    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designcao, id_sensor)
+    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designacao, id_sensor)
 );
 
+
 CREATE TABLE parcela_sistema_rega (
-    designcao CHAR(255) NOT NULL,
+    designacao CHAR(255) NOT NULL,
     id_sistema INT NOT NULL,
-    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designcao) REFERENCES Parcela(designcacao),
+    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designacao) REFERENCES Parcela(designacao),
     CONSTRAINT FK_Parcela_Rega2 FOREIGN KEY (id_sistema) REFERENCES sistema_rega(id_sistema),
-    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designcao, id_sistema)
+    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designacao, id_sistema)
 );
+
 
 create table complexidade (
     id_sistema int,
@@ -216,8 +257,8 @@ CREATE TABLE cultura (
 CREATE TABLE cultura_colheita (
     id_cultura INT NOT NULL,
     numero_colheita INT NOT NULL,
-    CONSTRAINT FK_cultura FOREIGN KEY (id_cultura) REFERENCES cultura(ID_Cultura),
-    CONSTRAINT FK_colheita FOREIGN KEY (numero_colheita) REFERENCES colheita(numero_colheita),
+    CONSTRAINT FK_cultura_colheita FOREIGN KEY (id_cultura) REFERENCES cultura(ID_Cultura),
+    CONSTRAINT FK_colheita_colheita FOREIGN KEY (numero_colheita) REFERENCES colheita(numero_colheita),
     CONSTRAINT PK_colheita_cultura PRIMARY KEY (id_cultura, numero_colheita)
 );
 
