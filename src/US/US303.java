@@ -5,9 +5,9 @@ import java.util.*;
 import Domain.Hub;
 import Domain.Local;
 import Shared.BST.BST;
-import Shared.Graphs.Edge;
-import Shared.Graphs.Graph;
-import Shared.Graphs.MapGraph;
+import Shared.GraphCommon.Edge;
+import Shared.GraphCommon.Graph;
+import Shared.MapGraphs.MapGraph;
 import US.US305;
 
 /**

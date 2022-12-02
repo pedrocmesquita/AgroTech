@@ -1,6 +1,7 @@
-package graph;
+package Shared.GraphCommon;
 
-import graph.matrix.MatrixGraph;
+//import graph.matrix.MatrixGraph;
+import Shared.GraphCommon.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +63,7 @@ public class Algorithms {
      */
     private static <V, E> void DepthFirstSearch(Graph<V, E> g, V vOrig, boolean[] visited, LinkedList<V> qdfs) {
 
-        int vKey = new g.key(vOrig);
+        int vKey =g.key(vOrig);
         if (visited[vKey]) return;
         
         qdfs.add(vOrig);
@@ -198,9 +199,6 @@ public class Algorithms {
      * @param sum sum two elements of type E
      * @return the minimum distance graph
      */
-    public static <V,E> MatrixGraph <V,E> minDistGraph(Graph <V,E> g, Comparator<E> ce, BinaryOperator<E> sum) {
-        
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+
 
 }

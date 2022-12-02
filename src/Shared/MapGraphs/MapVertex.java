@@ -1,4 +1,6 @@
-package Shared.Graphs;
+package Shared.MapGraphs;
+
+import Shared.GraphCommon.Edge;
 
 import java.util.ArrayList;
 import java.util.Collection;

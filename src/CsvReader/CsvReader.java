@@ -5,7 +5,7 @@ import Domain.Cabazes;
 import Domain.Destinatário;
 import Domain.GrafoDistancia;
 import Domain.Local;
-import Shared.Graphs.Graph;
+import Shared.GraphCommon.Graph;
 import Shared.BST.BST;
 
 import java.io.*;
@@ -17,7 +17,7 @@ public class CsvReader {
 
 
 
-    public void ReadDistancias(File file1,File file2, String separatorRegex, Graph<Local,Integer> graph,BST<Local> local) throws FileNotFoundException {
+    public void ReadDistancias(File file1, File file2, String separatorRegex, Graph<Local,Integer> graph, BST<Local> local) throws FileNotFoundException {
         Scanner reader = new Scanner(file1);
         String header = reader.nextLine();
         BST<Local> locais=local;
@@ -84,6 +84,7 @@ public class CsvReader {
                     //System.out.printf(s+" ");
                 }
                 //System.out.println();
+
 
 
                 locais.insert(new Local(split[0],split[1],split[2],split[3]));

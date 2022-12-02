@@ -1,4 +1,4 @@
-package Shared.Graphs;
+package Shared.MapGraphs;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @param <E> Edge value type
  * @author DEI-ESINF
  */
-public class MapGraph<V, E> extends CommonGraph<V, E> {
+public class MapGraph<V, E> extends Shared.GraphCommon.CommonGraph<V, E> {
 
 
     final private Map<V, MapVertex<V, E>> mapVertices;  // all the Vertices of the graph
@@ -22,7 +22,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         mapVertices = new LinkedHashMap<>();
     }
 
-    public MapGraph(Graph<V,E> g) {
+    public MapGraph(Shared.GraphCommon.Graph<V,E> g) {
         this(g.isDirected());
         copy(g, this);
     }
@@ -42,9 +42,9 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
     }
 
     @Override
-    public Collection<Edge<V, E>> edges() {
+    public Collection<Shared.GraphCommon.Edge<V, E>> edges() {
 
-        ArrayList<Edge<V, E>> le = new ArrayList<>(numEdges);
+        ArrayList<Shared.GraphCommon.Edge<V, E>> le = new ArrayList<>(numEdges);
 
         for (MapVertex<V, E> mv : mapVertices.values())
             le.addAll(mv.getAllOutEdges());
@@ -53,7 +53,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
     }
 
     @Override
-    public Edge<V, E> edge(V vOrig, V vDest) {
+    public Shared.GraphCommon.Edge<V, E> edge(V vOrig, V vDest) {
 
         if (!validVertex(vOrig) || !validVertex(vDest))
             return null;
@@ -64,7 +64,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
     }
 
     @Override
-    public Edge<V, E> edge(int vOrigKey, int vDestKey) {
+    public Shared.GraphCommon.Edge<V, E> edge(int vOrigKey, int vDestKey) {
         V vOrig = vertex(vOrigKey);
         V vDest = vertex(vDestKey);
 
@@ -97,7 +97,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
     }
 
     @Override
-    public Collection<Edge<V, E>> outgoingEdges(V vert) {
+    public Collection<Shared.GraphCommon.Edge<V, E>> outgoingEdges(V vert) {
 
         if (!validVertex(vert))
             return null;
@@ -108,8 +108,8 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
     }
 
     @Override
-    public Collection<Edge<V, E>> incomingEdges(V vert) {
-        Collection<Edge<V, E>> cole=new ArrayList<>();
+    public Collection<Shared.GraphCommon.Edge<V, E>> incomingEdges(V vert) {
+        Collection<Shared.GraphCommon.Edge<V, E>> cole=new ArrayList<>();
 
         for (V keys:mapVertices.keySet()){
             for (V ver:mapVertices.get(keys).getAllAdjVerts()){
@@ -155,7 +155,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         MapVertex<V, E> mvo = mapVertices.get(vOrig);
         MapVertex<V, E> mvd = mapVertices.get(vDest);
 
-        Edge<V, E> newEdge = new Edge<>(mvo.getElement(), mvd.getElement(), weight);
+        Shared.GraphCommon.Edge<V, E> newEdge = new Shared.GraphCommon.Edge<>(mvo.getElement(), mvd.getElement(), weight);
         mvo.addAdjVert(mvd.getElement(), newEdge);
         numEdges++;
 
@@ -163,7 +163,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         if (!isDirected)
             // if vDest different vOrig
             if (edge(vDest, vOrig) == null) {
-                Edge<V, E> otherEdge = new Edge<>( mvd.getElement(), mvo.getElement(), weight);
+                Shared.GraphCommon.Edge<V, E> otherEdge = new Shared.GraphCommon.Edge<>( mvd.getElement(), mvo.getElement(), weight);
                 mvd.addAdjVert(mvo.getElement(), otherEdge);
                 numEdges++;
             }
@@ -179,7 +179,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
             return false;
 
         //remove all edges that point to vert
-        for (Edge<V, E> edge : incomingEdges(vert)) {
+        for (Shared.GraphCommon.Edge<V, E> edge : incomingEdges(vert)) {
             removeEdge(edge.getVOrig(), vert);
         }
 
@@ -202,7 +202,7 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         if (!validVertex(vOrig) || !validVertex(vDest))
             return false;
 
-        Edge<V, E> edge = edge(vOrig, vDest);
+        Shared.GraphCommon.Edge<V, E> edge = edge(vOrig, vDest);
 
         if (edge == null)
             return false;

@@ -2,9 +2,9 @@ package US;
 
 import Domain.GrafoDistancia;
 import Domain.Local;
-import Shared.Graphs.Edge;
-import Shared.Graphs.Graph;
-import Shared.Graphs.MapGraph;
+import Shared.GraphCommon.Edge;
+import Shared.GraphCommon.Graph;
+import Shared.MapGraphs.MapGraph;
 import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.Arrays;

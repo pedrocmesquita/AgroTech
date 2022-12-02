@@ -1,4 +1,7 @@
-package Shared.Graphs;
+package Shared.GraphCommon;
+
+import Shared.GraphCommon.Edge;
+import Shared.GraphCommon.Graph;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +13,7 @@ import java.util.function.Predicate;
  * @author DEI-ISEP
  *
  */
-public abstract class CommonGraph <V,E> implements Graph<V,E> {
+public abstract class CommonGraph <V,E> implements Shared.GraphCommon.Graph<V,E> {
     protected int numVerts;
     protected int numEdges;
     protected final boolean isDirected;
@@ -70,7 +73,7 @@ public abstract class CommonGraph <V,E> implements Graph<V,E> {
      * @param from graph from which to copy
      * @param to graph for which to copy
      */
-    protected void copy(Graph <V,E> from, Graph <V,E> to) {
+    protected void copy(Shared.GraphCommon.Graph<V,E> from, Shared.GraphCommon.Graph<V,E> to) {
         //insert all vertices
         for (V v : from.vertices()) {
             to.addVertex(v);
@@ -92,10 +95,10 @@ public abstract class CommonGraph <V,E> implements Graph<V,E> {
         if (this == otherObj)
             return true;
 
-        if (!(otherObj instanceof Graph<?, ?>))
+        if (!(otherObj instanceof Shared.GraphCommon.Graph<?, ?>))
             return false;
 
-        @SuppressWarnings("unchecked") Graph<V, E> otherGraph = (Graph<V, E>) otherObj;
+        @SuppressWarnings("unchecked") Shared.GraphCommon.Graph<V, E> otherGraph = (Shared.GraphCommon.Graph<V, E>) otherObj;
 
         if (numVerts != otherGraph.numVertices() || numEdges != otherGraph.numEdges() || isDirected() != otherGraph.isDirected())
             return false;
@@ -106,12 +109,12 @@ public abstract class CommonGraph <V,E> implements Graph<V,E> {
         if (tvc.size() > 0 ) return false;
 
         // graph must have same edges
-        Collection<Edge<V, E>> tec = this.edges();
+        Collection<Shared.GraphCommon.Edge<V, E>> tec = this.edges();
         tec.removeAll(otherGraph.edges());
         return (tec.size() == 0);
     }
 
-    public abstract Graph<V, E> clone();
+    public abstract Shared.GraphCommon.Graph<V, E> clone();
 
     @Override
     public int hashCode() {

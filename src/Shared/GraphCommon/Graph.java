@@ -1,4 +1,4 @@
-package Shared.Graphs;
+package Shared.GraphCommon;
 
 
 import java.util.ArrayList;
