@@ -44,7 +44,7 @@ public class CsvReader {
         }
     }
 
-    public ArrayList<GrafoDistancia> ReadDistancias(File file1, File file2, String separatorRegex) throws FileNotFoundException {
+    public ArrayList<GrafoDistancia> ReadDistancias(File file1, String separatorRegex) throws FileNotFoundException {
         Scanner reader = new Scanner(file1);
         String header = reader.nextLine();
         GrafoDistancia grafoDistancia;
@@ -67,6 +67,7 @@ public class CsvReader {
         }
         return arrayList;
     }
+
 
     public BST<Local> ReadClientesProdutores(File file, String separatorRegex) throws FileNotFoundException {
         BST<Local> locais=new BST<>();

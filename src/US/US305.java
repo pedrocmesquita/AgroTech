@@ -1,8 +1,15 @@
 package US;
 
 import Domain.GrafoDistancia;
+import Domain.Local;
+import Shared.Graphs.Edge;
+import Shared.Graphs.Graph;
+import Shared.Graphs.MapGraph;
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 
 /**
  * The type Us 305.
@@ -50,10 +57,10 @@ public class US305 {
     }
 
 
-    public void KruskalAlgo() {
+    public void KruskalAlgo() throws Exception {
+        if (vertices == 0 || edges == 0) throw new Exception("The graph does not exists.");
 
         Edges[] resultadoFinal = new Edges[vertices];
-        int newEdge = 0;
 
         for (int i = 0; i < vertices; i++)
             resultadoFinal[i] = new Edges();
@@ -73,6 +80,7 @@ public class US305 {
         int i = 0; // reset
 
         // ‘loop’ para os caminhos mais curtos
+        int newEdge = 0;
         while (newEdge < vertices - 1) {
 
             Edges nextEdge = arrayEdges[i++]; //proximo edge
@@ -110,7 +118,7 @@ public class US305 {
      * @param inicio      the source root
      * @param destino the destination root
      */
-    void Union(Subset[] subsetArray, int inicio, int destino) {
+    void Union(Subset[] subsetArray, int inicio, int destino) throws Exception {
 
         int proximoInicio = SetOfElement(subsetArray, inicio);
         int proximoDestino = SetOfElement(subsetArray, destino);
@@ -127,20 +135,25 @@ public class US305 {
         }
     }
 
-    public void controller(int v, int e, ArrayList<GrafoDistancia> grafoDistancia){
 
-        US305 grafo = new US305(v,e);
+    public static Graph<Local, Double> mstGraph(MapGraph mapGraph) {
 
-        for (int i = 0; i < e ; i++){
+        MapGraph<Local, Double> mst = new MapGraph<>(mapGraph.isDirected());
+        ArrayList<Edge<Local, Double>> edgesList = new ArrayList<>();
+        LinkedList<Local> connected;
 
-            grafo.arrayEdges[i].origem = grafoDistancia.get(i).getIdLoc1();
-            grafo.arrayEdges[i].destino = grafoDistancia.get(i).getIdLoc2();
-            grafo.arrayEdges[i].peso = grafoDistancia.get(i).getDistancia();
-
+        for (Object vertex : mapGraph.vertices()) {
+            mst.addVertex((Local) vertex);
         }
-        grafo.KruskalAlgo();
-    }
+        for (Object edge: mapGraph.edges()) {
+            edgesList.add((Edge<Local, Double>) edge);
+        }
 
+        //Collections.sort(edgesList);
+
+        //falta class algoritmo
+        return mst;
+    }
     /*
     public int[][] vertexNameToIntPosition(Graph<Local,Integer> map){
 
