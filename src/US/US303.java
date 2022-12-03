@@ -1,10 +1,12 @@
 package US;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import Domain.Hub;
 import Domain.Local;
 import Shared.BST.BST;
+import Shared.GraphCommon.Algorithms;
 import Shared.GraphCommon.Edge;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
@@ -20,10 +22,10 @@ import US.US305;
  */
 public class US303
 {
-    public List<Hub> findHubs(int n)
+    public static List<Local> findHubs(Graph<Local, Integer> map, int n)
     {
-        final Graph<Local, Integer> map = new MapGraph<>(true);
-        BST<Local> locais = new BST<>();
+        //Graph <Local,Integer> map = new MapGraph<Local,Integer>(mapGraph.isDirected());
+        //BST<Local> locais = new BST<>();
         
         ArrayList<Local> comps = new ArrayList<>();
         ArrayList<Local> dest = new ArrayList<>();
@@ -46,34 +48,41 @@ public class US303
             }
         }
         
-        //for each company in the graph, calculate proximity measure
-        for (Local x : comps)
+        if ((comps.size() == 0) || (dest.size() == 0))
         {
-            //use kruskall's algorithm to compute shortest path to all clients and producers
+            return null;
         }
         
-        //order the list and return first N companies
-        return null;
-    }
-    
-    /*
-    public <V, E> Graph<V, E> kruskall(Graph<Local, String> g)
-    {
-        ArrayList<V> mst = new ArrayList<V>(g.vertices());
-    
-        ArrayList<E> lstEdges = new ArrayList<E>(g.edges());
-    
-        Collections.sort(mst);
-        Collections.sort(lstEdges); //in ascending order of weight
+        Map<Local, Integer> company_sum = new HashMap<>();
         
-        for (E e : lstEdges)
+        //for each company and each client/producer, calculate proximity measure
+        for (Local c : comps)
         {
-            LinkedList<V> connectedVerts = graph.Algorithms.DepthFirstSearch(mst, e.getVOrig());
-            if (!connectedVerts.contains(e.getVDest()))
+            int sum = 0;
+            
+            for (Local d : dest)
             {
-                mst.add(e);
+                sum += Algorithms.shortestPath(map, c, d, ce, sum, zero, shortPath).getWeight();
             }
+            
+            company_sum.put(c, sum);
         }
-        return mst;
-    }*/
+    
+        //convert map into list
+        List<Map.Entry<Local, Integer>> compLst = new LinkedList<>(company_sum.entrySet());
+    
+        //sort elements by ascending order
+        compLst.sort(Map.Entry.comparingByValue());
+    
+        List<Local> hubs = new ArrayList<>();
+        
+        //create a sublist from elements 0 to n
+        for (Map.Entry<Local, Integer> entry : compLst.subList(0,n))
+        {
+            hubs.add(entry.getKey());
+        }
+    
+        //order the list and return first N companies
+        return hubs;
+    }
 }
