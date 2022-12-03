@@ -7,7 +7,7 @@ import java.util.Objects;
  * @param <E> Edge value type
  * @author DEI-ESINF
  */
-public class Edge<V, E> {
+public class Edge<V, E> implements Comparable{
     final private V vOrig;        // vertex origin
     final private V vDest;        // vertex destino
     private E weight;             // Edge peso
@@ -53,5 +53,20 @@ public class Edge<V, E> {
     @Override
     public int hashCode() {
         return Objects.hash(vOrig, vDest);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        @SuppressWarnings("unchecked") Edge<V,E> edge = (Edge<V, E>) o;
+        double peso1 = Double.parseDouble(String.valueOf(this.getWeight()));
+        double peso2 = Double.parseDouble(String.valueOf(edge.getWeight()));
+
+        if (peso1 < peso2){
+            return -1;
+        } else if (peso1 > peso2) {
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

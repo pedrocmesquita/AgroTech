@@ -1,11 +1,11 @@
 package US;
 
-import Domain.GrafoDistancia;
 import Domain.Local;
+import Shared.GraphCommon.Algorithms;
 import Shared.GraphCommon.Edge;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
-import javax.swing.text.html.parser.Entity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,8 +21,17 @@ public class US305 {
      */
     public static class Edges implements Comparable<Edges> {
 
+        /**
+         * The Origem.
+         */
         public int origem;
+        /**
+         * The Destino.
+         */
         public int destino;
+        /**
+         * The Peso.
+         */
         public int peso;
 
         public int compareTo(Edges edgesToCompare) {
@@ -34,10 +43,25 @@ public class US305 {
      * The type Subset.
      */
     static class Subset {
-        int parent, caminho;
+        /**
+         * The Parent.
+         */
+        int parent, /**
+         * The Caminho.
+         */
+        caminho;
     }
 
-    int vertices , edges;
+    /**
+     * The Vertices.
+     */
+    int vertices , /**
+     * The Edges.
+     */
+    edges;
+    /**
+     * The Array edges.
+     */
     public Edges[] arrayEdges;
 
 
@@ -57,6 +81,11 @@ public class US305 {
     }
 
 
+    /**
+     * Kruskal algo.
+     *
+     * @throws Exception the exception
+     */
     public void KruskalAlgo() throws Exception {
         if (vertices == 0 || edges == 0) throw new Exception("The graph does not exists.");
 
@@ -102,10 +131,9 @@ public class US305 {
      * get set of element
      *
      * @param subsetArray the subset array
-     * @param nextEdge           the
+     * @param nextEdge    the
      * @return the int
      */
-
     int SetOfElement(Subset[] subsetArray, int nextEdge) {
         if (subsetArray[nextEdge].parent != nextEdge) subsetArray[nextEdge].parent = SetOfElement(subsetArray, subsetArray[nextEdge].parent);
         return subsetArray[nextEdge].parent;
@@ -114,9 +142,10 @@ public class US305 {
     /**
      * Une dois subsets com os caminhos mais curtos
      *
-     * @param subsetArray     the subset array
+     * @param subsetArray the subset array
      * @param inicio      the source root
-     * @param destino the destination root
+     * @param destino     the destination root
+     * @throws Exception the exception
      */
     void Union(Subset[] subsetArray, int inicio, int destino) throws Exception {
 
@@ -136,44 +165,74 @@ public class US305 {
     }
 
 
-    public static Graph<Local, Double> mstGraph(MapGraph mapGraph) {
+    /**
+     * Minimun spanning tree que conecta todos os vertices pelo o menor caminho.
+     *
+     * @param mapGraph the map graph
+     * @return the graph
+     */
+    public static Graph<Local, Integer> mstGraph(Graph<Local,Integer> mapGraph) {
 
-        MapGraph<Local, Double> mst = new MapGraph<>(mapGraph.isDirected());
-        ArrayList<Edge<Local, Double>> edgesList = new ArrayList<>();
+        MapGraph<Local, Integer> mst = new MapGraph<>(mapGraph.isDirected());
+        ArrayList<Edge<Local, Integer>> edgesList = new ArrayList<>();
         LinkedList<Local> connected;
 
-        for (Object vertex : mapGraph.vertices()) {
-            mst.addVertex((Local) vertex);
+        for (Local vertex : mapGraph.vertices()) {
+            mst.addVertex(vertex);
         }
-        for (Object edge: mapGraph.edges()) {
-            edgesList.add((Edge<Local, Double>) edge);
+        for (Edge<Local, Integer> edge: mapGraph.edges()) {
+            edgesList.add(edge);
         }
 
-        //Collections.sort(edgesList);
+        Collections.sort(edgesList);
 
-        //falta class algoritmo
+        for (Edge<Local, Integer> edge : edgesList){
+            connected = Algorithms.DepthFirstSearch(mst, edge.getVOrig());
+
+            if (!connected.contains(edge.getVDest())){
+                mst.addEdge(edge.getVOrig(), edge.getVDest(), edge.getWeight());
+            }
+        }
         return mst;
     }
-    /*
-    public int[][] vertexNameToIntPosition(Graph<Local,Integer> map){
 
-        int[][] vertexPositions = new int[edges][3];
 
-        int i = 0;
-        for (Edge<Local, Integer> ed: map.edges()) {
+    /**
+     * get caminho minimo entre clientes e produtores
+     *
+     * @param mapGraph the map graph
+     * @return the minimun path
+     */
+    public static Graph<Local, Integer> getMinimunPath(Graph<Local,Integer> mapGraph) {
+        Graph<Local, Integer> grafo = mstGraph(mapGraph);
+        Graph<Local, Integer> result = new MapGraph<>(mapGraph.isDirected());
 
-            String strOri = ed.getVOrig().getName();
-            String strDest = ed.getVDest().getName();
-            vertexPositions[i][0] = Integer.parseInt(strOri.substring(strOri.indexOf("CT") + 2));
-            vertexPositions[i][1] = Integer.parseInt(strDest.substring(strDest.indexOf("CT") + 2));
-            vertexPositions[i][2] = Integer.parseInt(String.valueOf(ed.getWeight()));
+        Edge<Local, Integer> aux;
+        double pesoFinal= 0;
 
-            i++;
+        for (Edge<Local, Integer> edge : grafo.edges()){
+
+            if (edge.getVDest().getName().startsWith("E")){ //se comecar por E(mpresa)
+                for (Local l : grafo.adjVertices(edge.getVDest())){
+
+                    aux = grafo.edge(edge.getVDest(), l);
+
+                    if (!(aux.getVDest() == edge.getVOrig())) {
+                        result.addEdge(edge.getVOrig(), l, edge.getWeight() + aux.getWeight()); //adiciona caminho mais que curto com empresa como intermediario
+                    }
+                }
+            } else {
+                result.addEdge(edge.getVOrig(), edge.getVDest(), edge.getWeight());
+            }
+
         }
 
-        //System.out.println(vertexPositions[2][0] + ":" + vertexPositions[2][1] + "-->" + vertexPositions[2][2]);
-        return vertexPositions;
-    }
 
-     */
+        for (Edge<Local, Integer> edge : result.edges()){
+            pesoFinal += edge.getWeight();
+        }
+
+        System.out.println("Minimum cost = " + pesoFinal);
+        return result;
+    }
 }
