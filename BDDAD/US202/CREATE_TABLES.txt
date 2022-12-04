@@ -30,6 +30,7 @@ DROP TABLE SUBSTANCIA CASCADE CONSTRAINTS PURGE;
 DROP TABLE nutriente CASCADE CONSTRAINTS PURGE;
 DROP TABLE FATOR_NUTRIENTE CASCADE CONSTRAINTS PURGE;
 DROP TABLE FATOR_SUBSTANCIA CASCADE CONSTRAINTS PURGE;
+DROP TABLE sistema_rega CASCADE CONSTRAINTS PURGE;
 DROP TABLE quinta;
 
 
@@ -93,6 +94,13 @@ CREATE TABLE hub (
     ncabazes_disponiveis INT NOT NULL
 );
 
+CREATE TABLE cultura (
+    ID_Cultura INT PRIMARY KEY,
+    Tipo CHAR(255) NOT NULL,
+    objetivo CHAR(255) NOT NULL,
+    CONSTRAINT CK_Cultura_Tipo CHECK (Tipo = 'Temporario' OR Tipo = 'Permanente'),
+    CONSTRAINT CK_Cultura_Objetivo CHECK (objetivo = 'Consumo humano' OR objetivo = 'Consumo animal' OR objetivo = 'Adubacao')
+);
 
 CREATE TABLE colheita (
     numero_colheita INT PRIMARY KEY,
@@ -240,13 +248,6 @@ create table complexidade (
     constraint pk_sistema primary key (id_sistema)
 );
 
-CREATE TABLE cultura (
-    ID_Cultura INT PRIMARY KEY,
-    Tipo CHAR(255) NOT NULL,
-    objetivo CHAR(255) NOT NULL,
-    CONSTRAINT CK_Cultura_Tipo CHECK (Tipo = 'Temporario' OR Tipo = 'Permanente'),
-    CONSTRAINT CK_Cultura_Objetivo CHECK (objetivo = 'Consumo humano' OR objetivo = 'Consumo animal' OR objetivo = 'Adubacao')
-);
 
 CREATE TABLE cultura_colheita (
     id_cultura INT NOT NULL,
