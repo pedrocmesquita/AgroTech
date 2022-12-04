@@ -23,16 +23,15 @@ public class main {
 
         final Graph<Local,Integer> map=new MapGraph<>(false);
 
-        BST<Local> locais=readFiles.ReadClientesProdutores(file2,",");//arvore dos locais
-        BST<Destinatário> destinatários=readFiles.getDestinatários();//arvore dos destinatários
-        readFiles.ReadDistancias(file1,file2,",",map,locais);//grafo (vertices-locais)
+        BST<Local> locais=readFiles.ReadClientesProdutores(file2,",");
+        BST<Destinatário> destinatários=readFiles.getDestinatários();
+        readFiles.ReadDistancias(file1,file2,",",map,locais);
 
 
 
 
 
         US302 us=new US302(map);
-
         Map<String, Map<String,Integer>> lista=us.ligaçoesMinimas();
 
 
@@ -41,19 +40,12 @@ public class main {
             for (String key2:lista.get(key1).keySet()){
                 System.out.println("numero minimo de ligaçoes para "+key2+"->"+lista.get(key1).get(key2));
             }
-
         }
 
-
-
-
-        //VERTICES
         for (Local loc:map.vertices()){
             System.out.println(loc.getName()+"   "+"  "+loc.getLng()+"   "+"  "+loc.getLat()+"  "+loc.getDestinatário());
         }
 
-
-        //Edges
         for (Edge<Local,Integer> ed:map.edges()){
             System.out.println(ed.getVOrig().getName()+"----"+ed.getVDest().getName()+"  ->"+ed.getWeight());
         }

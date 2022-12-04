@@ -27,10 +27,8 @@ public class US304 {
 
         List<ParClienteHub> hubClosestToEachClient = new ArrayList<>();
 
-
         if(clients.size() == 0)
             return null;
-
 
         for(Local client : clients){
 
