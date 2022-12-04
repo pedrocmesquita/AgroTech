@@ -1,35 +1,45 @@
 import CsvReader.CsvReader;
 import Domain.Destinatário;
-import Domain.GrafoDistancia;
 import Shared.BST.BST;
-import Shared.Files;
 import Shared.GraphCommon.Graph;
-import Domain.Local;
+import Shared.GraphCommon.Edge;
 import Shared.MapGraphs.MapGraph;
-import US.US303;
-import US.US305;
+import Domain.Local;
+import US.US302;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
 
 public class main {
-    public static void main(String[] arg) throws Exception {
+    public static void main(String[] arg) throws FileNotFoundException {
 
         CsvReader readFiles=new CsvReader();
 
-        File file1=new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Big\\distancias_big.csv");
-        File file2=new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Big\\clientes-produtores_big.csv");
+        File file1=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\edges.csv");
+        File file2=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\vert.csv");
 
-        final Graph<Local,Integer> map=new MapGraph<>(true);
-
+        final Graph<Local,Integer> map=new MapGraph<>(false);
 
         BST<Local> locais=readFiles.ReadClientesProdutores(file2,",");//arvore dos locais
         BST<Destinatário> destinatários=readFiles.getDestinatários();//arvore dos destinatários
         readFiles.ReadDistancias(file1,file2,",",map,locais);//grafo (vertices-locais)
-        System.out.println(readFiles);
+
+
+        US302 us=new US302(map);
+
+        Map<String, Map<String,Integer>> lista=us.ligaçoesMinimas();
+
+
+        for (String key1:lista.keySet()){
+            System.out.println(key1);
+            for (String key2:lista.get(key1).keySet()){
+                System.out.println("numero minimo de ligaçoes para "+key2+"->"+lista.get(key1).get(key2));
+            }
+
+        }
 
 
 
@@ -40,49 +50,27 @@ public class main {
         }
 
 
-
         //Edges
         for (Edge<Local,Integer> ed:map.edges()){
             System.out.println(ed.getVOrig().getName()+"----"+ed.getVDest().getName()+"  ->"+ed.getWeight());
         }
 
- */
-    
-        
-        /*
-        //US 303
-        final Graph<Local,Integer> graph = new MapGraph<>(false);
-        BST<Local> locais=readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");
-        readFiles.ReadDistancias(new File(Files.s_distancias), new File(Files.s_clientes_produtores), ",", graph, locais);
-        List<Local> hubs = US303.findHubs(graph,3);
-    
-        for (Local x : hubs)
-        {
-            System.out.println(x.getName() + " - " + x.getDestinatário());
-        }
-        */
-        
-        // US305
-        US305.getMinimunPath(map);
-        /*
-        ArrayList<GrafoDistancia> grafoDistancia = readFiles.ReadDistancias(file1,",");
-        int v = map.numVertices(), e = map.numEdges()/2;
-        if (map.isDirected()){
-            e = map.numEdges();
-        }
+*/
 
-        US305 grafo = new US305(v, e);
 
-        for (int i = 0; i < e ; i++){
-            grafo.arrayEdges[i].origem = grafoDistancia.get(i).getIdLoc1();
-            grafo.arrayEdges[i].destino = grafoDistancia.get(i).getIdLoc2();
-            grafo.arrayEdges[i].peso = grafoDistancia.get(i).getDistancia();
-        }
-        grafo.KruskalAlgo();
 
-         */
+
+
+
+
+
+
+
+
+
 
 
     }
+
 
 }
