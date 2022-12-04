@@ -2,14 +2,17 @@ import CsvReader.CsvReader;
 import Domain.Destinatário;
 import Domain.GrafoDistancia;
 import Shared.BST.BST;
+import Shared.Files;
 import Shared.GraphCommon.Graph;
 import Domain.Local;
 import Shared.MapGraphs.MapGraph;
+import US.US303;
 import US.US305;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class main {
@@ -44,8 +47,21 @@ public class main {
         }
 
  */
-
-
+    
+        
+        /*
+        //US 303
+        final Graph<Local,Integer> graph = new MapGraph<>(false);
+        BST<Local> locais=readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");
+        readFiles.ReadDistancias(new File(Files.s_distancias), new File(Files.s_clientes_produtores), ",", graph, locais);
+        List<Local> hubs = US303.findHubs(graph,3);
+    
+        for (Local x : hubs)
+        {
+            System.out.println(x.getName() + " - " + x.getDestinatário());
+        }
+        */
+        
         // US305
         US305.getMinimunPath(map);
         /*

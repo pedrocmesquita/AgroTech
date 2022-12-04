@@ -1,13 +1,11 @@
 package Shared.GraphCommon;
 
-//import graph.matrix.MatrixGraph;
+import Shared.GraphCommon.Edge;
+import Shared.GraphCommon.Graph;
+import Shared.MapGraphs.MapGraph;
 
-import Shared.GraphCommon.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
+import java.lang.reflect.Member;
+import java.util.*;
 import java.util.function.BinaryOperator;
 
 /**
@@ -25,7 +23,7 @@ public class Algorithms
      */
     public static <V, E> LinkedList<V> BreadthFirstSearch(Graph<V, E> g, V vert)
     {
-        
+    
         if (! g.validVertex(vert))
         {
             return null;
@@ -33,7 +31,7 @@ public class Algorithms
         
         LinkedList<V> qbfs = new LinkedList<>();
         LinkedList<V> qaux = new LinkedList<>();
-        boolean visited[] = new boolean[g.numVertices()];
+        boolean[] visited = new boolean[g.numVertices()];  //default initializ.: false
         
         qbfs.add(vert);
         qaux.add(vert);
@@ -54,7 +52,6 @@ public class Algorithms
                 }
             }
         }
-        
         return qbfs;
     }
     
@@ -82,6 +79,7 @@ public class Algorithms
         {
             DepthFirstSearch(g, vAdj, visited, qdfs);
         }
+        
     }
     
     /**
@@ -93,14 +91,13 @@ public class Algorithms
      */
     public static <V, E> LinkedList<V> DepthFirstSearch(Graph<V, E> g, V vert)
     {
-        
         if (! g.validVertex(vert))
         {
             return null;
         }
         
         LinkedList<V> qdfs = new LinkedList<>();
-        boolean visited[] = new boolean[g.numVertices()];
+        boolean[] visited = new boolean[g.numVertices()];
         
         DepthFirstSearch(g, vert, visited, qdfs);
         
@@ -121,7 +118,31 @@ public class Algorithms
                                         LinkedList<V> path, ArrayList<LinkedList<V>> paths)
     {
         
-        throw new UnsupportedOperationException("Not supported yet.");
+        int vKey = g.key(vOrig);
+        if (visited[vKey])
+        {
+            return;
+        }
+        
+        if (vOrig.equals(vDest))
+        {
+            LinkedList<V> pathcopy = new LinkedList<>(path);
+            pathcopy.addFirst(vDest);
+            Collections.reverse(pathcopy);
+            paths.add(new LinkedList<>(pathcopy));
+            return;
+        }
+        
+        path.push(vOrig);
+        visited[vKey] = true;
+        
+        for (V vAdj : g.adjVertices(vOrig))
+        {
+            allPaths(g, vAdj, vDest, visited, path, paths);
+        }
+        
+        path.pop();
+        visited[vKey] = false;
     }
     
     /**
@@ -135,7 +156,16 @@ public class Algorithms
     public static <V, E> ArrayList<LinkedList<V>> allPaths(Graph<V, E> g, V vOrig, V vDest)
     {
         
-        throw new UnsupportedOperationException("Not supported yet.");
+        LinkedList<V> path = new LinkedList<>();
+        ArrayList<LinkedList<V>> paths = new ArrayList<>();
+        boolean[] visited = new boolean[g.numVertices()];
+    
+        if (g.validVertex(vOrig) && g.validVertex(vDest))
+        {
+            allPaths(g, vOrig, vDest, visited, path, paths);
+        }
+        
+        return paths;
     }
     
     /**
@@ -149,7 +179,9 @@ public class Algorithms
      * @param pathKeys minimum path vertices keys
      * @param dist     minimum distances
      */
-    private static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig, Comparator<E> ce, BinaryOperator<E> sum, E zero, boolean[] visited, V[] pathKeys, E[] dist)
+    private static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
+                                                    Comparator<E> ce, BinaryOperator<E> sum, E zero,
+                                                    boolean[] visited, V[] pathKeys, E[] dist)
     {
         int vkey = g.key(vOrig);
         dist[vkey] = zero;
@@ -171,8 +203,7 @@ public class Algorithms
                     }
                 }
             }
-            
-            E minDist = null;  //next vertice, that has minimum dist
+            E minDist = null;
             vOrig = null;
             for (V vert : g.vertices())
             {
@@ -184,6 +215,51 @@ public class Algorithms
                 }
             }
         }
+        
+    }
+    
+    
+    /**
+     * Computes shortest-path distance from a source vertex to all reachable
+     * vertices of a graph g with non-negative edge weights
+     * This implementation uses Dijkstra's algorithm
+     *
+     * @param g     Graph instance
+     * @param vOrig information of the Vertex origin
+     * @return pathKeys minimum path vertices keys
+     * @return dist minimum distances
+     */
+    public static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
+                                                   Comparator<E> ce, BinaryOperator<E> sum, E zero,
+                                                   V[] pathKeys, E[] dist)
+    {
+        if (g.validVertex(vOrig))
+        {
+            boolean[] visited = new boolean[g.numVertices()];
+            shortestPathDijkstra(g, vOrig, ce, sum, zero, visited, pathKeys, dist);
+        }
+    }
+    
+    /**
+     * Computes shortest-path distance from a source vertex to all reachable
+     * vertices of a graph g with non-negative edge weights
+     * This implementation uses Dijkstra's algorithm
+     *
+     * @param g     Graph instance
+     * @param vOrig information of the Vertex origin
+     * @return pathKeys minimum path vertices keys
+     * @return dist minimum distances
+     */
+    public static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
+                                                   Comparator<E> ce, BinaryOperator<E> sum, E zero,
+                                                   V[] pathKeys, E[] dist, int[] numPaths)
+    {
+        if (g.validVertex(vOrig))
+        {
+            boolean[] visited = new boolean[g.numVertices()];
+            shortestPathDijkstra(g, vOrig, ce, sum, zero, visited, pathKeys, dist);
+        }
+        
     }
     
     
@@ -203,6 +279,7 @@ public class Algorithms
                                         Comparator<E> ce, BinaryOperator<E> sum, E zero,
                                         LinkedList<V> shortPath)
     {
+    
         if (! g.validVertex(vOrig) || ! g.validVertex(vDest))
         {
             return null;
@@ -226,7 +303,6 @@ public class Algorithms
             getPath(g, vOrig, vDest, pathKeys, shortPath);
             return lengthPath;
         }
-        
         return null;
     }
     
@@ -246,8 +322,52 @@ public class Algorithms
                                                Comparator<E> ce, BinaryOperator<E> sum, E zero,
                                                ArrayList<LinkedList<V>> paths, ArrayList<E> dists)
     {
+    
+        if (! g.validVertex(vOrig))
+        {
+            return false;
+        }
         
-        throw new UnsupportedOperationException("Not supported yet.");
+        paths.clear();
+        dists.clear();
+        int numVerts = g.numVertices();
+        boolean[] visited = new boolean[numVerts]; //default value: false
+        @SuppressWarnings("unchecked")
+        V[] pathKeys = (V[]) new Object[numVerts];
+        @SuppressWarnings("unchecked")
+        E[] dist = (E[]) new Object[numVerts];
+        initializePathDist(numVerts, pathKeys, dist);
+        
+        shortestPathDijkstra(g, vOrig, ce, sum, zero, visited, pathKeys, dist);
+        
+        dists.clear();
+        paths.clear();
+        for (int i = 0 ; i < numVerts ; i++)
+        {
+            paths.add(null);
+            dists.add(null);
+        }
+        for (V vDst : g.vertices())
+        {
+            int i = g.key(vDst);
+            if (dist[i] != null)
+            {
+                LinkedList<V> shortPath = new LinkedList<>();
+                getPath(g, vOrig, vDst, pathKeys, shortPath);
+                paths.set(i, shortPath);
+                dists.set(i, dist[i]);
+            }
+        }
+        return true;
+    }
+    
+    private static <V, E> void initializePathDist(int nVerts, V[] pathKeys, E[] dist)
+    {
+        for (int i = 0 ; i < nVerts ; i++)
+        {
+            dist[i] = null;
+            pathKeys[i] = null;
+        }
     }
     
     /**
@@ -263,17 +383,53 @@ public class Algorithms
     private static <V, E> void getPath(Graph<V, E> g, V vOrig, V vDest,
                                        V[] pathKeys, LinkedList<V> path)
     {
-        
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+        if (vOrig.equals(vDest))
+        {
+            path.push(vOrig);
+        }
+        else
+        {
+            path.push(vDest);
+            int vKey = g.key(vDest);
+            vDest = pathKeys[vKey];
+            getPath(g, vOrig, vDest, pathKeys, path);
+        }
     }
     
-    /** Calculates the minimum distance graph using Floyd-Warshall
+    /**
+     * Minimum spanning tree - Kruskall Algorithm
      *
-     * @param g initial graph
-     * @param ce comparator between elements of type E
-     * @param sum sum two elements of type E
-     * @return the minimum distance graph
+     * @param graphMST  MST graph with all vertices
+     * @param edgesList order list of edges by Weight
      */
+    public static void kruskallAlgorithm(Graph<Member, Double> graphMST, ArrayList<Edge<Member, Double>> edgesList)
+    {
+        for (Edge<Member, Double> edge : edgesList)
+        {
+            LinkedList<Member> connectedVets = Algorithms.DepthFirstSearch(graphMST, edge.getVOrig());
+            
+            if (! connectedVets.contains(edge.getVDest()))
+            {
+                graphMST.addEdge(edge.getVOrig(), edge.getVDest(), edge.getWeight());
+            }
+        }
+    }
     
-    
+    public static <V, E> int GraphDiameter(MapGraph<V, E> membersLocationGraph)
+    {
+        int currDiameter = 0;
+        for (V v1 : membersLocationGraph.vertices())
+        {
+            for (V v2 : membersLocationGraph.vertices())
+            {
+                if (v1 != v2)
+                {
+                
+                
+                }
+            }
+        }
+        return currDiameter;
+    }
 }

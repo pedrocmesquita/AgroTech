@@ -2,6 +2,7 @@ package US;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.function.BinaryOperator;
 
 import Domain.Hub;
 import Domain.Local;
@@ -24,25 +25,28 @@ public class US303
 {
     public static List<Local> findHubs(Graph<Local, Integer> map, int n)
     {
+        //invalid size
+        if(n <= 0)
+        {
+            return null;
+        }
+        
         //Graph <Local,Integer> map = new MapGraph<Local,Integer>(mapGraph.isDirected());
         //BST<Local> locais = new BST<>();
         
         ArrayList<Local> comps = new ArrayList<>();
         ArrayList<Local> dest = new ArrayList<>();
         
-        //get all companies
         for (Local l : map.vertices())
         {
-            if (l.getName().charAt(0) == 'E')
+            //get all companies
+            if (l.getDestinatário().charAt(0) == 'E')
             {
                 comps.add(l);
             }
-        }
-        
-        //get all clients and producers
-        for (Local l : map.vertices())
-        {
-            if ((l.getName().charAt(0) == 'C') || (l.getName().charAt(0) == 'P'))
+
+            //get all clients and producers
+            else if ((l.getDestinatário().charAt(0) == 'C') || (l.getDestinatário().charAt(0) == 'P'))
             {
                 dest.add(l);
             }
@@ -55,19 +59,34 @@ public class US303
         
         Map<Local, Integer> company_sum = new HashMap<>();
         
-        //for each company and each client/producer, calculate proximity measure
+        //for each company
         for (Local c : comps)
         {
-            int sum = 0;
-            
+            int sum_dist = 0;
+    
+            //for each client/producer
             for (Local d : dest)
             {
-                sum += Algorithms.shortestPath(map, c, d, ce, sum, zero, shortPath).getWeight();
+                //System.out.println(d.getDestinatário());
+                
+                //Comparator<Integer> ce = Comparator.comparingInt(o -> o);
+                //BinaryOperator<Integer> sum = Integer::sum;
+                
+                LinkedList<Local> shortPath = new LinkedList<>();
+                Integer temp = Algorithms.shortestPath(map, c, d, Integer::compare, Integer::sum, 0, shortPath);
+                
+                if (temp != null)
+                {
+                    sum_dist += temp;
+                }
             }
-            
-            company_sum.put(c, sum);
-        }
     
+            //System.out.println(c.getDestinatário());
+            
+            //calculate proximity measure
+            company_sum.put(c, sum_dist/dest.size());
+        }
+        
         //convert map into list
         List<Map.Entry<Local, Integer>> compLst = new LinkedList<>(company_sum.entrySet());
     
@@ -76,12 +95,19 @@ public class US303
     
         List<Local> hubs = new ArrayList<>();
         
+        //subList() will throw an oob exception if n given is bigger than number of companies
+        if (compLst.size() < n)
+        {
+            n = compLst.size();
+        }
+        
         //create a sublist from elements 0 to n
         for (Map.Entry<Local, Integer> entry : compLst.subList(0,n))
         {
+            //System.out.println(entry.getKey().getDestinatário());
             hubs.add(entry.getKey());
         }
-    
+        
         //order the list and return first N companies
         return hubs;
     }
