@@ -13,19 +13,25 @@ public class US306 {
     public static String[] Rega(ControladorRega ctrl1) {
         String[] Horas = ctrl1.getHorasRega().split(",", 0);
         String[] array = {"","",""};
-        if (ctrl1.getStartDate().plusMonths(1).isBefore(LocalDate.now())) {
+        if (ctrl1.getStartDate().plusMonths(1).isAfter(LocalDate.now())) {
             switch (ctrl1.getRegularidade()) {
                 case "t" -> {
                     //todos os dias
                     for (String s : Horas) {
-                        if (LocalTime.parse(s).getHour() + ctrl1.getDuracao() > LocalTime.now().getHour()) {
+                        String[] a = (s.split(":", 0));
+                        if (parseInt(a[0]) + ctrl1.getDuracao() > LocalTime.now().getHour()) {
                             array[0] = "A regar";
                             array[1] = ctrl1.getParcela();
-                            array[2] = Integer.toString((LocalTime.parse(s).getHour() + ctrl1.getDuracao()) - LocalTime.now().getHour());
+                            array[2] = Integer.toString((parseInt(a[0]) + ctrl1.getDuracao()) - LocalTime.now().getHour()) + ":" + Integer.toString(parseInt(a[1]) - LocalTime.now().getMinute());
+                            break;
+                        } else if (parseInt(a[1])> LocalTime.now().getMinute()){
+                            array[0] = "A regar";
+                            array[1] = ctrl1.getParcela();
+                            array[2] = Integer.toString((parseInt(a[0]) + ctrl1.getDuracao()) - LocalTime.now().getHour()) + ":" + Integer.toString(parseInt(a[1]) - LocalTime.now().getMinute());
                             break;
                         }
                     }
-                    System.out.println("Não rega");
+                    array[0] = "Não está a regar";
                 }
                 case "i" -> {
                     //dias impares
@@ -34,14 +40,19 @@ public class US306 {
                         break;
                     }
                     for (String hora : Horas) {
-                        if (parseInt(hora) + ctrl1.getDuracao() > LocalTime.now().getHour()) {
+                        String[] a = (hora.split(":", 0));
+                        if (parseInt(a[0]) + ctrl1.getDuracao() > LocalTime.now().getHour()) {
                             array[0] = "A regar";
                             array[1] = ctrl1.getParcela();
-                            array[2] = Integer.toString((LocalTime.parse(hora).getHour() + ctrl1.getDuracao()) - LocalTime.now().getHour());
+                            array[2] = Integer.toString((parseInt(a[0]) + ctrl1.getDuracao()) - LocalTime.now().getHour()) + ":" + Integer.toString(parseInt(a[1]) - LocalTime.now().getMinute());
                             break;
-                        }
+                        }else if (parseInt(a[1])> LocalTime.now().getMinute()){
+                            array[0] = "A regar";
+                            array[1] = ctrl1.getParcela();
+                            array[2] = Integer.toString((parseInt(a[0]) + ctrl1.getDuracao()) - LocalTime.now().getHour()) + ":" + Integer.toString(parseInt(a[1]) - LocalTime.now().getMinute());
+                            break;}
                     }
-                    System.out.println("Não rega");
+                    array[0] = "Não está a regar";
                 }
                 case "p" -> {
                     //dias pares
@@ -50,12 +61,17 @@ public class US306 {
                         break;
                     }
                     for (String hora : Horas) {
-                        if (parseInt(hora) + ctrl1.getDuracao() > LocalTime.now().getHour()) {
+                        String[] a = (hora.split(":", 0));
+                        if (parseInt(a[0]) + ctrl1.getDuracao() > LocalTime.now().getHour()) {
                             array[0] = "A regar";
                             array[1] = ctrl1.getParcela();
-                            array[2] = Integer.toString((LocalTime.parse(hora).getHour() + ctrl1.getDuracao()) - LocalTime.now().getHour());
+                            array[2] = Integer.toString((parseInt(a[0]) + ctrl1.getDuracao()) - LocalTime.now().getHour()) + ":" + Integer.toString(parseInt(a[1]) - LocalTime.now().getMinute());
                             break;
-                        }
+                        }else if (parseInt(a[1])> LocalTime.now().getMinute()){
+                            array[0] = "A regar";
+                            array[1] = ctrl1.getParcela();
+                            array[2] = Integer.toString((parseInt(a[0]) + ctrl1.getDuracao()) - LocalTime.now().getHour()) + ":" + Integer.toString(parseInt(a[1]) - LocalTime.now().getMinute());
+                            break;}
                     }
                     array[0] = "Não rega";
                 }
