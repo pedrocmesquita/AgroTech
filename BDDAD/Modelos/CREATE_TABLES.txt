@@ -19,6 +19,7 @@ DROP TABLE parcela_sistema_rega CASCADE CONSTRAINTS PURGE;
 DROP TABLE parcela_sensor CASCADE CONSTRAINTS PURGE;
 DROP TABLE edificio CASCADE CONSTRAINTS PURGE;
 DROP TABLE produtor CASCADE CONSTRAINTS PURGE;
+DROP TABLE produtor_agricola CASCADE CONSTRAINTS PURGE;
 DROP TABLE incidente CASCADE CONSTRAINTS PURGE;
 DROP TABLE encomenda CASCADE CONSTRAINTS PURGE;
 DROP TABLE estacao_meteorologica CASCADE CONSTRAINTS PURGE;
@@ -301,3 +302,16 @@ create table caderno_campo (
     dados_regas char(255) not null,
     constraint fk_quinta foreign key (id_quinta) references quinta(id_quinta)
 );
+
+create table produtor_agricola (
+    id_produtor_agricola int primary key,
+    id_venda int not null,
+    numero_colheita int not null,
+    nome varchar(255) not null,
+    quantidade int not null,
+    preco int not null,
+    unidade varchar(255) not null,
+    constraint fk_numero_colheita foreign key (numero_colheita) references colheita(numero_colheita),
+    constraint fk_id_venda foreign key (id_venda) references encomenda(id_encomenda)
+);
+
