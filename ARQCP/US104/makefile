@@ -2,10 +2,10 @@ main: main.o asm.o
 	gcc -Wall -g main.o asm.o -o main
 
 main.o: main.c asm.h
-	gcc -Wall -g -c main.c
+	gcc -Wall -g -c main.c -o main.o
 
 asm.o: asm.s
-	gcc -Wall -g -c asm.s
+	gcc -Wall -g -c asm.s -o asm.o
 
 run: main
 	./main

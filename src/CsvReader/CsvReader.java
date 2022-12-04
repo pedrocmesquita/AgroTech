@@ -1,16 +1,18 @@
 package CsvReader;
 
 
-import Domain.Cabazes;
+import Domain.ControladorRega;
 import Domain.Destinatário;
-import Domain.GrafoDistancia;
 import Domain.Local;
-import Shared.GraphCommon.Graph;
 import Shared.BST.BST;
-import Shared.MapGraphs.MapGraph;
+import Shared.GraphCommon.Graph;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class CsvReader {
 
@@ -34,7 +36,7 @@ public class CsvReader {
                 }
                 //System.out.println();
 
-                graph.addEdge(findLocal(locais,split[0]),findLocal(locais,split[1]),Integer.parseInt(split[2]));
+                graph.addEdge(findLocal(locais,split[0]),findLocal(locais,split[1]), parseInt(split[2]));
                 //System.out.println("adicio");
 
             }
@@ -105,7 +107,28 @@ public class CsvReader {
 
 
     }
+    public ArrayList<ControladorRega> readControlador(File file3, String separatorRegex) throws FileNotFoundException {
+        ArrayList<ControladorRega> controladores=new ArrayList<>();
+        Scanner reader = new Scanner(file3);
+        String Horas = reader.nextLine();
+        int c=0;
+        //System.out.println(c);
+        while (reader.hasNextLine()) {
+            String[] split = reader.nextLine().split(separatorRegex);
+            try {
+                for (String s:split) {
+                    cleanString(s);
+                    //System.out.printf(s+" ");
+                }
+                controladores.add(new ControladorRega(Horas, split[0], parseInt(split[1]), split[2]));
+                //System.out.println();
+            }
+            catch (NumberFormatException e) {
 
+            }
+    }
+        return controladores;
+    }
 
 
     private static int comp(Local o,String str) {

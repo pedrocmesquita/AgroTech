@@ -301,3 +301,10 @@ create table caderno_campo (
     dados_regas char(255) not null,
     constraint fk_quinta foreign key (id_quinta) references quinta(id_quinta)
 );
+
+CREATE TABLE setor(
+    id_setor INT PRIMARY KEY,
+    id_quinta INT NOT NULL,
+    nome_setor CHAR(255) NOT NULL,
+    constraint fk_quinta FOREIGN KEY (id_quinta) REFERENCES quinta(id_quinta)
+);
