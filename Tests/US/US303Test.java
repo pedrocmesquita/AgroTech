@@ -4,9 +4,9 @@ import CsvReader.CsvReader;
 import Domain.Hub;
 import Domain.Local;
 import Shared.BST.BST;
-import Shared.Files;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
+import Shared.constants.Files;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

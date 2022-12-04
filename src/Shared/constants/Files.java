@@ -1,4 +1,4 @@
-package Shared;
+package Shared.constants;
 
 /**
  * used to store file names

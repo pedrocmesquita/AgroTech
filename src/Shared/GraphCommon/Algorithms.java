@@ -1,7 +1,5 @@
 package Shared.GraphCommon;
 
-import Shared.GraphCommon.Edge;
-import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
 
 import java.lang.reflect.Member;
@@ -179,7 +177,7 @@ public class Algorithms
      * @param pathKeys minimum path vertices keys
      * @param dist     minimum distances
      */
-    private static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
+    public static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
                                                     Comparator<E> ce, BinaryOperator<E> sum, E zero,
                                                     boolean[] visited, V[] pathKeys, E[] dist)
     {
@@ -361,7 +359,7 @@ public class Algorithms
         return true;
     }
     
-    private static <V, E> void initializePathDist(int nVerts, V[] pathKeys, E[] dist)
+    public static <V, E> void initializePathDist(int nVerts, V[] pathKeys, E[] dist)
     {
         for (int i = 0 ; i < nVerts ; i++)
         {
@@ -380,8 +378,8 @@ public class Algorithms
      * @param pathKeys minimum path vertices keys
      * @param path     stack with the minimum path (correct order)
      */
-    private static <V, E> void getPath(Graph<V, E> g, V vOrig, V vDest,
-                                       V[] pathKeys, LinkedList<V> path)
+    public static <V, E> void getPath(Graph<V, E> g, V vOrig, V vDest,
+                                      V[] pathKeys, LinkedList<V> path)
     {
     
         if (vOrig.equals(vDest))
@@ -431,5 +429,30 @@ public class Algorithms
             }
         }
         return currDiameter;
+    }
+
+    public <V,E> MapGraph<V,E> mstGraph(Graph<V,E> graph) {
+
+        MapGraph<V,E> mst = new MapGraph<>(false);
+        List<Edge<V,E>> edgeList = new ArrayList<>();
+        LinkedList<V> connected;
+
+        for (V vertex : graph.vertices()){
+            mst.addVertex(vertex);
+        }
+
+        for (Edge<V,E> edge : graph.edges()){
+            edgeList.add(edge);
+        }
+
+        Collections.sort(edgeList);
+
+        for (Edge<V,E> edge : edgeList){
+            connected = DepthFirstSearch(mst, edge.getVOrig());
+            if(!connected.contains(edge.getVDest())){
+                mst.addEdge(edge.getVOrig(),edge.getVDest(),edge.getWeight());
+            }
+        }
+        return mst;
     }
 }

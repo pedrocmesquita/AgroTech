@@ -1,11 +1,13 @@
 package Domain;
 
+import Shared.MapGraphs.MapGraph;
+
 public class Local implements Comparable<Local> {
     private String name;
     private String lat;
     private String lng;
-
     private String destinatário;
+    private GrafoDistancia grafoDistancia;
 
     public Local(String name, String lat, String lng,String destinatário) {
         this.name = name;
@@ -40,5 +42,15 @@ public class Local implements Comparable<Local> {
         else{
             return -1;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Local{" +
+                "name='" + name + '\'' +
+                ", lat='" + lat + '\'' +
+                ", lng='" + lng + '\'' +
+                ", destinatário='" + destinatário + '\'' +
+                '}';
     }
 }
