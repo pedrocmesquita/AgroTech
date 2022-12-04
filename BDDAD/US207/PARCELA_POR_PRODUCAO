@@ -1,0 +1,33 @@
+create or replace procedure PARCELA_POR_PRODUCAO
+IS
+    var_parcela Parcela.DESIGNACAO%TYPE;
+    var_colheita Colheita.NUMERO_COLHEITA%TYPE;
+    var_cultura Cultura.ID_Cultura%TYPE;
+    var_quantidade Colheita.Quantidade%TYPE;
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('<<<<< SETOR ORDENADO POR QUANTIDADE DE PRODUCAO >>>>>');
+    FOR C IN (
+        SELECT Colheita.NUMERO_COLHEITA, Colheita.Quantidade, Parcela.DESIGNACAO, Cultura.ID_Cultura
+        INTO var_colheita, var_quantidade, var_parcela, var_cultura
+        FROM Colheita, Parcela, Cultura
+        WHERE Colheita.NUMERO_COLHEITA = Cultura.ID_Cultura
+        AND Cultura.ID_CULTURA = Parcela.DESIGNACAO
+        ORDER BY Colheita.Quantidade DESC
+    )
+    LOOP
+        var_colheita := C.ID_CULTURA;
+        var_quantidade := C.Quantidade;
+        var_parcela := C.DESIGNACAO;
+        var_cultura := C.ID_Cultura;
+        DBMS_OUTPUT.PUT_LINE('ID Parcela: '  var_parcela);
+        DBMS_OUTPUT.PUT_LINE('ID Cultura: '  var_cultura);
+        DBMS_OUTPUT.PUT_LINE('ID Colheita: '  var_colheita);
+        DBMS_OUTPUT.PUT_LINE('Quantidade: '  var_quantidade);
+        DBMS_OUTPUT.PUT_LINE('--------------------');
+    END LOOP;
+END;
+
+BEGIN
+    PARCELA_POR_PRODUCAO;
+END;
