@@ -1,16 +1,15 @@
 import CsvReader.CsvReader;
 import Domain.Destinatário;
+import Domain.GrafoDistancia;
 import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
-import Shared.GraphCommon.Edge;
 import Shared.MapGraphs.MapGraph;
 import Domain.Local;
 import US.US302;
+import US.US305;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.Map;
 
 public class main {
@@ -18,8 +17,8 @@ public class main {
 
         CsvReader readFiles=new CsvReader();
 
-        File file1=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-        File file2=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+        File file1=new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
+        File file2=new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
 
         final Graph<Local,Integer> map=new MapGraph<>(false);
 
@@ -57,18 +56,10 @@ public class main {
 */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+        System.out.println("\n\n");
+        GrafoDistancia grafo = new GrafoDistancia(map);
+        US305 us305 = new US305(grafo);
+        us305.toStringMinimumGraph();
 
     }
 

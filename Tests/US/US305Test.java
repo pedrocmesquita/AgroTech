@@ -1,15 +1,10 @@
 package US;
 
-import CsvReader.CsvReader;
-import Domain.GrafoDistancia;
+import Domain.Kruskall;
 import Domain.Local;
-import Shared.BST.BST;
-import Shared.Graphs.Graph;
-import Shared.Graphs.MapGraph;
+import Shared.GraphCommon.Graph;
+import Shared.MapGraphs.MapGraph;
 import org.junit.jupiter.api.Test;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class US305Test {
@@ -18,7 +13,7 @@ class US305Test {
 
     @Test
     void kruskalAlgo() {
-        US305 grafo = new US305(0,0);
+        Kruskall grafo = new Kruskall(0,0);
         assertEquals("The graph does not exists.", "The graph does not exists.");
     }
 
@@ -33,7 +28,7 @@ class US305Test {
     @Test
     void test1() throws Exception {
 
-        US305 grafo = new US305(5,7);
+        Kruskall grafo = new Kruskall(5,7);
 
         grafo.arrayEdges[0].origem = 0;
         grafo.arrayEdges[0].destino = 1;
