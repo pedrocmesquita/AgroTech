@@ -68,7 +68,7 @@ public class US303
             
             ArrayList<LinkedList<Local>> shortPath = new ArrayList<>();
             ArrayList<Integer> dists = new ArrayList<>();
-            boolean temp = shortestPathsClientProducer(map, c, java.lang.Integer::compare, java.lang.Integer::sum, 0, shortPath, dists);
+            boolean temp = Algorithms.shortestPaths(map, c, java.lang.Integer::compare, java.lang.Integer::sum, 0, shortPath, dists);
                 
                 /*
                 if (temp != null)
@@ -121,18 +121,7 @@ public class US303
         return hubs;
     }
     
-    /**
-     * Shortest-path between a vertex and all other vertices which arent companies (destinatary doesnt start with E)
-     *
-     * @param g     graph
-     * @param vOrig start vertex
-     * @param ce    comparator between elements of type E
-     * @param sum   sum two elements of type E
-     * @param zero  neutral element of the sum in elements of type E
-     * @param paths returns all the minimum paths
-     * @param dists returns the corresponding minimum distances
-     * @return if vOrig exists in the graph true, false otherwise
-     */
+    /*
     public static <V, E> boolean shortestPathsClientProducer(Graph<V, E> g, V vOrig, Comparator<E> ce, BinaryOperator<E> sum, E zero, ArrayList<LinkedList<V>> paths, ArrayList<E> dists)
     {
         if (! g.validVertex(vOrig))
@@ -177,4 +166,5 @@ public class US303
         }
         return true;
     }
+    */
 }

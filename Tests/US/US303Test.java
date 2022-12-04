@@ -154,7 +154,7 @@ class US303Test
     
         expected.add(new Local("CT146","40.1125","-8.2469","E49"));
         expected.add(new Local("CT142","40.2594","-8.3168","E71"));
-        expected.add(new Local("CT33","39.9167","-8.4333","E86"));
+        expected.add(new Local("CT209","40.2667","-8.2667","E40"));
         
         assertNotNull(actual);
         assertEquals(expected.size(), actual.size());
@@ -181,8 +181,8 @@ class US303Test
         
         expected.add(new Local("CT146","40.1125","-8.2469","E49"));
         expected.add(new Local("CT142","40.2594","-8.3168","E71"));
-        expected.add(new Local("CT33","39.9167","-8.4333","E86"));
         expected.add(new Local("CT209","40.2667","-8.2667","E40"));
+        expected.add(new Local("CT33","39.9167","-8.4333","E86"));
         
         assertNotNull(actual);
         assertEquals(expected.size(), actual.size());
