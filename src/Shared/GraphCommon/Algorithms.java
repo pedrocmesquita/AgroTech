@@ -179,7 +179,7 @@ public class Algorithms
      * @param pathKeys minimum path vertices keys
      * @param dist     minimum distances
      */
-    private static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
+    public static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
                                                     Comparator<E> ce, BinaryOperator<E> sum, E zero,
                                                     boolean[] visited, V[] pathKeys, E[] dist)
     {
@@ -361,7 +361,7 @@ public class Algorithms
         return true;
     }
     
-    private static <V, E> void initializePathDist(int nVerts, V[] pathKeys, E[] dist)
+    public static <V, E> void initializePathDist(int nVerts, V[] pathKeys, E[] dist)
     {
         for (int i = 0 ; i < nVerts ; i++)
         {
@@ -380,8 +380,8 @@ public class Algorithms
      * @param pathKeys minimum path vertices keys
      * @param path     stack with the minimum path (correct order)
      */
-    private static <V, E> void getPath(Graph<V, E> g, V vOrig, V vDest,
-                                       V[] pathKeys, LinkedList<V> path)
+    public static <V, E> void getPath(Graph<V, E> g, V vOrig, V vDest,
+                                      V[] pathKeys, LinkedList<V> path)
     {
     
         if (vOrig.equals(vDest))
