@@ -123,5 +123,9 @@ class US305Test {
         assertEquals(4, closerGraphResult.numVertices());
     }
 
+    @Test
+    void teste4(){
+
+    }
 
 }
