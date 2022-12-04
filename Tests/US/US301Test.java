@@ -93,4 +93,31 @@ public class US301Test {
 
     }
 
+    void teste5() throws FileNotFoundException {
+
+        readFiles=new CsvReader();
+        file1=new File(s_distancias);
+        file2=new File(s_clientes_produtores);
+
+        map=new MapGraph<>(false);
+
+        BST<Local> locais=readFiles.ReadClientesProdutores(file2,",");//arvore dos locais
+        BST<Destinatário> destinatários=readFiles.getDestinatários();//arvore dos destinatários
+        readFiles.ReadDistancias(file1,file2,",",map,locais);//grafo (vertices-locais)
+
+
+        Local ct2=null;
+        for (Local key1:map.vertices()){
+            if (key1.getName().equals("CT2")){
+                ct2=key1;
+                break;
+            }
+
+        }
+
+        assertEquals(map.adjVertices(ct2).size(),4);
+
+
+    }
+
 }
