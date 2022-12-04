@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
 import static org.junit.Assert.assertEquals;
 
 
-public class Us301 {
+public class US301Test {
 
     CsvReader readFiles;
     Graph<Local,Integer> map=null;
@@ -44,7 +44,24 @@ public class Us301 {
         BST<Destinatário> destinatários=readFiles.getDestinatários();//arvore dos destinatários
         readFiles.ReadDistancias(file1,file2,",",map,locais);//grafo (vertices-locais)
 
-        assertEquals(1,1);
+        assertEquals(map.numVertices(),17);
+
+
+    }
+
+    void teste2() throws FileNotFoundException {
+
+        readFiles=new CsvReader();
+        file1=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
+        file2=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+
+        map=new MapGraph<>(false);
+
+        BST<Local> locais=readFiles.ReadClientesProdutores(file2,",");//arvore dos locais
+        BST<Destinatário> destinatários=readFiles.getDestinatários();//arvore dos destinatários
+        readFiles.ReadDistancias(file1,file2,",",map,locais);//grafo (vertices-locais)
+
+        assertEquals(map.numEdges(),33);
 
 
     }
