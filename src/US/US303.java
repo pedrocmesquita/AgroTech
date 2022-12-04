@@ -68,7 +68,7 @@ public class US303
             
             ArrayList<LinkedList<Local>> shortPath = new ArrayList<>();
             ArrayList<Integer> dists = new ArrayList<>();
-            boolean temp = shortestPaths(map, c, java.lang.Integer::compare, java.lang.Integer::sum, 0, shortPath, dists);
+            boolean temp = shortestPathsClientProducer(map, c, java.lang.Integer::compare, java.lang.Integer::sum, 0, shortPath, dists);
                 
                 /*
                 if (temp != null)
@@ -122,7 +122,7 @@ public class US303
     }
     
     /**
-     * Shortest-path between a vertex and all other vertices
+     * Shortest-path between a vertex and all other vertices which arent companies (destinatary doesnt start with E)
      *
      * @param g     graph
      * @param vOrig start vertex
@@ -133,7 +133,7 @@ public class US303
      * @param dists returns the corresponding minimum distances
      * @return if vOrig exists in the graph true, false otherwise
      */
-    public static <V, E> boolean shortestPaths(Graph<V, E> g, V vOrig, Comparator<E> ce, BinaryOperator<E> sum, E zero, ArrayList<LinkedList<V>> paths, ArrayList<E> dists)
+    public static <V, E> boolean shortestPathsClientProducer(Graph<V, E> g, V vOrig, Comparator<E> ce, BinaryOperator<E> sum, E zero, ArrayList<LinkedList<V>> paths, ArrayList<E> dists)
     {
         if (! g.validVertex(vOrig))
         {
@@ -162,6 +162,7 @@ public class US303
         
         for (V vDst : g.vertices())
         {
+            //dont count if company
             if (((Local) vDst).getDestinatário().charAt(0) != 'E')
             {
                 int i = g.key(vDst);
