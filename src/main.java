@@ -53,13 +53,17 @@ public class main {
         for (Edge<Local,Integer> ed:map.edges()){
             System.out.println(ed.getVOrig().getName()+"----"+ed.getVDest().getName()+"  ->"+ed.getWeight());
         }
-*/
 
+
+
+ */
 
         System.out.println("\n\n");
+
         GrafoDistancia grafo = new GrafoDistancia(map);
         US305 us305 = new US305(grafo);
         us305.toStringMinimumGraph();
+
 
     }
 

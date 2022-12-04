@@ -9,7 +9,9 @@ public class GrafoDistancia {
 
         public Graph<Local, Integer> graph;
 
-        public GrafoDistancia(Graph graph) { this.graph = new MapGraph(false); }
+        public GrafoDistancia(Graph<Local, Integer> graph) {
+                this.graph = graph;
+        }
 
         public Graph getMapGraph() { return graph; }
 

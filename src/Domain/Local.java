@@ -1,10 +1,13 @@
 package Domain;
 
+import Shared.MapGraphs.MapGraph;
+
 public class Local implements Comparable<Local> {
     private String name;
     private String lat;
     private String lng;
     private String destinatário;
+    private GrafoDistancia grafoDistancia;
 
     public Local(String name, String lat, String lng,String destinatário) {
         this.name = name;
