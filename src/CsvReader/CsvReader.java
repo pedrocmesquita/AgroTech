@@ -7,6 +7,7 @@ import Domain.GrafoDistancia;
 import Domain.Local;
 import Shared.GraphCommon.Graph;
 import Shared.BST.BST;
+import Shared.MapGraphs.MapGraph;
 
 import java.io.*;
 import java.util.*;
@@ -44,30 +45,6 @@ public class CsvReader {
         }
     }
 
-    public ArrayList<GrafoDistancia> ReadDistancias(File file1, String separatorRegex) throws FileNotFoundException {
-        Scanner reader = new Scanner(file1);
-        String header = reader.nextLine();
-        GrafoDistancia grafoDistancia;
-        ArrayList<GrafoDistancia> arrayList = new ArrayList<>();
-
-        while (reader.hasNextLine()) {
-
-            String[] split = reader.nextLine().split(separatorRegex);
-            try {
-                for (String s:split) {
-                    cleanString(s);
-
-                }
-                grafoDistancia = new GrafoDistancia(split[0], split[1], Integer.parseInt(split[0].substring(split[0].indexOf("CT") + 2)), Integer.parseInt(split[1].substring(split[1].indexOf("CT") + 2)), Integer.parseInt(split[2]));
-                arrayList.add(grafoDistancia);
-
-            }
-            catch (NumberFormatException e) {
-            }
-        }
-        return arrayList;
-    }
-
 
     public BST<Local> ReadClientesProdutores(File file, String separatorRegex) throws FileNotFoundException {
         BST<Local> locais=new BST<>();
@@ -103,52 +80,6 @@ public class CsvReader {
         return locais;
     }
 
-    public List<Cabazes> ReadCabazes(String fileName){
-        List<Cabazes> cabazesList = new ArrayList<>();
-
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            br.readLine();
-            String line = br.readLine();
-
-            while (line != null){
-                String[] coluna = line.split(",");
-                String codigo = coluna[0];
-                String dia = coluna[1];
-                int prod1 = Integer.parseInt(coluna[2]);
-                int prod2 = Integer.parseInt(coluna[3]);
-                int prod3 = Integer.parseInt(coluna[4]);
-                int prod4 = Integer.parseInt(coluna[5]);
-                int prod5 = Integer.parseInt(coluna[6]);
-                int prod6 = Integer.parseInt(coluna[7]);
-                int prod7 = Integer.parseInt(coluna[8]);
-                int prod8 = Integer.parseInt(coluna[9]);
-                int prod9 = Integer.parseInt(coluna[10]);
-                int prod10 = Integer.parseInt(coluna[11]);
-                int prod11 = Integer.parseInt(coluna[12]);
-                int prod12 = Integer.parseInt(coluna[13]);
-                int prod13 = Integer.parseInt(coluna[14]);
-                int prod14 = Integer.parseInt(coluna[15]);
-                int prod15 = Integer.parseInt(coluna[16]);
-                int prod16 = Integer.parseInt(coluna[17]);
-                int prod17 = Integer.parseInt(coluna[18]);
-                int prod18 = Integer.parseInt(coluna[19]);
-                int prod19 = Integer.parseInt(coluna[20]);
-                int prod20 = Integer.parseInt(coluna[21]);
-
-                Cabazes cabazes = new Cabazes(codigo, dia, prod1, prod2, prod3, prod4, prod5,prod6,prod7,prod8,prod9,prod10,prod11,prod12,
-                        prod13,prod14,prod15,prod16,prod17,prod18,prod19,prod20);
-
-                cabazesList.add(cabazes);
-                line = br.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return cabazesList;
-    }
 
     private String cleanString(String s){
         s = s.replace("\"", "");

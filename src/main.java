@@ -28,6 +28,9 @@ public class main {
         readFiles.ReadDistancias(file1,file2,",",map,locais);//grafo (vertices-locais)
 
 
+
+
+
         US302 us=new US302(map);
 
         Map<String, Map<String,Integer>> lista=us.ligaçoesMinimas();
@@ -43,7 +46,7 @@ public class main {
 
 
 
-/*
+
         //VERTICES
         for (Local loc:map.vertices()){
             System.out.println(loc.getName()+"   "+"  "+loc.getLng()+"   "+"  "+loc.getLat()+"  "+loc.getDestinatário());
@@ -54,7 +57,7 @@ public class main {
         for (Edge<Local,Integer> ed:map.edges()){
             System.out.println(ed.getVOrig().getName()+"----"+ed.getVDest().getName()+"  ->"+ed.getWeight());
         }
-*/
+
 
 
 
