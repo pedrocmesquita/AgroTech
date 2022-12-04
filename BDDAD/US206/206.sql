@@ -15,6 +15,7 @@ CREATE OR REPLACE PROCEDURE insert_setor
 	area parcela.area%TYPE,
 )
 IS
+BEGIN
 BEGIN TRY
     INSERT INTO parcela
 	(
@@ -24,13 +25,14 @@ BEGIN TRY
 	VALUES
 	(
 		designacao, id_quinta, numero_colheita, area
-	)
+	);
 	
     DBMS_OUTPUT.PUT_LINE('Setor inserido com sucesso.\nDesignação do Setor: ' || designacao);
 END TRY
 BEGIN CATCH
     DBMS_OUTPUT.PUT_LINE('Falha na inserção do Setor.');
-END CATCH;
+END CATCH
+END;
 /
 
 /*
@@ -43,6 +45,7 @@ CREATE OR REPLACE PROCEDURE insert_cultura
 	objetivo cultura.objetivo%TYPE,
 )
 IS
+BEGIN
 BEGIN TRY
 	INSERT INTO cultura
 	(
@@ -52,13 +55,14 @@ BEGIN TRY
 	VALUES
 	(
 		id_cultura, tipo, objetivo
-	)
+	);
 	
     DBMS_OUTPUT.PUT_LINE('Cultura inserida com sucesso.\nID da cultura: ' || id_cultura);
 END TRY
 BEGIN CATCH
     DBMS_OUTPUT.PUT_LINE('Falha na inserção da cultura.');
-END CATCH;
+END CATCH
+END;
 /
 
 /*
