@@ -1,8 +1,0 @@
-Loc id 1,Loc id 2, length (m)
-CT0,CT1,8
-CT0,CT2,5
-CT1,CT2,9
-CT1,CT3,11
-CT2,CT3,15
-CT2,CT4,10
-CT4,CT3,7

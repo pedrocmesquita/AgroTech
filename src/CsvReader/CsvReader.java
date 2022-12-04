@@ -1,15 +1,18 @@
 package CsvReader;
 
 
-import Domain.Cabazes;
+import Domain.ControladorRega;
 import Domain.Destinatário;
-import Domain.GrafoDistancia;
 import Domain.Local;
-import Shared.GraphCommon.Graph;
 import Shared.BST.BST;
+import Shared.GraphCommon.Graph;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class CsvReader {
 
@@ -33,7 +36,7 @@ public class CsvReader {
                 }
                 //System.out.println();
 
-                graph.addEdge(findLocal(locais,split[0]),findLocal(locais,split[1]),Integer.parseInt(split[2]));
+                graph.addEdge(findLocal(locais,split[0]),findLocal(locais,split[1]), parseInt(split[2]));
                 //System.out.println("adicio");
 
             }
@@ -79,52 +82,6 @@ public class CsvReader {
         return locais;
     }
 
-    public List<Cabazes> ReadCabazes(String fileName){
-        List<Cabazes> cabazesList = new ArrayList<>();
-
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            br.readLine();
-            String line = br.readLine();
-
-            while (line != null){
-                String[] coluna = line.split(",");
-                String codigo = coluna[0];
-                String dia = coluna[1];
-                int prod1 = Integer.parseInt(coluna[2]);
-                int prod2 = Integer.parseInt(coluna[3]);
-                int prod3 = Integer.parseInt(coluna[4]);
-                int prod4 = Integer.parseInt(coluna[5]);
-                int prod5 = Integer.parseInt(coluna[6]);
-                int prod6 = Integer.parseInt(coluna[7]);
-                int prod7 = Integer.parseInt(coluna[8]);
-                int prod8 = Integer.parseInt(coluna[9]);
-                int prod9 = Integer.parseInt(coluna[10]);
-                int prod10 = Integer.parseInt(coluna[11]);
-                int prod11 = Integer.parseInt(coluna[12]);
-                int prod12 = Integer.parseInt(coluna[13]);
-                int prod13 = Integer.parseInt(coluna[14]);
-                int prod14 = Integer.parseInt(coluna[15]);
-                int prod15 = Integer.parseInt(coluna[16]);
-                int prod16 = Integer.parseInt(coluna[17]);
-                int prod17 = Integer.parseInt(coluna[18]);
-                int prod18 = Integer.parseInt(coluna[19]);
-                int prod19 = Integer.parseInt(coluna[20]);
-                int prod20 = Integer.parseInt(coluna[21]);
-
-                Cabazes cabazes = new Cabazes(codigo, dia, prod1, prod2, prod3, prod4, prod5,prod6,prod7,prod8,prod9,prod10,prod11,prod12,
-                        prod13,prod14,prod15,prod16,prod17,prod18,prod19,prod20);
-
-                cabazesList.add(cabazes);
-                line = br.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return cabazesList;
-    }
 
     private String cleanString(String s){
         s = s.replace("\"", "");
@@ -150,7 +107,28 @@ public class CsvReader {
 
 
     }
+    public ArrayList<ControladorRega> readControlador(File file3, String separatorRegex) throws FileNotFoundException {
+        ArrayList<ControladorRega> controladores=new ArrayList<>();
+        Scanner reader = new Scanner(file3);
+        String Horas = reader.nextLine();
+        int c=0;
+        //System.out.println(c);
+        while (reader.hasNextLine()) {
+            String[] split = reader.nextLine().split(separatorRegex);
+            try {
+                for (String s:split) {
+                    cleanString(s);
+                    //System.out.printf(s+" ");
+                }
+                controladores.add(new ControladorRega(Horas, split[0], parseInt(split[1]), split[2]));
+                //System.out.println();
+            }
+            catch (NumberFormatException e) {
 
+            }
+    }
+        return controladores;
+    }
 
 
     private static int comp(Local o,String str) {
