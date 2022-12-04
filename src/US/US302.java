@@ -10,7 +10,7 @@ import java.util.*;
 
 public class US302 {
 
-    private Graph<Local,Integer> map;
+    public Graph<Local,Integer> map;
 
 
     public US302(Graph<Local,Integer> map){
