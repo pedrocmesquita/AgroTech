@@ -102,6 +102,7 @@ END;
 CREATE OR REPLACE PROCEDURE list_setor_by_cultura()
 IS
 BEGIN
+	Select * FROM cultura
 	ORDER BY tipo ASC, id_cultura ASC;
 END;
 /
