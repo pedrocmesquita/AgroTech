@@ -9,8 +9,7 @@ import Shared.GraphCommon.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -63,11 +62,8 @@ public class CsvReader {
                     //System.out.printf(s+" ");
                 }
                 //System.out.println();
-
-
-
                 locais.insert(new Local(split[0],split[1],split[2],split[3]));
-                destinatários.insert(new Destinatário(split[0],split[3]));
+                destinatários.insert(new Destinatário(split[3],split[0]));
 
                 //System.out.println("insert"+split[0]+"cliente"+split[3]);
 
@@ -90,23 +86,17 @@ public class CsvReader {
     }
 
     private Local findLocal(BST<Local> locais,String str){
-        return findLocal(locais.root,str);
+        return locais.find(new Local(str,null,null,null),locais.root).getElement();
     }
 
-    private Local findLocal(BST.Node<Local> node, String str){
-        //int a=comp(node.getElement(),str);
-       // System.out.println("---"+str+"  "+node.getElement().getName());
-        //System.out.println(comp(node.getElement(),str));
-        if (comp(node.getElement(),str)==0)return node.getElement();
-        if (comp(node.getElement(),str)>0){
-            return findLocal(node.getRight(),str);
-        }
-        else{
-            return findLocal(node.getLeft(),str);
-        }
 
-
+    public Destinatário findDestinatário(String str){
+        return destinatários.find(new Destinatário(str,null),destinatários.root).getElement();
     }
+
+
+
+
     public ArrayList<ControladorRega> readControlador(File file3, String separatorRegex) throws FileNotFoundException {
         ArrayList<ControladorRega> controladores=new ArrayList<>();
         Scanner reader = new Scanner(file3);
@@ -129,6 +119,63 @@ public class CsvReader {
     }
         return controladores;
     }
+
+
+    public void ReadCabaz(File file, String separatorRegex, Map<Integer,Map<Destinatário,float []>> cabazesMap) throws FileNotFoundException {
+
+        Destinatário destinatário=null;
+        Scanner reader = new Scanner(file);
+        String header = reader.nextLine();
+        String dest;
+        float produtos[]=new float[20];
+        int c=0,d,dia;
+        Map<Destinatário,float[]> mapa;
+        for (d=0;d<20;d++){
+            produtos[d]=0;
+        }
+
+        while (reader.hasNextLine()) {
+
+            String[] split = reader.nextLine().split(separatorRegex);
+
+
+            try {
+                for (String s:split) {
+                    cleanString(s);
+                    //System.out.printf(s+" ");
+                }
+
+
+
+               for (d=2;d<split.length;d++){
+                    produtos[d-2]=Float.parseFloat(split[d]);
+                   //System.out.println(split[d]+"--"+d);
+               }
+
+               dest=split[0].substring(1,split[0].length()-1);
+               dia=Integer.parseInt(split[1]);
+               mapa=cabazesMap.get(dia);
+               if (mapa==null){
+
+                   cabazesMap.put(dia,new HashMap<>());
+                   cabazesMap.get(dia).put(findDestinatário(dest),produtos);
+               }
+               else{
+                   mapa.put(findDestinatário(dest),produtos.clone());
+
+               }
+
+
+            }
+            catch (NumberFormatException e) {
+
+            }
+
+        }
+        return;
+    }
+
+
 
 
     private static int comp(Local o,String str) {
