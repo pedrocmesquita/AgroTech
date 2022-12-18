@@ -16,7 +16,7 @@ DROP TABLE tipo_sensor CASCADE CONSTRAINTS PURGE;
 DROP TABLE parcela CASCADE CONSTRAINTS PURGE;
 DROP TABLE parcela_fator_producao CASCADE CONSTRAINTS PURGE;
 DROP TABLE parcela_sistema_rega CASCADE CONSTRAINTS PURGE;
-DROP TABLE parcela_sensor CASCADE CONSTRAINTS PURGE;
+DROP TABLE produtor_agricola;
 DROP TABLE edificio CASCADE CONSTRAINTS PURGE;
 DROP TABLE produtor CASCADE CONSTRAINTS PURGE;
 DROP TABLE incidente CASCADE CONSTRAINTS PURGE;
@@ -30,6 +30,7 @@ DROP TABLE SUBSTANCIA CASCADE CONSTRAINTS PURGE;
 DROP TABLE nutriente CASCADE CONSTRAINTS PURGE;
 DROP TABLE FATOR_NUTRIENTE CASCADE CONSTRAINTS PURGE;
 DROP TABLE FATOR_SUBSTANCIA CASCADE CONSTRAINTS PURGE;
+DROP TABLE sistema_rega CASCADE CONSTRAINTS PURGE;
 DROP TABLE quinta;
 
 
@@ -93,12 +94,21 @@ CREATE TABLE hub (
     ncabazes_disponiveis INT NOT NULL
 );
 
+CREATE TABLE cultura (
+    ID_Cultura INT PRIMARY KEY,
+    Tipo CHAR(255) NOT NULL,
+    objetivo CHAR(255) NOT NULL,
+    CONSTRAINT CK_Cultura_Tipo CHECK (Tipo = 'Temporario' OR Tipo = 'Permanente'),
+    CONSTRAINT CK_Cultura_Objetivo CHECK (objetivo = 'Consumo humano' OR objetivo = 'Consumo animal' OR objetivo = 'Adubacao')
+);
+
 CREATE TABLE colheita (
     numero_colheita INT PRIMARY KEY,
-    quantidade INT NOT NULL,
+    id_cultura INT NOT NULL,
+    parcelas char(255) NOT NULL,
     data DATE NOT NULL,
-    parcelas CHAR(255) NOT NULL,
-    produto CHAR(255) NOT NULL
+    quantidade INT NOT NULL,
+    CONSTRAINT fk_colheita_cultura FOREIGN KEY (id_cultura) REFERENCES cultura(id_cultura)
 );
 
 CREATE TABLE cabaz (
@@ -216,14 +226,6 @@ CREATE TABLE parcela_fator_producao (
 );
 
 
-CREATE TABLE parcela_sensor (
-    designacao CHAR(255) NOT NULL,
-    id_sensor INT NOT NULL,
-    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designacao) REFERENCES parcela(designacao),
-    CONSTRAINT FK_Parcela_Rega2 FOREIGN KEY (id_sensor) REFERENCES sensor(ID_Sensor),
-    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designacao, id_sensor)
-);
-
 
 CREATE TABLE parcela_sistema_rega (
     designacao CHAR(255) NOT NULL,
@@ -246,13 +248,6 @@ create table complexidade (
     constraint pk_sistema primary key (id_sistema)
 );
 
-CREATE TABLE cultura (
-    ID_Cultura INT PRIMARY KEY,
-    Tipo CHAR(255) NOT NULL,
-    objetivo CHAR(255) NOT NULL,
-    CONSTRAINT CK_Cultura_Tipo CHECK (Tipo = 'Temporario' OR Tipo = 'Permanente'),
-    CONSTRAINT CK_Cultura_Objetivo CHECK (objetivo = 'Consumo humano' OR objetivo = 'Consumo animal' OR objetivo = 'Adubacao')
-);
 
 CREATE TABLE cultura_colheita (
     id_cultura INT NOT NULL,
@@ -302,3 +297,14 @@ create table caderno_campo (
     constraint fk_quinta foreign key (id_quinta) references quinta(id_quinta)
 );
 
+create table produtor_agricola (
+    id_produtor_agricola int primary key,
+    id_venda int not null,
+    numero_colheita int not null,
+    nome varchar(255) not null,
+    quantidade int not null,
+    preco int not null,
+    unidade varchar(255) not null,
+    constraint fk_numero_colheita foreign key (numero_colheita) references colheita(numero_colheita),
+    constraint fk_id_venda foreign key (id_venda) references encomenda(id_encomenda)
+);

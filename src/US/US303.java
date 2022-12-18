@@ -25,7 +25,6 @@ public class US303
 {
     public static List<Local> findHubs(Graph<Local, Integer> map, int n)
     {
-        //invalid size
         if(n <= 0)
         {
             return null;
@@ -33,10 +32,8 @@ public class US303
 
         ArrayList<Local> comps = new ArrayList<>();
 
-
         for (Local l : map.vertices())
         {
-            //get all companies
             if (l.getDestinatário().charAt(0) == 'E')
             {
                 comps.add(l);
@@ -44,16 +41,13 @@ public class US303
 
         }
 
-        //if there are no companies
         if ((comps.size() == 0))
         {
             return null;
         }
 
-        //map to store Companies/avg distance
         Map<Local, Double> company_sum = new HashMap<>();
 
-        //for each company
         for (Local c : comps)
         {
             Double sum_dist = 0.0;
@@ -64,48 +58,32 @@ public class US303
 
             Algorithms.shortestPaths(map, c, Integer::compare, Integer::sum, 0, shortPaths, distances);
 
-
             for(Integer value : distances){
                 sum_dist += value;
                 counter++;
             }
-
-
 
             if(counter != 0){
                 Double average = sum_dist/counter;
                 company_sum.put(c, average);
             }
 
-
-            //System.out.println(c.getDestinatário());
-
-            //calculate proximity measure
-
         }
 
-        //convert map into list
         List<Map.Entry<Local, Double>> compLst = new LinkedList<>(company_sum.entrySet());
 
-        //sort elements by ascending order
         compLst.sort(Map.Entry.comparingByValue());
 
         List<Local> hubs = new ArrayList<>();
 
-        //subList() will throw an oob exception if n given is bigger than number of companies
         if (compLst.size() < n)
         {
             n = compLst.size();
         }
-
-        //create a sublist from elements 0 to n
         for (Map.Entry<Local, Double> entry : compLst.subList(0,n))
         {
-            //System.out.println(entry.getKey().getDestinatário());
             hubs.add(entry.getKey());
         }
-
-        //order the list and return first N companies
         return hubs;
     }
 }

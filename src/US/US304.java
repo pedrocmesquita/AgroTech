@@ -10,31 +10,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * The type Us 304.
- */
 public class US304 {
 
-    /**
-     * Find nearest hubs list.
-     *
-     * @param map          the map
-     * @param numberOfHubs the number of hubs
-     * @return the list
-     */
     public static List<ParClienteHub> findNearestHubs(Graph<Local, Integer> map, Integer numberOfHubs){
         List<Local> hubs = US303.findHubs(map, numberOfHubs);
 
         return findNearestHubsAlgorithm(map, hubs);
     }
 
-    /**
-     * Find nearest hubs algorithm list.
-     *
-     * @param map  the map
-     * @param hubs the hubs
-     * @return the list
-     */
     public static List<ParClienteHub> findNearestHubsAlgorithm(Graph<Local, Integer> map, List<Local> hubs){
 
         List<Local> clients = getClients(map);
@@ -44,10 +27,8 @@ public class US304 {
 
         List<ParClienteHub> hubClosestToEachClient = new ArrayList<>();
 
-
         if(clients.size() == 0)
             return null;
-
 
         for(Local client : clients){
 
@@ -79,12 +60,6 @@ public class US304 {
         return hubClosestToEachClient;
     }
 
-    /**
-     * Get clients list.
-     *
-     * @param map the map
-     * @return the list
-     */
     public static List<Local> getClients(Graph<Local, Integer> map){
         List<Local> clients = new ArrayList<>();
 

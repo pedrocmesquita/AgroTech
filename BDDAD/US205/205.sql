@@ -23,6 +23,7 @@ CREATE OR REPLACE PROCEDURE insert_client
     valor_encomendas_ultimo_ano cliente.valor_encomendas_ultimo_ano%TYPE
 )
 IS
+BEGIN
 BEGIN TRY
     INSERT INTO cliente
 	(
@@ -32,11 +33,12 @@ BEGIN TRY
 	VALUES
 	(
 		id_cliente, nome, email, NIF, morada_correspondencia, morada_entrega, plafond, n_encomendas_ultimo_ano, TO_DATE(data_ultimo_incidente,'DD/MM/YY'), n_incidente, valor_encomendas_ultimo_ano
-	)
+	);
 	
     DBMS_OUTPUT.PUT_LINE('Cliente inserido com sucesso.\nID do cliente: ' || id_cliente);
 END TRY
 BEGIN CATCH
     DBMS_OUTPUT.PUT_LINE('Falha na inserção do cliente.');
-END CATCH;
+END CATCH
+END;
 /
