@@ -122,10 +122,4 @@ class US305Test {
         MapGraph<Local, Integer> closerGraphResult = graphResult.minimumGraph();
         assertEquals(4, closerGraphResult.numVertices());
     }
-
-    @Test
-    void teste4(){
-
-    }
-
 }
