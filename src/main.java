@@ -26,7 +26,7 @@ public class main {
         File file3=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
 
         final Graph<Local,Integer> map=new MapGraph<>(false);
-        final Map<Integer,Map<Destinatário,float []>> cabazes=new HashMap<>();
+        final Map<Integer,Map<Destinatário,List<float []>>> cabazes=new HashMap<>();
 
 
 
@@ -42,13 +42,17 @@ public class main {
 
 
         float array[];
+        List<float []> lista;
         for (Integer dia: cabazes.keySet()){
             System.out.println("\n"+dia);
             for (Destinatário dest:cabazes.get(dia).keySet()){
                 System.out.println("\n"+dest.getName());
-                array=cabazes.get(dia).get(dest);
-                for (float ff:array){
-                    System.out.print(" "+ff);
+                lista=cabazes.get(dia).get(dest);
+                //array=cabazes.get(dia).get(dest);
+                for (float [] ll:lista){
+                    for (float  produtos:ll){
+                        System.out.print(" "+produtos);
+                    }
                 }
             }
         }
