@@ -6,23 +6,19 @@
 extern long state;
 extern long inc;
 
-int main(void)
-{
-	printf("\n---> US101:\n");
+int main(void) {
+    printf("\n---> US101:\n");
 
-	//us101
-	if (!initialize())	//initialization successful
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			printf("%u\n",pcg32_random_r());
-		}
-	}
+    //us101
+    if (!initialize())    //initialization successful
+    {
+        for (int i = 0; i < 10; i++) {
+            printf("%u\n", pcg32_random_r());
+        }
+    } else {
+        printf("An error occured initializing the random number generator.\n");
+    }
 
-	else
-	{
-		printf("An error occured initializing the random number generator.\n");
-	}
 
 // ===========================================================================================================================
 	printf("\n---> US102:\n");
@@ -82,7 +78,7 @@ int main(void)
 
 	float matrix[6][3];
 
-    matriz_diaria(periodo, sensor_temp; matrix, 0, maxLimitTemp, minLimitTemp);
+    matriz_diaria(periodo, sensor_temp, matrix, 0, maxLimitTemp, minLimitTemp);
     matriz_diaria(periodoVento, sensor_velc_vento, matrix, 1, maxLimitVelcVento, minLimitVelcVento);
     matriz_diaria(periodoVento, sensor_dir_vento, matrix, 2, maxLimitDirVento, minLimitDirVento);
     matriz_diaria(periodo, sensor_pluvio, matrix, 3, maxLimitPluvio, minLimitPluvio);

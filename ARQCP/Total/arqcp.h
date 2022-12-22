@@ -1,5 +1,17 @@
 #ifndef ASM_H
 #define ASM_H
+
+typedef struct
+{
+    unsigned short id;
+    unsigned char sensor_type;
+    unsigned short max_limit; // limites do sensor
+    unsigned short min_limit;
+    unsigned long frequency; // frequency de leituras (em segundos)
+    unsigned long readings_size; // tamanho do array de leituras
+    unsigned short *readings; // array de leituras diárias
+}Sensor;
+
 unsigned int pcg32_random_r();
 char initialize();
 
@@ -14,4 +26,14 @@ void matriz_diaria_resumo (int periodo, int * sensor, float matriz[6][3], int li
 int isValid(int number, int lower, int upper);
 
 int limite_sensor(int maximo, int minimo, int valor, int n);
+
+char escolher_max_min(float max, float min, float valor, char tentativas, Sensor *sensores, int i);
+
+char escolher_frequencia(Sensor *sensores, int i);
+
+
+void show_stats(float matrix[6][3], int rows, int cols);
+void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int limitesuperior, int limiteinferior);
+
+
 #endif
