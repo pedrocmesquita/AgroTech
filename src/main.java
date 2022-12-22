@@ -26,7 +26,13 @@ public class main {
         File file3=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
 
         final Graph<Local,Integer> map=new MapGraph<>(false);
+
+        //MAPA DOS CABAZES
+        /* Cada KEY INTEGER representa um dia, cada dia vai ter um mapa onde as KEYS sao os DESTINATÁRIOS, cada DESTINATÁRIO vai ter uma lista que contem ARRAYS DE FLOATS..
+        (LISTA DE ARRAYS DE FLOATS TORNA MAIS FACIL A DIFERENCIAÇAO DOS PRODUTOS DE DIAS ANTERIORES QUE AINDA PODEM SER VENDIDOS NO DIA)
+         */
         final Map<Integer,Map<Destinatário,List<float []>>> cabazes=new HashMap<>();
+
 
 
 
