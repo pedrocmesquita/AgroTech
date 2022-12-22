@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class US302Test {
     CsvReader readFiles = new CsvReader();
-    File file1 = new File("C:\\Users\\Zé\\IdeaProjects\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-    File file2 = new File("C:\\Users\\Zé\\IdeaProjects\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-    File file3 = new File("C:\\Users\\Zé\\IdeaProjects\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Big\\distancias_big.csv");
-    File file4 = new File("C:\\Users\\Zé\\IdeaProjects\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Big\\clientes-produtores_big.csv");
+    File file1 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
+    File file2 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+    File file3 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Big\\distancias_big.csv");
+    File file4 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Big\\clientes-produtores_big.csv");
     final Graph<Local, Integer> map = new MapGraph<>(false);
     US302 US302 = new US302(map);
 
