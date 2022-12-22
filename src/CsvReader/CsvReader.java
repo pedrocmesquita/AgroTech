@@ -121,7 +121,7 @@ public class CsvReader {
     }
 
 
-    public void ReadCabaz(File file, String separatorRegex, Map<Integer,Map<Destinatário,float []>> cabazesMap) throws FileNotFoundException {
+    public void ReadCabaz(File file, String separatorRegex, Map<Integer,Map<Destinatário,List<float []>>> cabazesMap) throws FileNotFoundException {
 
         Destinatário destinatário=null;
         Scanner reader = new Scanner(file);
@@ -129,7 +129,7 @@ public class CsvReader {
         String dest;
         float produtos[]=new float[20];
         int c=0,d,dia;
-        Map<Destinatário,float[]> mapa;
+        Map<Destinatário, List<float[]>> mapa;
         for (d=0;d<20;d++){
             produtos[d]=0;
         }
@@ -158,10 +158,14 @@ public class CsvReader {
                if (mapa==null){
 
                    cabazesMap.put(dia,new HashMap<>());
-                   cabazesMap.get(dia).put(findDestinatário(dest),produtos);
+                   cabazesMap.get(dia).put(findDestinatário(dest),new ArrayList<>());
+                   cabazesMap.get(dia).get(findDestinatário(dest)).add(produtos.clone());
                }
                else{
-                   mapa.put(findDestinatário(dest),produtos.clone());
+                   mapa.put(findDestinatário(dest),new ArrayList<>());
+                   mapa.get(findDestinatário(dest)).add(produtos.clone());
+
+                   //mapa.put(findDestinatário(dest),produtos.clone());
 
                }
 
