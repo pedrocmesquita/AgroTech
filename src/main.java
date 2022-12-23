@@ -87,7 +87,7 @@ public class main {
         }
 
 */
-/*
+
 
         //VERTICES
         for (Local loc:map.vertices()){
@@ -101,7 +101,7 @@ public class main {
         }
 
 
-*/
+
 
 
 
