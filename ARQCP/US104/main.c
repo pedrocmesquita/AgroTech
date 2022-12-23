@@ -7,13 +7,13 @@ int max = 0;
 int main(){
     printf("Que sensor deseja estabelecer limite:\n1- Temperatura\n2- Velocidade do Vento\n3- Direção do Vento\n4- Humidade Atmosférica\n5- Humidade Solo\n6- Pluviosidade\n");
     int opc = scanf("Escolha uma opção.\n");
-    int res, aux = 3;
+    int res, tentativas = 3;
     switch (opc){
         case 1:
             min = 1;
             max = 2;
             int valor  = // valor medio lido em 3
-            res = limite_sensor(max,min, valor);
+            res = limite_sensor(max,min, valor,tentativas);
             while(res == 0){
                 for(int i = 1; i < n; i++){
                     printf("======== ERRO ========\nValor fora de limite!\nTem mais %d opções.", n-i );
@@ -31,7 +31,7 @@ int main(){
             min = 1;
             max = 2;
             int valor  = // valor medio lido em 3
-            res = limite_sensor(max,min, valor);
+            res = limite_sensor(max,min, valor, tentativas);
 
             break;
 
@@ -39,7 +39,7 @@ int main(){
             min = 1;
             max = 2;
             int valor  = // valor medio lido em 3
-            res = limite_sensor(max,min, valor);
+            res = limite_sensor(max,min, valor, tentativas);
         
             break;
 
@@ -47,7 +47,7 @@ int main(){
             min = 1;
             max = 2;
             int valor  = // valor medio lido em 3
-            res = limite_sensor(max,min, valor);
+            res = limite_sensor(max,min, valor, tentativas);
             
             break;
 
@@ -55,7 +55,7 @@ int main(){
             min = 1;
             max = 2;
             int valor  = // valor medio lido em 3
-            res = limite_sensor(max,min, valor);
+            res = limite_sensor(max,min, valor, tentativas);
             
             break;
 
@@ -63,7 +63,7 @@ int main(){
             min = 1;
             max = 2;
             int valor  = // valor medio lido em 3
-            res = limite_sensor(max,min, valor);
+            res = limite_sensor(max,min, valor, tentativas);
             
             break;
         

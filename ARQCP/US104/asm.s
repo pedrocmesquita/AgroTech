@@ -1,22 +1,25 @@
-.global .data
-    .global n
 .global .text
     .global limit_sensor
 
 limit_sensor:
-    movl n(%rip), %r8d
-
     loop:
-        cmpl $0, %r8d
-        je end
-
         cmpl %edx, %edi
-        jle max_limit
+        jge max_limit
 
-        jmp decrease
+        jmp end
 
         max_limit:
             cmpl %edx, %esi
-            jge min_and_max
+            jle end_true
+
+            jmp end
+
+        end_true:
+            movl %edx, %eax
+            ret
+
+        end:
+            movl $0, %eax
+            ret
 
             

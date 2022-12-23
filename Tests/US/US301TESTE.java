@@ -1,5 +1,6 @@
 package US;
 
+import CsvReader.CsvReader;
 import Domain.Destinatário;
 import Domain.Local;
 import Shared.BST.BST;
@@ -7,24 +8,20 @@ import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
 import org.junit.Test;
 
-import CsvReader.CsvReader;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import static Shared.constants.Files.*;
+import static Shared.constants.Files.s_clientes_produtores;
 import static org.junit.Assert.assertEquals;
 
-
-public class US301Test {
-
+public class US301TESTE {
     CsvReader readFiles;
     Graph<Local,Integer> map=null;
     File file2,file1;
 
-
     @Test
-    void teste1() throws FileNotFoundException {
+    public void teste1() throws FileNotFoundException {
 
         readFiles=new CsvReader();
         file1=new File(s_distancias);
@@ -41,7 +38,8 @@ public class US301Test {
 
     }
 
-    void teste2() throws FileNotFoundException {
+    @Test
+    public void teste2() throws FileNotFoundException {
 
         readFiles=new CsvReader();
         file1=new File(s_distancias);
@@ -58,7 +56,8 @@ public class US301Test {
 
     }
 
-    void teste3() throws FileNotFoundException {
+    @Test
+    public void teste3() throws FileNotFoundException {
 
         readFiles=new CsvReader();
         file1=new File(b_distancias);
@@ -75,7 +74,8 @@ public class US301Test {
 
     }
 
-    void teste4() throws FileNotFoundException {
+    @Test
+    public void teste4() throws FileNotFoundException {
 
         readFiles=new CsvReader();
         file1=new File(b_distancias);
@@ -92,7 +92,9 @@ public class US301Test {
 
     }
 
-    void teste5() throws FileNotFoundException {
+    /*
+    @Test
+    public void teste5() throws FileNotFoundException {
 
         readFiles=new CsvReader();
         file1=new File(s_distancias);
@@ -119,4 +121,5 @@ public class US301Test {
 
     }
 
+     */
 }

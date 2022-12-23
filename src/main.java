@@ -21,9 +21,9 @@ public class main {
         CsvReader readFiles=new CsvReader();
         //File1-distancias...File2-clientesProdutores..File3-cabazes
 
-        File file1=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-        File file2=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-        File file3=new File("C:\\Users\\pnsri\\OneDrive\\Ambiente de Trabalho\\Nova pasta\\Sem3pi\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+        File file1=new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+        File file2=new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+        File file3=new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
 
         final Graph<Local,Integer> map=new MapGraph<>(false);
 
