@@ -5,12 +5,14 @@ import Domain.Local;
 import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 import java.io.File;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static junit.framework.TestCase.assertNotNull;
+
 
 public class US302Test {
     CsvReader readFiles = new CsvReader();
@@ -22,7 +24,7 @@ public class US302Test {
     US302 US302 = new US302(map);
 
     @Test
-    void test_conexosmall() throws Exception {
+    public void test_conexosmall() throws Exception {
         BST<Local> locais = readFiles.ReadClientesProdutores(file2, ",");//arvore dos locais
         readFiles.ReadDistancias(file1, file2, ",", map, locais);//grafo (vertices-locais)
 
@@ -33,7 +35,7 @@ public class US302Test {
     }
 
     @Test
-    void test_conexobig() throws Exception {
+    public void test_conexobig() throws Exception {
         BST<Local> locais = readFiles.ReadClientesProdutores(file4, ",");//arvore dos locais
         readFiles.ReadDistancias(file3, file4, ",", map, locais);//grafo (vertices-locais)
 
