@@ -6,6 +6,7 @@ import Shared.GraphCommon.Edge;
 import Shared.MapGraphs.MapGraph;
 import Domain.Local;
 import US.US302;
+import US.US308;
 
 import java.awt.*;
 import java.io.File;
@@ -21,7 +22,7 @@ public class main {
         CsvReader readFiles=new CsvReader();
         //File1-distancias...File2-clientesProdutores..File3-cabazes
 
-        File file1=new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+        File file1=new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
         File file2=new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
         File file3=new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
 
@@ -46,7 +47,7 @@ public class main {
 
 
 
-
+/*
         float array[];
         List<float []> lista;
         for (Integer dia: cabazes.keySet()){
@@ -63,13 +64,10 @@ public class main {
             }
         }
 
+ */
 
-
-
-
-
-
-
+        US308 us308 = new US308();
+        us308.getCabazesAtSomeDay(cabazes);
 
 /*
 
@@ -86,7 +84,6 @@ public class main {
 
         }
 
-*/
 
 
         //VERTICES
@@ -100,6 +97,7 @@ public class main {
             System.out.println(ed.getVOrig().getName()+"----"+ed.getVDest().getName()+"  ->"+ed.getWeight());
         }
 
+ */
 
 
 
