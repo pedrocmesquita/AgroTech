@@ -43,13 +43,13 @@ public class US308 {
     }
 
     void printList(ArrayList<String> lista, int dia){
-        System.out.println(">>>>> Lista de Expedição de Cabazes <<<<<\n--> Dia " + dia);
+        System.out.println("\n\n>>>>> Lista de Expedição de Cabazes <<<<<\n--> Dia " + dia);
 
         for (int i = 0; i < lista.size(); i++) {
             char produtor = lista.get(i).charAt(0);
 
             if (produtor >= 'A'&& produtor <= 'Z'){
-                System.out.print("\n\nCliente-Produtor " + lista.get(i) + ":\n");
+                System.out.print("\nCliente-Produtor " + lista.get(i) + ":\n");
 
             }else {
                 System.out.print(lista.get(i).toUpperCase() + ", ");
