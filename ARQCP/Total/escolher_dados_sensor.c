@@ -5,18 +5,19 @@
 #define MAX_NUM_LINHAS 256
 
 
-char escolher_max_min(float max, float min, float valor, char tentativas, Sensor *sensores, int i){
-    int res = limite_sensor(max,min, valor, tentativas);
+char escolher_max_min(float max, float min, float valor, char tentativas, Sensor *sensores){
+    int res = limite_sensor(max,min, valor);
+
 
     while(res == 0){
-        for(int j = 1; i < tentativas; j++){
+        for(int j = 1; j < tentativas; j++){
             printf("======== ERRO ========\nValor fora de limite!\nTem mais %d opções.\n", tentativas-j );
             printf("Minimo:");
             scanf("%f", &min);
             printf("Máximo");
             scanf("%f", &max);
 
-            res = limite_sensor(max,min, valor,tentativas-j);
+            res = limite_sensor(max,min, valor);
             if(tentativas - j == 0){
                 printf("NÃO TEM MAIS TENTATIVAS!\n\n\n REINICIANDO ... ");
 
