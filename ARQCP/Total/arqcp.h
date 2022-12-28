@@ -24,7 +24,7 @@ void matriz_diaria_resumo (int periodo, int * sensor, float matriz[6][3], int li
 int isValid(int number, int lower, int upper);
 int limite_sensor(int maximo, int minimo, int valor, int n);
 char escolher_max_min(float max, float min, float valor, char tentativas, Sensor *sensores, int i);
-char escolher_frequencia(Sensor *sensores, int i);
+char escolher_frequencia(unsigned long freq2);
 void show_stats(float matrix[6][3], int rows, int cols);
 void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int limitesuperior, int limiteinferior);
 
