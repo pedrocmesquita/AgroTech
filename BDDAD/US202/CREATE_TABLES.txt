@@ -53,6 +53,7 @@ CREATE TABLE produtor (
 
 CREATE TABLE empresa (
     id_empresa INT PRIMARY KEY,
+    id_encomendas VARCHAR(255) NOT NULL,
     nome CHAR(255) NOT NULL,
     email CHAR(255) NOT NULL,
     morada CHAR(255) NOT NULL
@@ -75,6 +76,7 @@ CREATE TABLE cliente (
 CREATE TABLE encomenda (
     id_encomenda INT PRIMARY KEY,
     id_cliente INT NOT NULL,
+    id_cabazes VARCHAR(255) NOT NULL,
     data_venda DATE NOT NULL,
     valor INT NOT NULL,
     quantidade_cabazes INT NOT NULL,
@@ -139,7 +141,6 @@ CREATE TABLE edificio (
 CREATE TABLE parcela (
     designacao char(255) PRIMARY KEY,
     ID_Quinta INT NOT NULL,
-    numero_colheita INT NOT NULL,
     area INT NOT NULL,
     CONSTRAINT FK_Parcela_Quinta FOREIGN KEY (ID_Quinta) REFERENCES Quinta(ID_Quinta)
 );
@@ -149,6 +150,7 @@ CREATE TABLE fator_producao (
     id_fator INT PRIMARY KEY,
     nome CHAR(255) NOT NULL,
     formulacao CHAR(255) NOT NULL,
+    ficha_tecnica VARCHAR(255) NOT NULL,
     tipo_fertilizacao CHAR(255) NOT NULL,
     CONSTRAINT ck_fator_producao_formulacao CHECK (formulacao = 'liquido' OR formulacao = 'granulado' OR formulacao = 'po'),
     CONSTRAINT ck_fator_producao_tipo CHECK (tipo_fertilizacao = 'fertilizante' OR tipo_fertilizacao = 'adubo' OR tipo_fertilizacao = 'corretivo' OR tipo_fertilizacao = 'fitofarmaco')

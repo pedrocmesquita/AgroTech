@@ -39,7 +39,7 @@ int main(){
             printf("\n\n");
             printf(">>>>>>>>>> INSERIR SENSOR <<<<<<<<<<\n");
             printf("Quantos sensores deseja inserir?\n");
-            int n_sensor, i = 1;
+            int n_sensor, i = 0, j = i + 1;
             float valor, max, min, freq = 0;
             scanf("%d", &n_sensor);
 
@@ -54,7 +54,7 @@ int main(){
 
 
             while (n_sensor != 0){
-                printf("<<< SENSOR %d >>>\n", i );
+                printf("<<< SENSOR %d >>>\n", j );
                 int opc_sensor;
                 printf("\n-> Selecione o tipo do Sensor:\n1- Temperatura\n2- Velocidade do Vento\n3- Direcao do Vento\n4- Humidade Atmosferica\n5- Humidade Solo\n6- Pluviosidade\n");
                 scanf("%d",&opc_sensor);
