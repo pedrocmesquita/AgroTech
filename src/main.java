@@ -11,10 +11,8 @@ import US.US308;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class main {
     public static void main(String[] arg) throws FileNotFoundException {
@@ -43,9 +41,6 @@ public class main {
 
         readFiles.ReadCabaz(file3, ",", cabazes);//mapa dos Cabazes
 
-
-
-
 /*
 
         float array[];
@@ -64,9 +59,6 @@ public class main {
             }
         }
 
-
-
-
         US302 us=new US302(map);
 
         Map<String, Map<String,Integer>> lista=us.ligaçoesMinimas();
@@ -79,9 +71,6 @@ public class main {
             }
 
         }
-
-
-
 
 
         //VERTICES
@@ -97,16 +86,11 @@ public class main {
 
     }
 
- */
         US308 us308 = new US308();
-        List<float[]> lista = us308.getCabazesAtSomeDay(cabazes, 2);
+        ArrayList<String> listaProdutores = new ArrayList<>();
+        List<float[]> lista = us308.getCabazesAtSomeDay(cabazes, listaProdutores, 1);
+        us308.printList(lista,listaProdutores,1);
 
-        for (float[] array : lista) {
-            for (float value : array) {
-                System.out.print(value + " ");
-            }
-            System.out.println();
-
-        }
+ */
     }
 }
