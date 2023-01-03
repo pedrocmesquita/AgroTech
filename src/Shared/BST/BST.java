@@ -2,6 +2,8 @@ package Shared.BST;
 
 
 
+import Domain.Local;
+
 import java.util.*;
 
 public class BST<E extends Comparable<E>> implements BSTInterface<E> {
@@ -480,6 +482,17 @@ public class BST<E extends Comparable<E>> implements BSTInterface<E> {
         }
 
         return map;
+    }
+    public Local findByDestinatario(String entity) {
+        Iterator<Local> list = (Iterator<Local>) this.inOrder().iterator();
+        Local aux = null;
+        while (list.hasNext()) {
+            aux = list.next();
+            if (aux.getDestinatário().equals(entity)) {
+                return aux;
+            }
+        }
+        return null;
     }
 
     /**

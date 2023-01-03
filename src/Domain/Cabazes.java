@@ -1,39 +1,24 @@
 package Domain;
 
+import Shared.BST.BST;
+
+import java.util.List;
+
 /**
  * The type Cabazes.
  */
-public class Cabazes {
+public class Cabazes implements Comparable<Cabazes> {
 
-    private String cp1;
-    private String dia;
+    private Local local;
+    private int dia;
+    private float[] produtos;
 
-    private int produtos[];
 
-
-    public Cabazes(String cp1, String dia, int produtos[]) {
-        this.cp1 = cp1;
+    public Cabazes(Local local, int dia, float[] produtos) {
+        this.local = local;
         this.dia = dia;
         this.produtos=produtos;
 
-    }
-
-    /**
-     * Gets cp 1.
-     *
-     * @return the cp 1
-     */
-    public String getCp1() {
-        return cp1;
-    }
-
-    /**
-     * Sets cp 1.
-     *
-     * @param cp1 the cp 1
-     */
-    public void setCp1(String cp1) {
-        this.cp1 = cp1;
     }
 
     /**
@@ -41,7 +26,7 @@ public class Cabazes {
      *
      * @return the dia
      */
-    public String getDia() {
+    public int getDia() {
         return dia;
     }
 
@@ -50,15 +35,29 @@ public class Cabazes {
      *
      * @param dia the dia
      */
-    public void setDia(String dia) {
+    public void setDia(int dia) {
         this.dia = dia;
     }
 
-    /**
-     * Gets prod 1.
-     *
-     * @return the prod 1
-     */
+    public Local getLocal() {
+        return local;
+    }
 
+    public void setLocal(Local local) {
+        this.local = local;
+    }
 
+    @Override
+    public int compareTo(Cabazes o) {
+        int thisDay = this.dia;
+        int oDay = o.dia;
+
+        if (thisDay < oDay) {
+            return -1;
+        } else if (thisDay > oDay) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

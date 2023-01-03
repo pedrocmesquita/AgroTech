@@ -22,9 +22,9 @@ unsigned char sens_humd_solo(unsigned char ult_hmd_solo, unsigned char ult_pluvi
 unsigned char sens_pluvio(unsigned char ult_pluvio, char ult_temp, char comp_rand);
 void matriz_diaria_resumo (int periodo, int * sensor, float matriz[6][3], int linha, int upperLimit, int lowerLimit);
 int isValid(int number, int lower, int upper);
-int limite_sensor(int maximo, int minimo, int valor, int n);
-char escolher_max_min(float max, float min, float valor, char tentativas, Sensor *sensores, int i);
-char escolher_frequencia(Sensor *sensores, int i);
+int limite_sensor(int maximo, int minimo, int valor);
+char escolher_max_min(float max, float min, float valor, char tentativas, Sensor *sensores);
+char escolher_frequencia(unsigned long freq2);
 void show_stats(float matrix[6][3], int rows, int cols);
 void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int limitesuperior, int limiteinferior);
 

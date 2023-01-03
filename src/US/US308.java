@@ -2,58 +2,54 @@ package US;
 
 import Domain.Cabazes;
 import Domain.Destinatário;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import Domain.Local;
+
+import java.util.*;
 
 public class US308 {
 
-    static Scanner sc  = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
 
-    public void getCabazesAtSomeDay(Map<Integer, Map<Destinatário,List<float []>>> cabazesMap){
-        System.out.println("Em que dia deseja obter a expedição de cabazes?");
-        int dia = sc.nextInt();
 
-        ArrayList<String> lista = getCabazesAtSomeDay(cabazesMap, dia);
+    public List<float[]> getCabazesAtSomeDay(Map<Integer, Map<Destinatário, List<float[]>>> cabazesMap, ArrayList<String> lista, int dia) {
+        List<float[]> listaProdutos = new ArrayList<>();
 
-        printList(lista, dia);
-    }
-
-    ArrayList<String> getCabazesAtSomeDay(Map<Integer, Map<Destinatário,List<float []>>> cabazesMap, int dia){
-        ArrayList<String> lista = new ArrayList<>();
-        List<float[]> listaProdutos;
-
-        if (cabazesMap.isEmpty()){
-            throw new RuntimeException("MAP IS NULL!");
+        if (cabazesMap.isEmpty()) {
+            System.out.println("MAP IS NULL");
+            return null;
         }
 
+        // outer map
+        for (Map.Entry<Integer, Map<Destinatário, List<float[]>>> entry : cabazesMap.entrySet()) {
 
-        for (Destinatário destinatário : cabazesMap.get(dia).keySet()){
-            lista.add(destinatário.getName());
-            listaProdutos = cabazesMap.get(dia).get(destinatário);
+            if (entry.getKey() == dia) {
 
-            for (float[] ll:listaProdutos){
-                for (float  produtos:ll){
-                    lista.add(String.valueOf(produtos));
+                // inner map
+                for (Map.Entry<Destinatário, List<float[]>> entry2 : entry.getValue().entrySet()) {
+                    char produtor = entry2.getKey().getName().charAt(0);
+
+                    if (produtor == 'P') {
+                        listaProdutos.addAll(entry2.getValue());
+                        lista.add(entry2.getKey().getName());
+                    }
                 }
             }
         }
-        return lista;
+        return listaProdutos;
+
     }
 
-    void printList(ArrayList<String> lista, int dia){
+    public void printList(List<float[]> lista, ArrayList<String> listaProdutores, int dia) {
         System.out.println("\n\n>>>>> Lista de Expedição de Cabazes <<<<<\n--> Dia " + dia);
+        int i = 0;
 
-        for (int i = 0; i < lista.size(); i++) {
-            char produtor = lista.get(i).charAt(0);
-
-            if (produtor >= 'A'&& produtor <= 'Z'){
-                System.out.print("\nCliente-Produtor " + lista.get(i) + ":\n");
-
-            }else {
-                System.out.print(lista.get(i).toUpperCase() + ", ");
+        for (float[] array : lista) {
+            System.out.print("Produtor " + listaProdutores.get(i) + ": ");
+            for (float value : array) {
+                System.out.print(value + ", ");
             }
+            System.out.println();
+            i++;
         }
     }
 }

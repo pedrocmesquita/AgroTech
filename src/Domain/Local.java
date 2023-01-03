@@ -1,13 +1,21 @@
 package Domain;
 
-import Shared.MapGraphs.MapGraph;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Local implements Comparable<Local> {
     private String name;
     private String lat;
     private String lng;
     private String destinatário;
-    private GrafoDistancia grafoDistancia;
+    private String categoria;
+
+    final String PRODUCTOR = "P";
+    final String COMPANY = "E";
+    final String CLIENT = "C";
+
+    List<Double> produtos;
 
     public Local(String name, String lat, String lng,String destinatário) {
         this.name = name;
@@ -30,6 +38,27 @@ public class Local implements Comparable<Local> {
 
     public String getDestinatário() {
         return destinatário;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    private String getCategory(String element) {
+        if (element.contains(PRODUCTOR)) {
+            return PRODUCTOR;
+        }
+        if (element.contains(COMPANY)) {
+            return COMPANY;
+        }
+        if (element.contains(CLIENT)) {
+            return CLIENT;
+        }
+        return null;
     }
 
     @Override
