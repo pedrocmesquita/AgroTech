@@ -1,0 +1,51 @@
+create or replace procedure inserir_operacao_fator(
+    p_id_operacao,
+    p_id_parcela,
+    p_id_fator,
+    p_data_operacao,
+    p_estado,
+    p_tipo,
+    p_quantidade,
+    p_unidade,
+    p_forma)
+as
+    v_data1;
+    v_data2,;
+    v_id_restricao;
+    v_id_parcela;
+    v_id_fator;
+    v_id_operacao;
+begin
+    if (p_tipo != 'f') then
+        raise_application_error(003, 'Tipo de Operacao Invalido!');
+    end if;
+
+    if(p_tipo = 'f') then
+        if(p_id_fator is not null) then
+            for C in (
+            select id_restricao, id_parcela, id_fator, data1, data2
+            into v_id_restricao, v_id_parcela, v_id_fator, v_data1, v_data2 from restricao
+            where v_id_parcela = p_id_parcela and v_id_fator = p_id_fator)
+            loop
+                if ( p_data_operacao >= C.data1 and p_data_operacao <= C.data2)  then
+                    raise_application_error(002, 'Impossivel inserir operacao nesta data ' || p_data_operacao || ' na parcela ' || p_id_parcela || ' indicada!');
+                end if;
+                end loop;
+        end if;
+
+        v_id_operacao := null;
+        insert into operacao ( id_operacao, id_parcela, data_operacao, estado, unidade, quantidade, tipo)
+        values (p_id_operacao, p_id_parcela, p_data_operacao, p_estado, p_unidade, p_quantidade, p_tipo);
+
+        select id_operacao into v_id_operacao from operacao where p_id_operacao = id_operacao;
+        if (v_id_operacao is null) then
+            raise_application_error(001, 'Dados Invalidos!');
+        end if;
+
+        insert into operacao_fator(id_operacao, id_fator, forma_aplicacao)
+        values (p_id_operacao, p_id_fator, p_forma);
+
+        dbms_output.put_line('Operacao Concluida');
+    end if;
+end;
+/
