@@ -272,8 +272,8 @@ CREATE TABLE sensor (
     CONSTRAINT FK_estacao FOREIGN KEY (id_estacao) REFERENCES estacao_meteorologica(id_estacao)
 );
 
-CREATE TABLE tipo_sensor (
-    id_sensor INT NOT NULL,
+    CREATE TABLE tipo_sensor (
+        id_sensor INT NOT NULL,
     tipo CHAR(255) NOT NULL,
     quantidade_sensor_tipo INT NOT NULL,
     CONSTRAINT CK_Sensor_Tipo CHECK (Tipo = 'Pluviosidade' OR Tipo = 'Temperatura solo' OR Tipo = 'Humidade solo'
