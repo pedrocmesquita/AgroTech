@@ -7,21 +7,21 @@ import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
 import Shared.constants.Files;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static junit.framework.TestCase.*;
+
 
 class US303Test
 {
     CsvReader readFiles = new CsvReader();
     
     @Test
-    void test_empty() throws Exception
+     void test_empty() throws Exception
     {
         final Graph<Local,Integer> graph = new MapGraph<>(false);
         BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");

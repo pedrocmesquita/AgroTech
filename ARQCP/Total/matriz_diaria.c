@@ -1,12 +1,6 @@
-void matriz_diaria(
-    int periodo,
-    int * sensor,
-    float matriz[6][3],
-    int linha,
-    int limitesuperior,
-    int limiteinferior
-)
-{
+#include "arqcp.h"
+
+void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int limitesuperior, int limiteinferior){
     int minValue, maxValue, genValue, sum;
     float medValue, count;
 

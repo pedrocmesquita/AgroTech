@@ -1,4 +1,3 @@
-
 -- <<<<<<<<<<<<<<<<<<<< DROP TABLES >>>>>>>>>>>>>>>>>>>> --
 
 DROP TABLE caderno_campo;
@@ -31,7 +30,11 @@ DROP TABLE nutriente CASCADE CONSTRAINTS PURGE;
 DROP TABLE FATOR_NUTRIENTE CASCADE CONSTRAINTS PURGE;
 DROP TABLE FATOR_SUBSTANCIA CASCADE CONSTRAINTS PURGE;
 DROP TABLE sistema_rega CASCADE CONSTRAINTS PURGE;
-DROP TABLE quinta;
+DROP TABLE quinta cascade constraints purge;
+DROP TABLE restricao cascade constraints purge;
+DROP TABLE operacao cascade constraints purge;
+DROP TABLE aplicacao_fator cascade constraints purge;
+DROP TABLE aplicacao_rega cascade constraints purge;
 
 
 
@@ -53,6 +56,7 @@ CREATE TABLE produtor (
 
 CREATE TABLE empresa (
     id_empresa INT PRIMARY KEY,
+    id_encomendas VARCHAR(255) NOT NULL,
     nome CHAR(255) NOT NULL,
     email CHAR(255) NOT NULL,
     morada CHAR(255) NOT NULL
@@ -75,6 +79,7 @@ CREATE TABLE cliente (
 CREATE TABLE encomenda (
     id_encomenda INT PRIMARY KEY,
     id_cliente INT NOT NULL,
+    id_cabazes VARCHAR(255) NOT NULL,
     data_venda DATE NOT NULL,
     valor INT NOT NULL,
     quantidade_cabazes INT NOT NULL,
@@ -137,9 +142,8 @@ CREATE TABLE edificio (
 );
 
 CREATE TABLE parcela (
-    designacao char(255) PRIMARY KEY,
+    id_parcela int PRIMARY KEY,
     ID_Quinta INT NOT NULL,
-    numero_colheita INT NOT NULL,
     area INT NOT NULL,
     CONSTRAINT FK_Parcela_Quinta FOREIGN KEY (ID_Quinta) REFERENCES Quinta(ID_Quinta)
 );
@@ -149,6 +153,7 @@ CREATE TABLE fator_producao (
     id_fator INT PRIMARY KEY,
     nome CHAR(255) NOT NULL,
     formulacao CHAR(255) NOT NULL,
+    ficha_tecnica VARCHAR(255) NOT NULL,
     tipo_fertilizacao CHAR(255) NOT NULL,
     CONSTRAINT ck_fator_producao_formulacao CHECK (formulacao = 'liquido' OR formulacao = 'granulado' OR formulacao = 'po'),
     CONSTRAINT ck_fator_producao_tipo CHECK (tipo_fertilizacao = 'fertilizante' OR tipo_fertilizacao = 'adubo' OR tipo_fertilizacao = 'corretivo' OR tipo_fertilizacao = 'fitofarmaco')
@@ -218,21 +223,21 @@ CREATE TABLE rega (
 
 
 CREATE TABLE parcela_fator_producao (
-    designacao CHAR(255) NOT NULL,
+    id_parcela int NOT NULL,
     ID_Fator INT NOT NULL,
-    CONSTRAINT FK_Parcela_Fator1 FOREIGN KEY (designacao) REFERENCES Parcela(designacao),
+    CONSTRAINT FK_Parcela_Fator1 FOREIGN KEY (id_parcela) REFERENCES Parcela(id_parcela),
     CONSTRAINT FK_Parcela_Fator2 FOREIGN KEY (ID_Fator) REFERENCES Fator_Producao(ID_Fator),
-    CONSTRAINT PK_Parcela_Fator PRIMARY KEY (designacao, ID_Fator)
+    CONSTRAINT PK_Parcela_Fator PRIMARY KEY (id_parcela, ID_Fator)
 );
 
 
 
 CREATE TABLE parcela_sistema_rega (
-    designacao CHAR(255) NOT NULL,
+    id_parcela int NOT NULL,
     id_sistema INT NOT NULL,
-    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (designacao) REFERENCES Parcela(designacao),
+    CONSTRAINT FK_Parcela_Rega1 FOREIGN KEY (id_parcela) REFERENCES Parcela(id_parcela),
     CONSTRAINT FK_Parcela_Rega2 FOREIGN KEY (id_sistema) REFERENCES sistema_rega(id_sistema),
-    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (designacao, id_sistema)
+    CONSTRAINT PK_Parcela_Rega PRIMARY KEY (id_parcela, id_sistema)
 );
 
 
@@ -267,8 +272,8 @@ CREATE TABLE sensor (
     CONSTRAINT FK_estacao FOREIGN KEY (id_estacao) REFERENCES estacao_meteorologica(id_estacao)
 );
 
-CREATE TABLE tipo_sensor (
-    id_sensor INT NOT NULL,
+    CREATE TABLE tipo_sensor (
+        id_sensor INT NOT NULL,
     tipo CHAR(255) NOT NULL,
     quantidade_sensor_tipo INT NOT NULL,
     CONSTRAINT CK_Sensor_Tipo CHECK (Tipo = 'Pluviosidade' OR Tipo = 'Temperatura solo' OR Tipo = 'Humidade solo'
@@ -308,3 +313,45 @@ create table produtor_agricola (
     constraint fk_numero_colheita foreign key (numero_colheita) references colheita(numero_colheita),
     constraint fk_id_venda foreign key (id_venda) references encomenda(id_encomenda)
 );
+
+CREATE TABLE restricao (
+    id_restricao INT PRIMARY KEY,
+    id_parcela INT NOT NULL,
+    id_fator INT NOT NULL,
+    data1 DATE NOT NULL,
+    data2 DATE NOT NULL,
+    CONSTRAINT fk_restricao_fator FOREIGN KEY (id_fator) REFERENCES fator_producao(ID_FATOR),
+    CONSTRAINT fk_restricao_parcela FOREIGN KEY (id_parcela) REFERENCES parcela(id_parcela),
+    CONSTRAINT ck_restricao_datas CHECK (data1 < data2)
+);
+
+CREATE TABLE operacao (
+    id_operacao INT PRIMARY KEY,
+    id_parcela INT NOT NULL,
+    data_prevista DATE,
+    data_operacao DATE,
+    estado VARCHAR(20),
+    unidade VARCHAR(10) NOT NULL,
+    quantidade INT NOT NULL,
+    tipo VARCHAR(1) NOT NULL,
+    CONSTRAINT fk_parcela_operacao1 FOREIGN KEY (id_parcela) REFERENCES parcela(id_parcela),
+    CONSTRAINT ck_operacao_estado CHECK (estado = 'espera' OR estado = 'concluido' OR estado = 'cancelado'),
+    CONSTRAINT ck_operacao_tipo CHECK (tipo = 'r' OR tipo = 'f') /* r - rega      f - fator */
+);
+
+CREATE TABLE aplicacao_rega (
+    id_operacao INT PRIMARY KEY,
+    id_rega INT NOT NULL,
+    forma_aplicacao VARCHAR(20),
+    CONSTRAINT fk_id_rega foreign key (id_rega) references SISTEMA_REGA(ID_SISTEMA),
+    CONSTRAINT fk_id_operacao foreign key (id_operacao) references operacao(id_operacao),
+    CONSTRAINT ck_distribuicao_rega check (forma_aplicacao = 'foliar' or forma_aplicacao = 'fertirrega' or forma_aplicacao = 'solo')
+);
+
+CREATE TABLE aplicacao_fator (
+    id_operacao INT PRIMARY KEY,
+    id_fator INT NOT NULL,
+    forma_aplicacao VARCHAR(20),
+    CONSTRAINT fk_id_operacao_f FOREIGN KEY (id_operacao) REFERENCES operacao(id_operacao),
+    CONSTRAINT fk_id_fator FOREIGN KEY (id_fator) REFERENCES fator_producao(id_fator),
+    CONSTRAINT ck_distribuicao_fator CHECK (forma_aplicacao = 'foliar' or forma_aplicacao = 'fertirrega' or forma_aplicacao = 'solo')

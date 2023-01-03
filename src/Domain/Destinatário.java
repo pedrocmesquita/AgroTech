@@ -7,10 +7,18 @@ public class Destinatário implements Comparable<Destinatário> {
 
     private String local;
 
+
+
+
+
     public Destinatário(String name, String local) {
         this.name = name;
         this.local = local;
+
+
     }
+
+
 
     public String getName() {
         return name;
