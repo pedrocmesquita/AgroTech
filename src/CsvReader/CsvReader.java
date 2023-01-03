@@ -151,8 +151,14 @@ public class CsvReader {
                     produtos[d-2]=Float.parseFloat(split[d]);
                    //System.out.println(split[d]+"--"+d);
                }
+               dest=null;
 
-               dest=split[0].substring(1,split[0].length()-1);
+               if (split[0].charAt(0)==(char)34){
+                   dest=split[0].substring(1,split[0].length()-1);
+               }
+               else{
+                   dest=split[0];
+               }
                dia=Integer.parseInt(split[1]);
                mapa=cabazesMap.get(dia);
                if (mapa==null){
