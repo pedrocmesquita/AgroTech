@@ -96,14 +96,6 @@ public class main {
 
         US308 us308 = new US308();
         List<Produtos> produtos = us308.getCabazesADay(cabazes, 1);
-
-        for (Produtos produtos1 : produtos){
-            System.out.println(produtos1.getNomeDestinatario() + ": " + produtos1.getProdutos());
-            for (float[] arr : produtos1.getProdutos()){
-                for (float p : arr){
-                    System.out.print(p + ", ");
-                }
-            }
-        }
+        us308.printList(produtos, 1);
     }
 }

@@ -60,17 +60,17 @@ public class US308 {
         return produtos;
     }
 
-    public void printList(List<float[]> lista, ArrayList<String> listaProdutores, int dia) {
+    public void printList(List<Produtos> produtos, int dia) {
         System.out.println("\n\n>>>>> Lista de Expedição de Cabazes <<<<<\n--> Dia " + dia);
-        int i = 0;
 
-        for (float[] array : lista) {
-            System.out.print("Produtor " + listaProdutores.get(i) + ": ");
-            for (float value : array) {
-                System.out.print(value + ", ");
+        for (Produtos prod : produtos){
+            System.out.println(prod.getNomeDestinatario() + ": ");
+            for (float[] arr : prod.getProdutos()){
+                for (float p : arr){
+                    System.out.print(p + ", ");
+                }
+                System.out.println();
             }
-            System.out.println();
-            i++;
         }
     }
 }
