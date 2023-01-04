@@ -1,5 +1,3 @@
--- <<<<<<<<<<<<<<<<<<<< DROP TABLES >>>>>>>>>>>>>>>>>>>> --
-
 DROP TABLE caderno_campo;
 DROP TABLE cabaz CASCADE CONSTRAINTS PURGE;
 DROP TABLE hub CASCADE CONSTRAINTS PURGE;
@@ -33,8 +31,10 @@ DROP TABLE sistema_rega CASCADE CONSTRAINTS PURGE;
 DROP TABLE quinta cascade constraints purge;
 DROP TABLE restricao cascade constraints purge;
 DROP TABLE operacao cascade constraints purge;
-DROP TABLE aplicacao_fator cascade constraints purge;
-DROP TABLE aplicacao_rega cascade constraints purge;
+DROP TABLE operacao_fator cascade constraints purge;
+DROP TABLE operacao_rega cascade constraints purge;
+
+
 
 
 
@@ -328,7 +328,6 @@ CREATE TABLE restricao (
 CREATE TABLE operacao (
     id_operacao INT PRIMARY KEY,
     id_parcela INT NOT NULL,
-    data_prevista DATE,
     data_operacao DATE,
     estado VARCHAR(20),
     unidade VARCHAR(10) NOT NULL,
@@ -339,19 +338,20 @@ CREATE TABLE operacao (
     CONSTRAINT ck_operacao_tipo CHECK (tipo = 'r' OR tipo = 'f') /* r - rega      f - fator */
 );
 
-CREATE TABLE aplicacao_rega (
+CREATE TABLE operacao_rega (
     id_operacao INT PRIMARY KEY,
     id_rega INT NOT NULL,
     forma_aplicacao VARCHAR(20),
     CONSTRAINT fk_id_rega foreign key (id_rega) references SISTEMA_REGA(ID_SISTEMA),
     CONSTRAINT fk_id_operacao foreign key (id_operacao) references operacao(id_operacao),
-    CONSTRAINT ck_distribuicao_rega check (forma_aplicacao = 'foliar' or forma_aplicacao = 'fertirrega' or forma_aplicacao = 'solo')
+    CONSTRAINT ck_forma_rega check (forma_aplicacao = 'foliar' or forma_aplicacao = 'fertirrega' or forma_aplicacao = 'solo')
 );
 
-CREATE TABLE aplicacao_fator (
+CREATE TABLE operacao_fator (
     id_operacao INT PRIMARY KEY,
     id_fator INT NOT NULL,
     forma_aplicacao VARCHAR(20),
     CONSTRAINT fk_id_operacao_f FOREIGN KEY (id_operacao) REFERENCES operacao(id_operacao),
     CONSTRAINT fk_id_fator FOREIGN KEY (id_fator) REFERENCES fator_producao(id_fator),
-    CONSTRAINT ck_distribuicao_fator CHECK (forma_aplicacao = 'foliar' or forma_aplicacao = 'fertirrega' or forma_aplicacao = 'solo')
+    CONSTRAINT ck_forma_fator CHECK (forma_aplicacao = 'foliar' or forma_aplicacao = 'fertirrega' or forma_aplicacao = 'solo')
+);
