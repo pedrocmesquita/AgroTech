@@ -3,6 +3,7 @@ package US;
 import Domain.Cabazes;
 import Domain.Destinatário;
 import Domain.Local;
+import Domain.Produtos;
 
 import java.util.*;
 
@@ -37,6 +38,26 @@ public class US308 {
         }
         return listaProdutos;
 
+    }
+
+    public List<Produtos> getCabazesADay (Map<Integer, Map<Destinatário, List<float[]>>> cabazesMap, int dia){
+        List<Produtos> produtos = new ArrayList<>();
+
+        for (Map.Entry<Integer, Map<Destinatário, List<float[]>>> entry : cabazesMap.entrySet()) {
+
+            if (entry.getKey() == dia) {
+
+                // inner map
+                for (Map.Entry<Destinatário, List<float[]>> entry2 : entry.getValue().entrySet()) {
+                    char produtor = entry2.getKey().getName().charAt(0);
+
+                    if (produtor == 'P') {
+                        produtos.add(new Produtos(entry2.getKey().getName(), entry2.getValue()));
+                    }
+                }
+            }
+        }
+        return produtos;
     }
 
     public void printList(List<float[]> lista, ArrayList<String> listaProdutores, int dia) {

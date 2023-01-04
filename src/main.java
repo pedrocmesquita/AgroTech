@@ -1,5 +1,6 @@
 import CsvReader.CsvReader;
 import Domain.Destinatário;
+import Domain.Produtos;
 import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
 import Shared.GraphCommon.Edge;
@@ -20,9 +21,9 @@ public class main {
         CsvReader readFiles = new CsvReader();
         //File1-distancias...File2-clientesProdutores..File3-cabazes
 
-        File file1 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-        File file2 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-        File file3 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+        File file1 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
+        File file2 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+        File file3 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
 
         final Graph<Local, Integer> map = new MapGraph<>(false);
 
@@ -92,5 +93,17 @@ public class main {
         us308.printList(lista,listaProdutores,1);
 
  */
+
+        US308 us308 = new US308();
+        List<Produtos> produtos = us308.getCabazesADay(cabazes, 1);
+
+        for (Produtos produtos1 : produtos){
+            System.out.println(produtos1.getNomeDestinatario() + ": " + produtos1.getProdutos());
+            for (float[] arr : produtos1.getProdutos()){
+                for (float p : arr){
+                    System.out.print(p + ", ");
+                }
+            }
+        }
     }
 }
