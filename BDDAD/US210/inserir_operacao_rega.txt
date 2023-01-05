@@ -3,7 +3,6 @@ create or replace procedure inserir_operacao_rega (
     p_id_parcela OPERACAO.id_parcela%type,
     p_id_rega OPERACAO_REGA.ID_REGA%type,
     p_data_operacao OPERACAO.data_operacao%type,
-    p_estado OPERACAO.estado%type,
     p_tipo OPERACAO.tipo%type,
     p_quantidade OPERACAO.QUANTIDADE%type,
     p_unidade OPERACAO.UNIDADE%type,
@@ -20,8 +19,8 @@ begin
         raise_application_error(-20000, 'Id Operacao nao pode ser null!');
     end if;
 
-    insert into OPERACAO(id_operacao, id_parcela, data_operacao, estado, unidade, quantidade, tipo)
-    values (p_id_operacao, p_id_parcela, p_data_operacao, p_estado, p_unidade, p_quantidade, p_tipo);
+    insert into OPERACAO(id_operacao, id_parcela, data_operacao, unidade, quantidade, tipo)
+    values (p_id_operacao, p_id_parcela, p_data_operacao, p_unidade, p_quantidade, p_tipo);
 
     select ID_OPERACAO into v_id_operacao from OPERACAO where ID_OPERACAO = p_id_operacao;
 
