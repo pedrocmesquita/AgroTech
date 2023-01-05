@@ -19,10 +19,10 @@ as
 begin
     select count(*) into v_count_id from OPERACAO where ID_OPERACAO = p_id_operacao;
     if (v_count_id > 0 ) then
-        RAISE_APPLICATION_ERROR(-20000, 'Id ja a ser utilizado');
+        RAISE_APPLICATION_ERROR(-20000, 'Id já está a ser utilizado');
     end if;
     if (p_tipo != 'f') then
-        RAISE_APPLICATION_ERROR(-20000, 'Tipo de Operacao Invalido!');
+        RAISE_APPLICATION_ERROR(-20000, 'Tipo de Operação Inválido!');
     end if;
 
     if(p_tipo = 'f') then
@@ -34,7 +34,7 @@ begin
             where v_id_parcela = p_id_parcela and v_id_fator = p_id_fator)
             loop
                 if ( p_data_operacao >= C.data1 and p_data_operacao <= C.data2)  then
-                    RAISE_APPLICATION_ERROR(-20000, 'Impossivel inserir operacao nesta data na parcela indicada!');
+                    RAISE_APPLICATION_ERROR(-20000, 'Impossível inserir operação nesta data na parcela indicada!');
                 end if;
                 end loop;
         end if;
@@ -52,12 +52,12 @@ begin
 
         select id_operacao into v_id_operacao from operacao where p_id_operacao = id_operacao;
         if (v_id_operacao is null) then
-            RAISE_APPLICATION_ERROR(-20000, 'Dados Invalidos!');
+            RAISE_APPLICATION_ERROR(-20000, 'Dados Inválidos!');
         end if;
 
         insert into operacao_fator(id_operacao, id_fator, forma_aplicacao)
         values (p_id_operacao, p_id_fator, p_forma);
 
-        dbms_output.put_line('Operacao Concluida');
+        dbms_output.put_line('Operação Concluida');
     end if;
 end;

@@ -10,13 +10,19 @@ create or replace procedure inserir_operacao_rega (
     p_id_sistema OPERACAO_REGA.ID_SISTEMA%type)
 as
     v_id_operacao OPERACAO.ID_OPERACAO%type;
+    v_count_id OPERACAO.ID_OPERACAO%type;
 begin
+    select count(*) into v_count_id from OPERACAO where ID_OPERACAO = p_id_operacao;
+    if (v_count_id > 0 ) then
+        RAISE_APPLICATION_ERROR(-20000, 'Id já está a ser utilizado!');
+    end if;
+
     if (p_tipo != 'r') then
-        raise_application_error(-20000, 'Tipo de Operacao Invalido!');
+        raise_application_error(-20000, 'Tipo de Operação Inválido!');
     end if;
 
     if (p_id_operacao is null) then
-        raise_application_error(-20000, 'Id Operacao nao pode ser null!');
+        raise_application_error(-20000, 'Id Operação não pode ser null!');
     end if;
 
     insert into OPERACAO(id_operacao, id_parcela, data_operacao, unidade, quantidade, tipo)
@@ -25,12 +31,11 @@ begin
     select ID_OPERACAO into v_id_operacao from OPERACAO where ID_OPERACAO = p_id_operacao;
 
     if (v_id_operacao is null) then
-        raise_application_error(-20000, 'Dados Invalidos!');
+        raise_application_error(-20000, 'Dados Inválidos!');
     end if;
 
     insert into OPERACAO_REGA(id_operacao, id_rega, forma_aplicacao, id_sistema)
     VALUES (p_id_operacao,p_id_rega, p_forma, p_id_sistema);
 
-    dbms_output.put_line('Operacao Concluida');
+    dbms_output.put_line('Operação Concluida');
 end;
-/
