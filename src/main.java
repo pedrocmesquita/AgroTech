@@ -1,14 +1,12 @@
 import CsvReader.CsvReader;
+import Domain.CabazExpedicao;
 import Domain.Destinatário;
 import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
-import Shared.GraphCommon.Edge;
 import Shared.MapGraphs.MapGraph;
 import Domain.Local;
-import US.US302;
 import US.US308;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -20,9 +18,9 @@ public class main {
         CsvReader readFiles = new CsvReader();
         //File1-distancias...File2-clientesProdutores..File3-cabazes
 
-        File file1 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-        File file2 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-        File file3 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+        File file1 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
+        File file2 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+        File file3 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
 
         final Graph<Local, Integer> map = new MapGraph<>(false);
 
@@ -91,6 +89,10 @@ public class main {
         List<float[]> lista = us308.getCabazesAtSomeDay(cabazes, listaProdutores, 1);
         us308.printList(lista,listaProdutores,1);
 
- */
+
+*/
+        US308 us308 = new US308();
+        List<CabazExpedicao> produtos = us308.getCabazesADay(cabazes, 1);
+        us308.printList(produtos, 1);
     }
 }
