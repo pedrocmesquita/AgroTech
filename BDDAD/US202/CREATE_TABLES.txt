@@ -334,7 +334,7 @@ CREATE TABLE operacao (
     quantidade INT NOT NULL,
     tipo VARCHAR(1) NOT NULL,
     CONSTRAINT fk_parcela_operacao1 FOREIGN KEY (id_parcela) REFERENCES parcela(id_parcela),
-    CONSTRAINT ck_operacao_estado CHECK (estado = 'espera' OR estado = 'concluido' OR estado = 'cancelado'),
+    CONSTRAINT ck_operacao_estado CHECK (estado = 'concluido' OR estado = 'cancelado'),
     CONSTRAINT ck_operacao_tipo CHECK (tipo = 'r' OR tipo = 'f') /* r - rega      f - fator */
 );
 

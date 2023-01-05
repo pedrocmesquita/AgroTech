@@ -1,0 +1,13 @@
+create or replace trigger bi_operacao
+    before insert or update on OPERACAO
+    for each row
+    enable
+begin
+    if inserting then
+        :NEW.ESTADO := 'espera';
+
+    elsif updating then
+        :NEW.ESTADO := 'concluido';
+    end if;
+end;
+/
