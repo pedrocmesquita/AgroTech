@@ -2,17 +2,17 @@ package Domain;
 
 public class Expedicao {
 
-    private String nomeCliente;
-    private String nomeProdutor;
+    private Destinatário cliente;
+    private Destinatário produtor;
     private float quantidadePedida;
     private float quantidadeFornecida;
     private float quantidadeSobra;
     private int numeroProduto;
     private int dia;
 
-    public Expedicao(String nomeCliente, String nomeProdutor, float quantidadePedida, float quantidadeFornecida, float quantidadeSobra,int numeroProduto, int dia) {
-        this.nomeCliente = nomeCliente;
-        this.nomeProdutor = nomeProdutor;
+    public Expedicao(Destinatário cliente, Destinatário produtor, float quantidadePedida, float quantidadeFornecida, float quantidadeSobra, int numeroProduto, int dia) {
+        this.cliente = cliente;
+        this.produtor = produtor;
         this.quantidadePedida = quantidadePedida;
         this.quantidadeFornecida = quantidadeFornecida;
         this.quantidadeSobra = quantidadeSobra;
@@ -20,20 +20,20 @@ public class Expedicao {
         this.dia = dia;
     }
 
-    public String getNomeCliente() {
-        return nomeCliente;
+    public Destinatário getCliente() {
+        return cliente;
     }
 
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
+    public void setCliente(Destinatário cliente) {
+        this.cliente = cliente;
     }
 
-    public String getNomeProdutor() {
-        return nomeProdutor;
+    public Destinatário getProdutor() {
+        return produtor;
     }
 
-    public void setNomeProdutor(String nomeProdutor) {
-        this.nomeProdutor = nomeProdutor;
+    public void setProdutor(Destinatário produtor) {
+        this.produtor = produtor;
     }
 
     public float getQuantidadePedida() {

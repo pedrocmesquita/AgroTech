@@ -22,7 +22,7 @@ public class US308 {
             // inner map
             for (Map.Entry<Destinatário, List<float[]>> entry2 : entry.getValue().entrySet()) {
                 char produtor = entry2.getKey().getName().charAt(0);
-                CabazExpedicao expedicao = new CabazExpedicao(entry2.getKey().getName(), entry2.getKey().getLocal(), entry2.getValue(), entry.getKey());
+                CabazExpedicao expedicao = new CabazExpedicao(entry2.getKey(), entry2.getValue(), entry.getKey());
 
                 if (produtor == 'P') {
                     produtores.add(expedicao);
@@ -52,7 +52,7 @@ public class US308 {
                         for (int j = 0; j < arrC.length; j++) {
 
                             if (arrC[j] <= arrP[j] && arrC[j] != 0) {
-                                lista.add(new Expedicao(c.getNomeDestinatario(), p.getNomeDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia()));
+                                lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia()));
                             }
                         }
                     }
@@ -67,8 +67,8 @@ public class US308 {
 
         for (Expedicao lista : expedicao) {
             if (lista.getDia() == dia) {
-                System.out.println(">>>>> Cliente: " + lista.getNomeCliente());
-                System.out.println("Produto " + lista.getNumeroProduto() + " --> Produtor " + lista.getNomeProdutor());
+                System.out.println(">> Cliente: " + lista.getCliente().getName());
+                System.out.println("Produto " + lista.getNumeroProduto() + " --> Produtor " + lista.getProdutor().getName());
                 System.out.println("Quantidade pedida = " + lista.getQuantidadePedida() + " --> Quantidade Expedida " + lista.getQuantidadeFornecida());
                 System.out.println("Sobrou: " + lista.getQuantidadeSobra());
                 System.out.println("------------------------------------------------------------");

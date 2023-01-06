@@ -2,6 +2,7 @@ package US;
 
 import CsvReader.CsvReader;
 import Domain.Destinatário;
+import Domain.Expedicao;
 import Domain.Local;
 import Domain.CabazExpedicao;
 import Shared.BST.BST;
@@ -15,16 +16,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.assertEquals;
-/*
+
 public class US308Test {
 
     CsvReader readFiles = new CsvReader();
     US308 us308 = new US308();
-    List<CabazExpedicao> lista = new ArrayList<>();
 
-    File file1 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-    File file2 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-    File file3 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+    File file1 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
+    File file2 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+    File file3 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
     //File1-distancias...File2-clientesProdutores..File3-cabazes
 
     final Graph<Local,Integer> map=new MapGraph<>(false);
@@ -35,60 +35,50 @@ public class US308Test {
 
     BST<Destinatário> destinatários=readFiles.getDestinatários();//arvore dos destinatários
 
-    ArrayList<String> listaProdutores = new ArrayList<>();
-    int dia = 0;
+    List<CabazExpedicao> produtores = new ArrayList<>();
+    List<CabazExpedicao> clientes = new ArrayList<>();
+    List<Expedicao> lista;
 
     public US308Test() throws FileNotFoundException {
     }
 
 
     @Test
-    public void teste1() throws FileNotFoundException {
-        dia = 1;
+    public void teste1() throws Exception {
         readFiles.ReadDistancias(file1,file2,",",map,locais);
         readFiles.ReadCabaz(file3,",",cabazes);
-        listaProdutores = new ArrayList<>();
-        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
-        us308.printList(lista, dia);
+        us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
+        lista = us308.gerarLista(clientes, produtores);
+        us308.printList(lista, 1);
     }
     @Test
-    public void teste2() throws FileNotFoundException {
-        dia = 2;
+    public void teste2() throws Exception {
         readFiles.ReadCabaz(file3,",",cabazes);
-        listaProdutores = new ArrayList<>();
-        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
-        us308.printList(lista, dia);
+        us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
+        lista = us308.gerarLista(clientes, produtores);
+        us308.printList(lista, 2);
     }
     @Test
-    public void teste3() throws FileNotFoundException {
-        dia = 3;
+    public void teste3() throws Exception {
         readFiles.ReadCabaz(file3,",",cabazes);
-        listaProdutores = new ArrayList<>();
-        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
-        us308.printList(lista, dia);
+        us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
+        lista = us308.gerarLista(clientes, produtores);
+        us308.printList(lista, 3);
     }
     @Test
-    public void teste4() throws FileNotFoundException {
-        dia = 4;
+    public void teste4() throws Exception {
         readFiles.ReadCabaz(file3,",",cabazes);
-        listaProdutores = new ArrayList<>();
-        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
-        us308.printList(lista, dia);
+        us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
+        lista = us308.gerarLista(clientes, produtores);
+        us308.printList(lista, 4);
     }
     @Test
-    public void teste5() throws FileNotFoundException {
-        dia = 5;
+    public void teste5() throws Exception {
         readFiles.ReadCabaz(file3,",",cabazes);
-        listaProdutores = new ArrayList<>();
-        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
-        us308.printList(lista, dia);
-    }
-    @Test
-    public void teste6(){
-        Map<Integer,Map<Destinatário,List<float []>>> cabazesNull = new HashMap<>();
-        dia = 1;
-        assertEquals(null, lista = us308.gerarListaClientesEProdutores(cabazesNull, dia));
+        us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
+        lista = us308.gerarLista(clientes, produtores);
+        us308.printList(lista, 5);
     }
 }
 
- */
+
