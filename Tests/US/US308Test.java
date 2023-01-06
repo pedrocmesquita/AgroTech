@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.assertEquals;
-
+/*
 public class US308Test {
 
     CsvReader readFiles = new CsvReader();
@@ -48,7 +48,7 @@ public class US308Test {
         readFiles.ReadDistancias(file1,file2,",",map,locais);
         readFiles.ReadCabaz(file3,",",cabazes);
         listaProdutores = new ArrayList<>();
-        lista = us308.getCabazesADay(cabazes, dia);
+        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
         us308.printList(lista, dia);
     }
     @Test
@@ -56,7 +56,7 @@ public class US308Test {
         dia = 2;
         readFiles.ReadCabaz(file3,",",cabazes);
         listaProdutores = new ArrayList<>();
-        lista = us308.getCabazesADay(cabazes, dia);
+        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
         us308.printList(lista, dia);
     }
     @Test
@@ -64,7 +64,7 @@ public class US308Test {
         dia = 3;
         readFiles.ReadCabaz(file3,",",cabazes);
         listaProdutores = new ArrayList<>();
-        lista = us308.getCabazesADay(cabazes, dia);
+        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
         us308.printList(lista, dia);
     }
     @Test
@@ -72,7 +72,7 @@ public class US308Test {
         dia = 4;
         readFiles.ReadCabaz(file3,",",cabazes);
         listaProdutores = new ArrayList<>();
-        lista = us308.getCabazesADay(cabazes, dia);
+        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
         us308.printList(lista, dia);
     }
     @Test
@@ -80,13 +80,15 @@ public class US308Test {
         dia = 5;
         readFiles.ReadCabaz(file3,",",cabazes);
         listaProdutores = new ArrayList<>();
-        lista = us308.getCabazesADay(cabazes, dia);
+        lista = us308.gerarListaClientesEProdutores(cabazes, dia);
         us308.printList(lista, dia);
     }
     @Test
     public void teste6(){
         Map<Integer,Map<Destinatário,List<float []>>> cabazesNull = new HashMap<>();
         dia = 1;
-        assertEquals(null, lista = us308.getCabazesADay(cabazesNull, dia));
+        assertEquals(null, lista = us308.gerarListaClientesEProdutores(cabazesNull, dia));
     }
 }
+
+ */

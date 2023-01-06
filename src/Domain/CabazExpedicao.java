@@ -10,7 +10,6 @@ public class CabazExpedicao {
     private String nomeDestinatario;
     private String localDestinatario;
     private List<float[]> produtos;
-
     private int dia;
 
     /**

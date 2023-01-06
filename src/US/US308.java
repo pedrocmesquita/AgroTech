@@ -2,6 +2,7 @@ package US;
 
 import Domain.Destinatário;
 import Domain.CabazExpedicao;
+import Domain.Expedicao;
 
 import java.util.*;
 
@@ -9,42 +10,68 @@ public class US308 {
 
     static Scanner sc = new Scanner(System.in);
 
-    public List<CabazExpedicao> getCabazesADay (Map<Integer, Map<Destinatário, List<float[]>>> cabazesMap, int dia){
-        List<CabazExpedicao> produtos = new ArrayList<>();
+    public void gerarListaClientesEProdutores(Map<Integer, Map<Destinatário, List<float[]>>> cabazesMap, List<CabazExpedicao> produtores, List<CabazExpedicao> clientes) throws Exception {
 
         if (cabazesMap.isEmpty()) {
-            System.out.println("MAP IS NULL");
-            return null;
+            throw new Exception("MAP IS NULL");
         }
 
         for (Map.Entry<Integer, Map<Destinatário, List<float[]>>> entry : cabazesMap.entrySet()) {
 
-            if (entry.getKey() == dia) {
 
-                // inner map
-                for (Map.Entry<Destinatário, List<float[]>> entry2 : entry.getValue().entrySet()) {
-                    char produtor = entry2.getKey().getName().charAt(0);
-                    new CabazExpedicao(entry2.getKey().getName(), entry2.getKey().getLocal(), entry2.getValue(),dia);
+            // inner map
+            for (Map.Entry<Destinatário, List<float[]>> entry2 : entry.getValue().entrySet()) {
+                char produtor = entry2.getKey().getName().charAt(0);
+                CabazExpedicao expedicao = new CabazExpedicao(entry2.getKey().getName(), entry2.getKey().getLocal(), entry2.getValue(), entry.getKey());
 
-                    if (produtor == 'P') {
-                        produtos.add(new CabazExpedicao(entry2.getKey().getName(), entry2.getKey().getLocal(), entry2.getValue(), dia));
+                if (produtor == 'P') {
+                    produtores.add(expedicao);
+                } else {
+                    clientes.add(expedicao);
+                }
+            }
+
+        }
+    }
+
+    public List<Expedicao> gerarLista(List<CabazExpedicao> clientes, List<CabazExpedicao> produtores) {
+        List<Expedicao> lista = new ArrayList<>();
+
+        for (CabazExpedicao c : clientes) {
+            for (CabazExpedicao p : produtores) {
+
+                if (p.getDia() == c.getDia()) {
+
+                    List<float[]> produtosCliente = c.getProdutos();
+                    List<float[]> produtosProdutor = p.getProdutos();
+
+                    for (int i = 0; i < produtosCliente.size(); i++) {
+                        float[] arrC = produtosCliente.get(i);
+                        float[] arrP = produtosProdutor.get(i);
+
+                        for (int j = 0; j < arrC.length; j++) {
+
+                            if (arrC[j] <= arrP[j] && arrC[j] != 0) {
+                                lista.add(new Expedicao(c.getNomeDestinatario(), p.getNomeDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia()));
+                            }
+                        }
                     }
                 }
             }
         }
-        return produtos;
+        return lista;
     }
 
-    public void printList(List<CabazExpedicao> produtos, int dia) {
-        System.out.println("\n\n>>>>> Lista de Expedição de Cabazes <<<<<\n--> Dia " + dia);
+    public void printList(List<Expedicao> expedicao, int dia) {
+        System.out.println("\n\n>>>>> Lista de Expedição de Cabazes para o dia " + dia + " <<<<<\n");
 
-        for (CabazExpedicao prod : produtos){
-            System.out.println(prod.getNomeDestinatario() + ": ");
-            for (float[] arr : prod.getProdutos()){
-                for (float p : arr){
-                    System.out.print(p + ", ");
-                }
-                System.out.println();
+        for (Expedicao lista : expedicao) {
+            if (lista.getDia() == dia) {
+                System.out.println(">>>>> Cliente: " + lista.getNomeCliente());
+                System.out.println("Produto " + lista.getNumeroProduto() + " --> Produtor " + lista.getNomeProdutor());
+                System.out.println("Quantidade pedida = " + lista.getQuantidadePedida() + " --> Quantidade Expedida " + lista.getQuantidadeFornecida());
+                System.out.println("Sobrou: " + lista.getQuantidadeSobra());
+                System.out.println("------------------------------------------------------------");
             }
         }
     }
