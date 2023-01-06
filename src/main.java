@@ -1,6 +1,7 @@
 import CsvReader.CsvReader;
 import Domain.CabazExpedicao;
 import Domain.Destinatário;
+import Domain.Expedicao;
 import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
@@ -13,14 +14,14 @@ import java.util.*;
 import java.util.List;
 
 public class main {
-    public static void main(String[] arg) throws FileNotFoundException {
+    public static void main(String[] arg) throws Exception {
 
         CsvReader readFiles = new CsvReader();
         //File1-distancias...File2-clientesProdutores..File3-cabazes
 
-        File file1 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-        File file2 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-        File file3 = new File("D:\\Ambiente de trabalho\\ISEP\\2ANO\\LAPR3\\sem3pi2022_23_g064\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+        File file1 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
+        File file2 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
+        File file3 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
 
         final Graph<Local, Integer> map = new MapGraph<>(false);
 
@@ -92,7 +93,12 @@ public class main {
 
 */
         US308 us308 = new US308();
-        List<CabazExpedicao> produtos = us308.getCabazesADay(cabazes, 1);
-        us308.printList(produtos, 1);
+        List<CabazExpedicao> produtores = new ArrayList<>();
+        List<CabazExpedicao> clientes = new ArrayList<>();
+        List<Expedicao> lista;
+
+        us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
+        lista = us308.gerarLista(clientes, produtores);
+        us308.printList(lista, 1);
     }
 }

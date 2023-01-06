@@ -1,0 +1,23 @@
+create or replace procedure listar_restricoes(p_id_parcela RESTRICAO.ID_PARCELA%type, p_data RESTRICAO.DATA1%type)
+as
+    v_id_restricao RESTRICAO.ID_RESTRICAO%type;
+    v_id_parccela RESTRICAO.ID_PARCELA%type;
+    v_id_fator RESTRICAO.ID_FATOR%type;
+    v_data1 RESTRICAO.DATA1%type;
+    v_data2 RESTRICAO.DATA2%type;
+begin
+    DBMS_OUTPUT.PUT_LINE('>>> LISTA DE RESTRIÇÕES PARA A PARCELA ' || p_id_parcela || ' <<<');
+    for C in (
+        select ID_RESTRICAO, ID_PARCELA, ID_FATOR, DATA1, DATA2
+        into v_id_restricao, v_id_parccela, v_id_fator, v_data1, v_data2
+        from RESTRICAO
+        where p_id_parcela = ID_PARCELA and (DATA1 <= p_data and p_data <= DATA2)
+
+        )
+    loop
+        DBMS_OUTPUT.PUT_LINE('ID_RESTRIÇÃO: ' || c.ID_RESTRICAO);
+        DBMS_OUTPUT.PUT_LINE('ID FATOR: ' || c.ID_FATOR);
+        DBMS_OUTPUT.PUT_LINE('DESDE ' || c.DATA1 || ' ATÉ ' || c.DATA2);
+        DBMS_OUTPUT.PUT_LINE('-----------------------');
+        end loop;
+end;

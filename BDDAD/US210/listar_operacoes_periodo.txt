@@ -1,0 +1,33 @@
+create or replace procedure listar_operacoes_periodo(p_data1 OPERACAO.DATA_OPERACAO%type, p_data2 OPERACAO.DATA_OPERACAO%type)
+as
+    v_data OPERACAO.DATA_OPERACAO%type;
+    v_id_operacao OPERACAO.ID_OPERACAO%type;
+    v_id_parcela RESTRICAO.ID_PARCELA%type;
+    v_estado OPERACAO.ESTADO%type;
+    v_unidade OPERACAO.UNIDADE%type;
+    v_quantidade OPERACAO.QUANTIDADE%type;
+    v_tipo OPERACAO.TIPO%type;
+begin
+
+    if (p_data1 > p_data2) then
+        RAISE_APPLICATION_ERROR(-20000, 'Data não pode ser superior à data 2!');
+    end if;
+    DBMS_OUTPUT.PUT_LINE('>>> LISTA DE OPERAÇÕES DE ' || p_data1 || ' a ' || p_data2 || ' <<<');
+    for C in (
+        select ID_OPERACAO, ID_PARCELA, DATA_OPERACAO, ESTADO, UNIDADE, QUANTIDADE, TIPO
+        into v_id_operacao, v_id_parcela, v_data, v_estado, v_unidade, v_quantidade, v_tipo
+        from OPERACAO
+        where p_data1 <= DATA_OPERACAO and p_data2 >= DATA_OPERACAO
+        order by DATA_OPERACAO
+        )
+    loop
+        DBMS_OUTPUT.PUT_LINE('DATA: ' || c.DATA_OPERACAO);
+        DBMS_OUTPUT.PUT_LINE('ID OPERAÇÃO: ' || c.ID_OPERACAO);
+        DBMS_OUTPUT.PUT_LINE('ID PARCELA: ' || c.ID_PARCELA);
+        DBMS_OUTPUT.PUT_LINE('ESTADO: ' || c.ESTADO);
+        DBMS_OUTPUT.PUT_LINE('UNIDADE: ' || c.UNIDADE);
+        DBMS_OUTPUT.PUT_LINE('QUANTIDADE: ' || c.QUANTIDADE);
+        DBMS_OUTPUT.PUT_LINE('TIPO: ' || c.TIPO);
+        DBMS_OUTPUT.PUT_LINE('-----------------------');
+    end loop;
+end;

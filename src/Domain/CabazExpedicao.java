@@ -7,61 +7,28 @@ import java.util.List;
  */
 public class CabazExpedicao {
 
-    private String nomeDestinatario;
-    private String localDestinatario;
+    private Destinatário destinatario;
     private List<float[]> produtos;
-
     private int dia;
 
     /**
      * Instantiates a new Produtos.
      *
-     * @param nomeDestinatario  the nome destinatario
-     * @param localDestinatario the local destinatario
      * @param produtos          the produtos
      * @param dia               the dia
      */
-    public CabazExpedicao(String nomeDestinatario, String localDestinatario, List<float[]> produtos, int dia) {
-        this.nomeDestinatario = nomeDestinatario;
+    public CabazExpedicao(Destinatário destinatario, List<float[]> produtos, int dia) {
+        this.destinatario = destinatario;
         this.produtos = produtos;
         this.dia = dia;
-        this.localDestinatario = localDestinatario;
     }
 
-    /**
-     * Gets nome destinatario.
-     *
-     * @return the nome destinatario
-     */
-    public String getNomeDestinatario() {
-        return nomeDestinatario;
+    public Destinatário getDestinatario() {
+        return destinatario;
     }
 
-    /**
-     * Sets nome destinatario.
-     *
-     * @param nomeDestinatario the nome destinatario
-     */
-    public void setNomeDestinatario(String nomeDestinatario) {
-        this.nomeDestinatario = nomeDestinatario;
-    }
-
-    /**
-     * Gets local destinatario.
-     *
-     * @return the local destinatario
-     */
-    public String getLocalDestinatario() {
-        return localDestinatario;
-    }
-
-    /**
-     * Sets local destinatario.
-     *
-     * @param localDestinatario the local destinatario
-     */
-    public void setLocalDestinatario(String localDestinatario) {
-        this.localDestinatario = localDestinatario;
+    public void setDestinatario(Destinatário destinatario) {
+        this.destinatario = destinatario;
     }
 
     /**
