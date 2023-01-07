@@ -8,21 +8,24 @@ int main(){
     int opc;
     char tentativas = 3;
     float matrix[6][3];
+    int n_sensor = 1;
 
-    printf("Bem vindo\nEscolha uma das seguintes:\n1) Inserir sensor \n2) Matriz diaria de resumo dos sensores \n");
+    Sensor *sensores = malloc(n_sensor * sizeof(Sensor));
+
+    printf("Bem vindo\nEscolha uma das seguintes:\n1) Inserir sensor \n2) Matriz diaria de resumo dos sensores \n3) Exportar para um ficheiro CSV os dados de cada sensor");
     scanf("%d", &opc);
 
 
     switch (opc) {
         case 1:
-            printf("\n\n");
-            printf(">>>>>>>>>> INSERIR SENSOR <<<<<<<<<<\n");
+            printf("\n\n>>>>>>>>>> INSERIR SENSOR <<<<<<<<<<\n");
             printf("Quantos sensores deseja inserir?\n");
-            int n_sensor, i = 1;
+            int i = 1;
             float valor, max, min, freq = 0;
             scanf("%d", &n_sensor);
 
-            Sensor *sensores = malloc(n_sensor * sizeof(Sensor));
+            sensores = realloc(sensores, n_sensor * sizeof (Sensor));
+
 
             if (sensores == NULL) {
                 fprintf(stderr, "Erro: Alocacao de memoria\n");
@@ -75,16 +78,16 @@ int main(){
                         sensores[i].id = 1000 + rand() % 9999;
 
                         // Maximo e Minimo
-                        sensores[i].max_limit = max;
-                        sensores[i].min_limit = min;
+                        sensores[i].max_limit = (unsigned short) max;
+                        sensores[i].min_limit = (unsigned short) min;
 
                         // Frequencia
-                        sensores[i].frequency = freq;
+                        sensores[i].frequency = (unsigned long) freq;
                         sensores[i].readings_size = sensores[i].frequency;
 
 
 
-                        printf("Registo concluido com sucesso!\n\n");
+                        printf("Registo concluido com sucesso!\n\nId sensor é %d", sensores[i].id);
                     } else {
                         printf("Ocorreu um erro durante o registo. Saindo...\n");
                         break;
@@ -114,6 +117,12 @@ int main(){
 
             show_stats(matrix, 6, 3);
              */
+            break;
+
+
+        case 3:
+            printf("\n\n>>>>>>>>>> EXPORTE FICHEIRO CSV <<<<<<<<<<");
+            exportCsv(sensores, n_sensor,matrix);
             break;
 
         default:

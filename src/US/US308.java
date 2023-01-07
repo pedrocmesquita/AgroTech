@@ -18,8 +18,6 @@ public class US308 {
 
         for (Map.Entry<Integer, Map<Destinatário, List<float[]>>> entry : cabazesMap.entrySet()) {
 
-
-            // inner map
             for (Map.Entry<Destinatário, List<float[]>> entry2 : entry.getValue().entrySet()) {
                 char produtor = entry2.getKey().getName().charAt(0);
                 CabazExpedicao expedicao = new CabazExpedicao(entry2.getKey(), entry2.getValue(), entry.getKey());

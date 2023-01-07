@@ -27,5 +27,6 @@ char escolher_max_min(float max, float min, float valor, char tentativas, Sensor
 char escolher_frequencia(unsigned long freq2);
 void show_stats(float matrix[6][3], int rows, int cols);
 void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int limitesuperior, int limiteinferior);
+void exportCsv (Sensor* array, int size, float matrix[6][3]);
 
 #endif
