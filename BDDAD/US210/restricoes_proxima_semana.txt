@@ -1,0 +1,27 @@
+create or replace procedure restricoes_proxima_semana(p_id_parcela PARCELA.ID_PARCELA%type)
+as
+    v_existe_parcela RESTRICAO.ID_PARCELA%type;
+    v_data_atual Date := sysdate;
+    v_data_proxima_semana Date := v_data_atual + 7;
+
+    cursor c_restricoes is
+        select ID_RESTRICAO, ID_FATOR
+        from RESTRICAO
+        where ID_PARCELA = p_id_parcela
+        and DATA1 <= v_data_proxima_semana and DATA2 >= v_data_proxima_semana;
+
+begin
+    select count(ID_PARCELA) into v_existe_parcela from PARCELA where ID_PARCELA = p_id_parcela;
+
+    if(v_existe_parcela = 0) then
+        RAISE_APPLICATION_ERROR(-20000, 'Parcela não existe!');
+    end if;
+
+    DBMS_OUTPUT.PUT_LINE('>>> Restrições para a parcela ' || p_id_parcela || ' no dia ' || v_data_proxima_semana || ' <<<');
+
+    for r in c_restricoes
+    loop
+        DBMS_OUTPUT.PUT_LINE('ID RESTRICAO ' || r.ID_RESTRICAO || ', ID FATOR ' || r.ID_FATOR);
+        DBMS_OUTPUT.PUT_LINE('----------------------------------------------------');
+    end loop;
+end;

@@ -1,0 +1,14 @@
+CREATE OR REPLACE PROCEDURE INSERIR_RESTRICAO (
+    P_ID_RESTRICAO restricao.id_restricao%TYPE,
+    P_ID_PARCELA restricao.id_parcela%TYPE,
+    P_ID_FATOR restricao.id_fator%TYPE,
+    p_data1 restricao.DATA1%TYPE,
+    p_data2 restricao.DATA2%TYPE)
+AS
+BEGIN
+
+    INSERT INTO restricao (id_restricao, id_parcela, id_fator, DATA1, DATA2)
+    VALUES (P_ID_RESTRICAO, P_ID_PARCELA, P_ID_FATOR, p_data1, p_data2);
+
+    DBMS_OUTPUT.PUT_LINE('O FATOR ' || P_ID_FATOR || ' NÃO PODE SER APLICADO NA PARCELA ' || P_ID_PARCELA || ' ENTRE ' || p_data1 || ' E ' || p_data2 || '!');
+END;
