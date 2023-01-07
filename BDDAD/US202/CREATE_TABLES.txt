@@ -14,7 +14,6 @@ DROP TABLE parcela CASCADE CONSTRAINTS PURGE;
 DROP TABLE parcela_fator_producao CASCADE CONSTRAINTS PURGE;
 DROP TABLE parcela_sistema_rega CASCADE CONSTRAINTS PURGE;
 DROP TABLE produtor_agricola;
-DROP TABLE edificio CASCADE CONSTRAINTS PURGE;
 DROP TABLE produtor CASCADE CONSTRAINTS PURGE;
 DROP TABLE incidente CASCADE CONSTRAINTS PURGE;
 DROP TABLE encomenda CASCADE CONSTRAINTS PURGE;
@@ -135,11 +134,6 @@ CREATE TABLE incidente (
     CONSTRAINT FK_Incidente_Encomenda FOREIGN KEY (id_encomenda) REFERENCES encomenda(id_encomenda)
 );
 
-CREATE TABLE edificio (
-    numero_edificio INT PRIMARY KEY,
-    id_quinta INT NOT NULL,
-    CONSTRAINT FK_Edificio_Quinta FOREIGN KEY (id_quinta) REFERENCES quinta(id_quinta)
-);
 
 CREATE TABLE parcela (
     id_parcela int PRIMARY KEY,
@@ -231,7 +225,6 @@ CREATE TABLE parcela_fator_producao (
 );
 
 
-
 CREATE TABLE parcela_sistema_rega (
     id_parcela int NOT NULL,
     id_sistema INT NOT NULL,
@@ -254,12 +247,20 @@ create table complexidade (
 );
 
 
-CREATE TABLE cultura_colheita (
+CREATE TABLE parcela_cultura (
     id_cultura INT NOT NULL,
-    numero_colheita INT NOT NULL,
+    id_parcela INT NOT NULL,
     CONSTRAINT FK_cultura_colheita FOREIGN KEY (id_cultura) REFERENCES cultura(ID_Cultura),
-    CONSTRAINT FK_colheita_colheita FOREIGN KEY (numero_colheita) REFERENCES colheita(numero_colheita),
-    CONSTRAINT PK_colheita_cultura PRIMARY KEY (id_cultura, numero_colheita)
+    CONSTRAINT FK_colheita_colheita FOREIGN KEY (id_parcela) REFERENCES parcela(id_parcela),
+    CONSTRAINT PK_colheita_cultura PRIMARY KEY (id_cultura, id_parcela)
+);
+
+CREATE TABLE parcela_colheita (
+    id_cultura INT NOT NULL,
+    id_colheita INT NOT NULL,
+    CONSTRAINT FK_cultura_colheita FOREIGN KEY (id_cultura) REFERENCES cultura(ID_Cultura),
+    CONSTRAINT FK_colheita_colheita FOREIGN KEY (id_colheita) REFERENCES colheita(numero_colheita),
+    CONSTRAINT PK_colheita_cultura PRIMARY KEY (id_cultura, id_colheita)
 );
 
 CREATE TABLE estacao_meteorologica (
@@ -272,7 +273,7 @@ CREATE TABLE sensor (
     CONSTRAINT FK_estacao FOREIGN KEY (id_estacao) REFERENCES estacao_meteorologica(id_estacao)
 );
 
-    CREATE TABLE tipo_sensor (
+CREATE TABLE tipo_sensor (
         id_sensor INT NOT NULL,
     tipo CHAR(255) NOT NULL,
     quantidade_sensor_tipo INT NOT NULL,
