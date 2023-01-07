@@ -111,6 +111,7 @@ public class main {
         us308.printList(lista, 1);
         */
         
+        /*
         //US309
         US308 us308 = new US308();
         List<CabazExpedicao> producers = new ArrayList<>();
@@ -120,5 +121,6 @@ public class main {
         us308.gerarListaClientesEProdutores(cabazes, producers, clients);
         lista = US309.generateExpeditionListNClosestProd(clients, producers, map,0);
         us308.printList(lista, 1);
+        */
     }
 }
