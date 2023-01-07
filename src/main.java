@@ -6,7 +6,10 @@ import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
 import Domain.Local;
+import Shared.constants.Files;
+import US.US304;
 import US.US308;
+import US.US309;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,9 +22,9 @@ public class main {
         CsvReader readFiles = new CsvReader();
         //File1-distancias...File2-clientesProdutores..File3-cabazes
 
-        File file1 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\distancias_small.csv");
-        File file2 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\clientes-produtores_small.csv");
-        File file3 = new File("C:\\Users\\Ruben\\LEI\\2ANO\\1SEMESTRE\\LAPR3\\projeto\\src\\FICHEIROS_LEITURA\\Small\\cabazes_small.csv");
+        File file1 = new File(Files.s_distancias);
+        File file2 = new File(Files.s_clientes_produtores);
+        File file3 = new File(Files.s_cabazes);
 
         final Graph<Local, Integer> map = new MapGraph<>(false);
 
@@ -85,13 +88,19 @@ public class main {
 
     }
 
-        US308 us308 = new US308();
-        ArrayList<String> listaProdutores = new ArrayList<>();
-        List<float[]> lista = us308.getCabazesAtSomeDay(cabazes, listaProdutores, 1);
-        us308.printList(lista,listaProdutores,1);
-
-
-*/
+        /*
+        //US 303
+        final Graph<Local,Integer> graph = new MapGraph<>(false);
+        BST<Local> locais=readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");
+        readFiles.ReadDistancias(new File(Files.s_distancias), new File(Files.s_clientes_produtores), ",", graph, locais);
+        List<Local> hubs = US303.findHubs(graph,3);
+    
+        for (Local x : hubs)
+        {
+            System.out.println(x.getName() + " - " + x.getDestinatário());
+        }
+        */
+        /*
         US308 us308 = new US308();
         List<CabazExpedicao> produtores = new ArrayList<>();
         List<CabazExpedicao> clientes = new ArrayList<>();
@@ -99,6 +108,17 @@ public class main {
 
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
         lista = us308.gerarLista(clientes, produtores);
+        us308.printList(lista, 1);
+        */
+        
+        //US309
+        US308 us308 = new US308();
+        List<CabazExpedicao> producers = new ArrayList<>();
+        List<CabazExpedicao> clients = new ArrayList<>();
+        List<Expedicao> lista;
+
+        us308.gerarListaClientesEProdutores(cabazes, producers, clients);
+        lista = US309.generateExpeditionListNClosestProd(clients, producers, map,0);
         us308.printList(lista, 1);
     }
 }

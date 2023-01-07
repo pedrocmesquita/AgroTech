@@ -1,19 +1,20 @@
 package US;
 
 import CsvReader.CsvReader;
-import Domain.Hub;
+//import Domain.Hub;
 import Domain.Local;
 import Shared.BST.BST;
 import Shared.GraphCommon.Graph;
 import Shared.MapGraphs.MapGraph;
 import Shared.constants.Files;
-import org.junit.Test;
+//import org.junit.Test;
+import org.junit.jupiter.api.Test;
+//import static junit.framework.TestCase.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import static junit.framework.TestCase.*;
 
 
 class US303Test
@@ -63,7 +64,7 @@ class US303Test
     }
     
     @Test
-    void test1() throws Exception
+    void test_small1() throws Exception
     {
         final Graph<Local,Integer> graph = new MapGraph<>(false);
         BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");
@@ -88,7 +89,7 @@ class US303Test
     }
     
     @Test
-    void test2() throws Exception
+    void test_small2() throws Exception
     {
         final Graph<Local,Integer> graph = new MapGraph<>(false);
         BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");
@@ -113,37 +114,9 @@ class US303Test
         }
     }
     
-    /*
-    @Test
-    void test3() throws Exception
-    {
-        final Graph<Local,Integer> graph = new MapGraph<>(false);
-        BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.b_clientes_produtores),",");
-        readFiles.ReadDistancias(new File(Files.b_distancias), new File(Files.b_clientes_produtores), ",", graph, locais);
-        
-        List<Local> actual = US303.findHubs(graph, 3);
-        List<Local> expected = new ArrayList<>();
-        
-        expected.add(new Local("CT146","40.1125","-8.2469","E49"));
-        expected.add(new Local("CT142","40.2594","-8.3168","E71"));
-        expected.add(new Local("CT33","39.9167","-8.4333","E86"));
-        
-        assertNotNull(actual);
-        assertEquals(expected.size(), actual.size());
-        
-        for (int i = 0; i < expected.size(); i++)
-        {
-            assertEquals(expected.get(i).getName(), actual.get(i).getName());
-            assertEquals(expected.get(i).getLat(), actual.get(i).getLat());
-            assertEquals(expected.get(i).getLng(), actual.get(i).getLng());
-            assertEquals(expected.get(i).getDestinatário(), actual.get(i).getDestinatário());
-            i++;
-        }
-    }
-    */
     
     @Test
-    void test3() throws Exception
+    void test_small3() throws Exception
     {
         final Graph<Local,Integer> graph = new MapGraph<>(false);
         BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");
@@ -170,7 +143,85 @@ class US303Test
     }
     
     @Test
-    void test4() throws Exception
+    void test_big1() throws Exception
+    {
+        final Graph<Local,Integer> graph = new MapGraph<>(false);
+        BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.b_clientes_produtores),",");
+        readFiles.ReadDistancias(new File(Files.b_distancias), new File(Files.b_clientes_produtores), ",", graph, locais);
+        
+        List<Local> actual = US303.findHubs(graph, 1);
+        List<Local> expected = new ArrayList<>();
+        
+        expected.add(new Local("CT146","40.1125","-8.2469","E49"));
+        
+        assertNotNull(actual);
+        assertEquals(expected.size(), actual.size());
+        
+        for (int i = 0; i < expected.size(); i++)
+        {
+            assertEquals(expected.get(i).getName(), actual.get(i).getName());
+            assertEquals(expected.get(i).getLat(), actual.get(i).getLat());
+            assertEquals(expected.get(i).getLng(), actual.get(i).getLng());
+            assertEquals(expected.get(i).getDestinatário(), actual.get(i).getDestinatário());
+            i++;
+        }
+    }
+    
+    @Test
+    void test_big2() throws Exception
+    {
+        final Graph<Local,Integer> graph = new MapGraph<>(false);
+        BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.b_clientes_produtores),",");
+        readFiles.ReadDistancias(new File(Files.b_distancias), new File(Files.b_clientes_produtores), ",", graph, locais);
+        
+        List<Local> actual = US303.findHubs(graph, 2);
+        List<Local> expected = new ArrayList<>();
+        
+        expected.add(new Local("CT146","40.1125","-8.2469","E49"));
+        expected.add(new Local("CT142","40.2594","-8.3168","E71"));
+        
+        assertNotNull(actual);
+        assertEquals(expected.size(), actual.size());
+        
+        for (int i = 0; i < expected.size(); i++)
+        {
+            assertEquals(expected.get(i).getName(), actual.get(i).getName());
+            assertEquals(expected.get(i).getLat(), actual.get(i).getLat());
+            assertEquals(expected.get(i).getLng(), actual.get(i).getLng());
+            assertEquals(expected.get(i).getDestinatário(), actual.get(i).getDestinatário());
+            i++;
+        }
+    }
+    
+    @Test
+    void test_big3() throws Exception
+    {
+        final Graph<Local,Integer> graph = new MapGraph<>(false);
+        BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.b_clientes_produtores),",");
+        readFiles.ReadDistancias(new File(Files.b_distancias), new File(Files.b_clientes_produtores), ",", graph, locais);
+        
+        List<Local> actual = US303.findHubs(graph, 3);
+        List<Local> expected = new ArrayList<>();
+        
+        expected.add(new Local("CT146","40.1125","-8.2469","E49"));
+        expected.add(new Local("CT142","40.2594","-8.3168","E71"));
+        expected.add(new Local("CT209","40.2667","-8.2667","E40"));
+        
+        assertNotNull(actual);
+        assertEquals(expected.size(), actual.size());
+        
+        for (int i = 0; i < expected.size(); i++)
+        {
+            assertEquals(expected.get(i).getName(), actual.get(i).getName());
+            assertEquals(expected.get(i).getLat(), actual.get(i).getLat());
+            assertEquals(expected.get(i).getLng(), actual.get(i).getLng());
+            assertEquals(expected.get(i).getDestinatário(), actual.get(i).getDestinatário());
+            i++;
+        }
+    }
+    
+    @Test
+    void test_big4() throws Exception
     {
         final Graph<Local,Integer> graph = new MapGraph<>(false);
         BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.b_clientes_produtores),",");
