@@ -1,6 +1,5 @@
 package US;
 
-import Domain.CabazExpedicao;
 import Domain.Expedicao;
 import Domain.US311.Cabaz311;
 import Domain.US311.Cliente311;
@@ -61,13 +60,13 @@ distintos que fornecem cabazes para o hub.
                 }
                 String nome = lista.getCliente().getName();
                     if (lista1.getCliente().getName().equals(nome)) {
-                        if (lista1.getQuantidadePedida() == lista1.getQuantidadeFornecida()) {
+                        if (lista1.getQuantidadePedida() == lista1.getQuantidadeAFornecer()) {
                             ctotal++;
                         }
-                        if (lista1.getQuantidadePedida() < lista1.getQuantidadeFornecida()) {
+                        if (lista1.getQuantidadePedida() < lista1.getQuantidadeAFornecer()) {
                             cparcial++;
                         }
-                        if (lista1.getQuantidadePedida() > lista1.getQuantidadeFornecida()) {
+                        if (lista1.getQuantidadePedida() > lista1.getQuantidadeAFornecer()) {
                             cnaosatisfeito++;
                         }
                         if (!produtor.equals(produtor2)) {
@@ -77,13 +76,13 @@ distintos que fornecem cabazes para o hub.
                         output.add(new Cliente311(ctotal, cparcial, nprodutor));
                         //por cabaz
                         if (lista1.getDia() == day) {
-                            if (lista1.getQuantidadePedida() == lista1.getQuantidadeFornecida()) {
+                            if (lista1.getQuantidadePedida() == lista1.getQuantidadeAFornecer()) {
                                 ptotal++;
                             }
-                            if (lista1.getQuantidadePedida() < lista1.getQuantidadeFornecida()) {
+                            if (lista1.getQuantidadePedida() < lista1.getQuantidadeAFornecer()) {
                                 pparcial++;
                             }
-                            if (lista1.getQuantidadePedida() > lista1.getQuantidadeFornecida()) {
+                            if (lista1.getQuantidadePedida() > lista1.getQuantidadeAFornecer()) {
                                 pnaosatisfeito++;
                             }
                             nprodutorcabaz++;
@@ -92,13 +91,13 @@ distintos que fornecem cabazes para o hub.
                         output.add(new Cabaz311(ptotal, pparcial, pnaosatisfeito,percentagem, nprodutorcabaz));
                     }
                     if (lista1.getProdutor().getName().equals(produtor)) {
-                        if (lista1.getQuantidadePedida() == lista1.getQuantidadeFornecida()) {
+                        if (lista1.getQuantidadePedida() == lista1.getQuantidadeAFornecer()) {
                             ptotal++;
                         }
-                        if (lista1.getQuantidadePedida() < lista1.getQuantidadeFornecida()) {
+                        if (lista1.getQuantidadePedida() < lista1.getQuantidadeAFornecer()) {
                             pparcial++;
                         }
-                        if (lista1.getQuantidadePedida() > lista1.getQuantidadeFornecida()) {
+                        if (lista1.getQuantidadePedida() > lista1.getQuantidadeAFornecer()) {
                             pnaosatisfeito++;
                         }
                         if (!lista1.getCliente().getName().equals(nome)) {

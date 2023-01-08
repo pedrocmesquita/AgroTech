@@ -5,7 +5,7 @@ public class Expedicao {
     private Destinatário cliente;
     private Destinatário produtor;
     private float quantidadePedida;
-    private float quantidadeFornecida;
+    private float quantidadeAFornecer;
     private float quantidadeSobra;
     private int numeroProduto;
     private int dia;
@@ -16,11 +16,21 @@ public class Expedicao {
         this.cliente = cliente;
         this.produtor = produtor;
         this.quantidadePedida = quantidadePedida;
-        this.quantidadeFornecida = quantidadeFornecida;
+        this.quantidadeAFornecer = quantidadeFornecida;
         this.quantidadeSobra = quantidadeSobra;
         this.numeroProduto = numeroProduto;
         this.dia = dia;
         this.hub = hub;
+    }
+
+    public Expedicao(Destinatário cliente, Destinatário produtor, float quantidadePedida, float quantidadeFornecida, float quantidadeSobra, int numeroProduto, int dia) {
+        this.cliente = cliente;
+        this.produtor = produtor;
+        this.quantidadePedida = quantidadePedida;
+        this.quantidadeAFornecer = quantidadeFornecida;
+        this.quantidadeSobra = quantidadeSobra;
+        this.numeroProduto = numeroProduto;
+        this.dia = dia;
     }
 
     public Destinatário getCliente() {
@@ -47,12 +57,12 @@ public class Expedicao {
         this.quantidadePedida = quantidadePedida;
     }
 
-    public float getQuantidadeFornecida() {
-        return quantidadeFornecida;
+    public float getQuantidadeAFornecer() {
+        return quantidadeAFornecer;
     }
 
-    public void setQuantidadeFornecida(float quantidadeFornecida) {
-        this.quantidadeFornecida = quantidadeFornecida;
+    public void setQuantidadeAFornecer(float quantidadeAFornecer) {
+        this.quantidadeAFornecer = quantidadeAFornecer;
     }
 
     public float getQuantidadeSobra() {
