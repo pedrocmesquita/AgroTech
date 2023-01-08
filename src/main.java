@@ -100,16 +100,16 @@ public class main {
             System.out.println(x.getName() + " - " + x.getDestinatário());
         }
         */
-        /*
+/*
         US308 us308 = new US308();
         List<CabazExpedicao> produtores = new ArrayList<>();
         List<CabazExpedicao> clientes = new ArrayList<>();
         List<Expedicao> lista;
 
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
-        lista = us308.gerarLista(clientes, produtores);
+        lista = us308.gerarLista(clientes, produtores, map);
         us308.printList(lista, 1);
-        */
+ */
         
         /*
         //US309

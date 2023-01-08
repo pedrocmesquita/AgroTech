@@ -21,7 +21,7 @@ public class US310 {
         List<Local> hubs = US303.findHubs(map, numeroHubs);
         List<Local> produtores = map.vertices().stream().filter(p -> p.getName().charAt(0) == 'P').toList();
         List<Expedicao> expList;
-
+/*
         if(numeroProdutores == 0){
             expList = new US308().gerarLista(); --------
                     minPath(hubs, produtores, expList, map);
@@ -224,5 +224,7 @@ public class US310 {
 
 
         return minDist;
+
+ */
     }
 }
