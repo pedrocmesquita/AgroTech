@@ -1,9 +1,6 @@
 package US;
 
-import Domain.Destinatário;
-import Domain.CabazExpedicao;
-import Domain.Expedicao;
-import Domain.Local;
+import Domain.*;
 import Domain.US304.ParClienteHub;
 import Shared.GraphCommon.Algorithms;
 import Shared.GraphCommon.Graph;
@@ -19,12 +16,28 @@ import java.util.*;
  * @author Pedro Mesquita 12111171
  */
 public class US310 {
-    static void minPath(List<ParClienteHub> parClienteHubs, List<Local> hubs, List<Local> produtores, List<Expedicao> exp, Graph<Local, Integer> map){
+    static void US310call(int dia, int numeroHubs, int numeroProdutores, Graph<Local, Integer> map){
+
+        List<Local> hubs = US303.findHubs(map, numeroHubs);
+        List<Local> produtores = map.vertices().stream().filter(p -> p.getName().charAt(0) == 'P').toList();
+        List<Expedicao> expList;
+
+        if(numeroProdutores == 0){
+            expList = new US308().gerarLista(); --------
+                    minPath(hubs, produtores, expList, map);
+        }else{
+            expList = US309.generateExpeditionListNClosestProd(,,,dia); -------
+                    minPath(hubs, produtores, expList, map);
+        }
+    }
+
+
+    static void minPath(List<Local> hubs, List<Local> produtores, List<Expedicao> exp, Graph<Local, Integer> map){
         int nProdutores = produtores.size();
         int nHubs = hubs.size();
         List<Local> ProdutoresPassados = new LinkedList<>();
         List<Local> HubsPassados = new LinkedList<>();
-        List<Local> caminho = new ArrayList<>();
+        LinkedList<Local> caminho = new LinkedList<>();
         List<Map.Entry<String, Integer>> pontosDistancia = new ArrayList<>();
         Integer distanciaTotal = 0;
 
@@ -32,7 +45,7 @@ public class US310 {
         caminho.add(produtores.get(0));
 
         while(nProdutores>0) {
-            Integer minDist = getDistMinProdutor(map, ProdutoresPassados.get(ProdutoresPassados.size() - 1), ProdutoresPassados, produtores, pontosDistancia, caminho);
+            Integer minDist = getDistMinProdutor(map, caminho.getLast(), ProdutoresPassados, produtores, pontosDistancia, caminho);
 
             distanciaTotal += minDist;
 
@@ -40,17 +53,125 @@ public class US310 {
         }
 
         while(nHubs>0){
-            Integer minDist =0;
+            Integer minDist =getDistMinHub(map, caminho.getLast(), HubsPassados, hubs, pontosDistancia, caminho);
 
             distanciaTotal += minDist;
 
             nHubs--;
         }
+
+        Map<Local, List<Expedicao>> hubComOsSeusProdutos = new HashMap<>();
+
+        for (Expedicao e : exp) {
+
+            Local hub = e.getHub();
+
+            if(!hubComOsSeusProdutos.containsKey(hub)){
+
+                hubComOsSeusProdutos.put(hub, new ArrayList<>());
+                hubComOsSeusProdutos.get(hub).add(e);
+
+            }else{
+
+                List<Expedicao> contemKey = hubComOsSeusProdutos.get(hub);
+                contemKey.add(e);
+
+            }
+
+        }
+
+
+
+        System.out.println("Caminho: \n");
+        for (int i = 0; i < caminho.size(); i++) {
+            if(i != caminho.size() - 1)
+                System.out.printf(caminho.get(i).getName() + " -> ");
+            else
+                System.out.printf(caminho.get(i).getName());
+        }
+        System.out.println();
+
+        System.out.println("Distancia Total: " + distanciaTotal);
+
+        System.out.println("Distancias Singulares: \n");
+        for (int i = 0; i < pontosDistancia.size(); i++) {
+            System.out.println(pontosDistancia.get(i).getKey() + ": " + pontosDistancia.get(i).getValue() + " m");
+        }
+        System.out.println();
+
+        for(Local hub : hubComOsSeusProdutos.keySet()){
+            System.out.println("\nHub: " + hub.getName() + "\n");
+
+            List<Expedicao> produtosEntregues = hubComOsSeusProdutos.get(hub);
+
+            for(Expedicao produto : produtosEntregues){
+                System.out.println("\tQuantidade Entregue: " + produto.getQuantidadeFornecida() + " | Quantidade Pedida: " + produto.getQuantidadePedida());
+            }
+            System.out.println();
+        }
+
+
     }
 
-    private static Integer getDistMinHub(Graph<Local, Integer> map, Local produtor, List<Local> produtoresPassados, List<Local> produtores, List<Map.Entry<String, Integer>> pontosDistancia, List<Local> caminho) {
+    private static Map<Local, Local> transformListIntoMap(List<ParClienteHub> clienteHubs) {
+        Map<Local, Local> toReturn = new HashMap<>();
 
-        return 0;
+        for(ParClienteHub clienteHub : clienteHubs){
+            toReturn.put(clienteHub.getCliente(), clienteHub.getEmpresa());
+        }
+
+        return toReturn;
+    }
+
+    private static Integer getDistMinHub(Graph<Local, Integer> map, Local hub, List<Local> HubsPassados, List<Local> hubs, List<Map.Entry<String, Integer>> pontosDistancia, List<Local> caminho) {
+        ArrayList<Integer> distancias = new ArrayList<>();
+
+        Integer minDist = Integer.MAX_VALUE;
+        Local hubMaisProx = null;
+
+        ArrayList<LinkedList<Local>> paths = new ArrayList<>();
+
+        Algorithms.shortestPaths(
+                map,
+                hub,
+                Integer::compare,
+                Integer::sum,
+                0,
+                paths,
+                distancias
+        );
+
+        for(Local h : hubs){
+            if(!HubsPassados.contains(hub)){
+                if(distancias.get(map.key(hub)) < minDist){
+                    hubMaisProx = hub;
+                    minDist = distancias.get(map.key(hub));
+                }
+            }
+        }
+
+        LinkedList<Local> path = paths.get(map.key(hubMaisProx));
+
+        caminho.addAll(path.subList(1, path.size()));
+
+        for (int i = 0; i < path.size() - 1; i++) {
+            Integer distanciaEntreDoisPontos = Algorithms.shortestPath(
+                    map,
+                    path.get(i),
+                    path.get(i+1),
+                    Integer::compare,
+                    Integer::sum,
+                    0,
+                    new LinkedList<>()
+            );
+
+            String key = path.get(i).getName() + "-" + path.get(i+1).getName();
+            Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<>(key, distanciaEntreDoisPontos);
+            pontosDistancia.add(entry);
+        }
+
+
+        return minDist;
     }
 
     private static Integer getDistMinProdutor(Graph<Local, Integer> map, Local produtor, List<Local> produtoresPassados, List<Local> produtores, List<Map.Entry<String, Integer>> pontosDistancia, List<Local> caminho) {
