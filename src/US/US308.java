@@ -11,8 +11,6 @@ import java.util.*;
 
 public class US308 {
 
-    static Scanner sc = new Scanner(System.in);
-
     public void gerarListaClientesEProdutores(Map<Integer, Map<Destinatário, List<float[]>>> cabazesMap, List<CabazExpedicao> produtores, List<CabazExpedicao> clientes) throws Exception {
 
         if (cabazesMap.isEmpty()) {
@@ -37,6 +35,7 @@ public class US308 {
 
     public List<Expedicao> gerarLista(List<CabazExpedicao> clientes, List<CabazExpedicao> produtores, Graph<Local, Integer> map) {
         List<Expedicao> lista = new ArrayList<>();
+        List<Expedicao> listaFinal = new ArrayList<>();
 
         for (CabazExpedicao c : clientes) {
             List<ParClienteHub> delivery_hub = US304.findNearestHubs(map, 1);
@@ -55,13 +54,68 @@ public class US308 {
 
                             if (arrC[j] <= arrP[j] && arrC[j] != 0) {
                                 lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia(),delivery_hub.get(0).getEmpresa()));
+                                //lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia()));
                             }
                         }
                     }
                 }
             }
         }
-        return lista;
+
+        updateProdutos(lista);
+
+        for (Expedicao expedicao : lista) {
+            if (expedicao.getQuantidadeSobra() >= 0) {
+                listaFinal.add(expedicao);
+            }
+        }
+        return listaFinal;
+    }
+
+    public void updateProdutos(List<Expedicao> lista) {
+        int size = lista.size();
+        float sobra;
+
+        for (int i = 0; i < size; i++) {
+
+            sobra = lista.get(i).getQuantidadeSobra();
+
+            //sobras para o proximo dia
+            if (sobra > 0) {
+                for (int j = 1; j < size - 1; j++) {
+                    if (lista.get(i).getCliente() == lista.get(j).getCliente()) {
+                        if (lista.get(i).getProdutor() == lista.get(j).getProdutor()) {
+                            if (lista.get(i).getNumeroProduto() == lista.get(j).getNumeroProduto()) {
+                                if (lista.get(j).getDia() - lista.get(i).getDia() == 1) {
+                                    lista.get(j).setQuantidadeAFornecer(lista.get(j).getQuantidadeAFornecer() + sobra);
+                                    if (lista.get(j).getQuantidadeAFornecer() - lista.get(j).getQuantidadePedida() >= 0) {
+                                        lista.get(j).setQuantidadeSobra(lista.get(j).getQuantidadeAFornecer() - lista.get(j).getQuantidadePedida());
+                                    }
+
+                                    //sobras para dia 2
+                                    if (sobra > lista.get(j).getQuantidadePedida()) {
+                                        for (int k = 2; k < size - 2; k++) {
+                                            if (lista.get(k).getCliente() == lista.get(j).getCliente()) {
+                                                if (lista.get(j).getProdutor() == lista.get(k).getProdutor()) {
+                                                    if (lista.get(j).getNumeroProduto() == lista.get(k).getNumeroProduto()) {
+                                                        if (lista.get(k).getDia() - lista.get(j).getDia() == 1) {
+                                                            lista.get(k).setQuantidadeAFornecer(lista.get(k).getQuantidadeAFornecer() + sobra);
+                                                            if (lista.get(k).getQuantidadeAFornecer() - lista.get(k).getQuantidadePedida() >= 0) {
+                                                                lista.get(k).setQuantidadeSobra(lista.get(k).getQuantidadeAFornecer() - lista.get(k).getQuantidadePedida());
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void printList(List<Expedicao> expedicao, int dia) {
@@ -71,7 +125,7 @@ public class US308 {
             if (lista.getDia() == dia) {
                 System.out.println(">> Cliente: " + lista.getCliente().getName());
                 System.out.println("Produto " + lista.getNumeroProduto() + " --> Produtor " + lista.getProdutor().getName());
-                System.out.println("Quantidade pedida = " + lista.getQuantidadePedida() + " --> Quantidade Expedida " + lista.getQuantidadeFornecida());
+                System.out.println("Quantidade pedida = " + lista.getQuantidadePedida() + " --> Quantidade Possivel de Ser Expedida " + lista.getQuantidadeAFornecer());
                 System.out.println("Sobrou: " + lista.getQuantidadeSobra());
                 System.out.println("------------------------------------------------------------");
             }
