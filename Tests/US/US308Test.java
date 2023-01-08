@@ -45,38 +45,43 @@ public class US308Test {
 
     @Test
     public void teste1() throws Exception {
+        final Graph<Local, Integer> map = new MapGraph<>(false);
         readFiles.ReadDistancias(file1,file2,",",map,locais);
         readFiles.ReadCabaz(file3,",",cabazes);
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
-        lista = us308.gerarLista(clientes, produtores);
+        lista = us308.gerarLista(clientes, produtores,map);
         us308.printList(lista, 1);
     }
     @Test
     public void teste2() throws Exception {
+        final Graph<Local, Integer> map = new MapGraph<>(false);
         readFiles.ReadCabaz(file3,",",cabazes);
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
-        lista = us308.gerarLista(clientes, produtores);
+        lista = us308.gerarLista(clientes, produtores,map);
         us308.printList(lista, 2);
     }
     @Test
     public void teste3() throws Exception {
+        final Graph<Local, Integer> map = new MapGraph<>(false);
         readFiles.ReadCabaz(file3,",",cabazes);
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
-        lista = us308.gerarLista(clientes, produtores);
+        lista = us308.gerarLista(clientes, produtores,map);
         us308.printList(lista, 3);
     }
     @Test
     public void teste4() throws Exception {
+        final Graph<Local, Integer> map = new MapGraph<>(false);
         readFiles.ReadCabaz(file3,",",cabazes);
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
-        lista = us308.gerarLista(clientes, produtores);
+        lista = us308.gerarLista(clientes, produtores,map);
         us308.printList(lista, 4);
     }
     @Test
     public void teste5() throws Exception {
+        final Graph<Local, Integer> map = new MapGraph<>(false);
         readFiles.ReadCabaz(file3,",",cabazes);
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
-        lista = us308.gerarLista(clientes, produtores);
+        lista = us308.gerarLista(clientes, produtores,map);
         us308.printList(lista, 5);
     }
 }

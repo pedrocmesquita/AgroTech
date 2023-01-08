@@ -10,7 +10,9 @@ public class Expedicao {
     private int numeroProduto;
     private int dia;
 
-    public Expedicao(Destinatário cliente, Destinatário produtor, float quantidadePedida, float quantidadeFornecida, float quantidadeSobra, int numeroProduto, int dia) {
+    private Local hub;
+
+    public Expedicao(Destinatário cliente, Destinatário produtor, float quantidadePedida, float quantidadeFornecida, float quantidadeSobra, int numeroProduto, int dia, Local hub) {
         this.cliente = cliente;
         this.produtor = produtor;
         this.quantidadePedida = quantidadePedida;
@@ -18,6 +20,7 @@ public class Expedicao {
         this.quantidadeSobra = quantidadeSobra;
         this.numeroProduto = numeroProduto;
         this.dia = dia;
+        this.hub = hub;
     }
 
     public Destinatário getCliente() {
@@ -74,5 +77,9 @@ public class Expedicao {
 
     public void setDia(int dia) {
         this.dia = dia;
+    }
+
+    public Local getHub() {
+        return hub;
     }
 }

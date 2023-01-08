@@ -3,6 +3,9 @@ package US;
 import Domain.Destinatário;
 import Domain.CabazExpedicao;
 import Domain.Expedicao;
+import Domain.Local;
+import Domain.US304.ParClienteHub;
+import Shared.GraphCommon.Graph;
 
 import java.util.*;
 
@@ -32,10 +35,11 @@ public class US308 {
         }
     }
 
-    public List<Expedicao> gerarLista(List<CabazExpedicao> clientes, List<CabazExpedicao> produtores) {
+    public List<Expedicao> gerarLista(List<CabazExpedicao> clientes, List<CabazExpedicao> produtores, Graph<Local, Integer> map) {
         List<Expedicao> lista = new ArrayList<>();
 
         for (CabazExpedicao c : clientes) {
+            List<ParClienteHub> delivery_hub = US304.findNearestHubs(map, 1);
             for (CabazExpedicao p : produtores) {
 
                 if (p.getDia() == c.getDia()) {
@@ -50,7 +54,7 @@ public class US308 {
                         for (int j = 0; j < arrC.length; j++) {
 
                             if (arrC[j] <= arrP[j] && arrC[j] != 0) {
-                                lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia()));
+                                lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia(),delivery_hub.get(0).getEmpresa()));
                             }
                         }
                     }

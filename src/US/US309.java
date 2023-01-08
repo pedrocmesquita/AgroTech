@@ -113,7 +113,7 @@ public class US309
                             {
                                 if (arrC[j] <= arrP[j] && arrC[j] != 0)
                                 {
-                                    lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia()));
+                                    lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia(), delivery_hub.get(0).getEmpresa()));
                                 }
                             }
                         }
