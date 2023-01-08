@@ -270,6 +270,8 @@ CREATE TABLE estacao_meteorologica (
 CREATE TABLE sensor (
     ID_Sensor INT PRIMARY KEY,
     id_estacao INT NOT NULL ,
+    tipo_sensor char(2) NOT NULL,
+    ref_sensor INT NOT NULL,
     CONSTRAINT FK_estacao FOREIGN KEY (id_estacao) REFERENCES estacao_meteorologica(id_estacao)
 );
 
