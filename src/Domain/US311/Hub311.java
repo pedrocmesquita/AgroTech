@@ -19,4 +19,10 @@ public class Hub311 {
     public void setNprodutor(int nprodutor) {
         this.nprodutor = nprodutor;
     }
+    public String toString() {
+        return "Hub{" +
+                "nº de clientes=" + nclientes +
+                ",nº de produtores=" + nprodutor +
+                '}';
+    }
 }

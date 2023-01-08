@@ -44,6 +44,14 @@ public class Cabaz311 {
     public void setNprodutor(int nprodutor) {
         this.nprodutor = nprodutor;
     }
-
+    public String toString() {
+        return "Cabaz{" +
+                "nº de produtos totalmente satisfeitos =" + nprodutostotal +
+                ", nº de produtos parcialmente satisfeitos=" + nprodutosparcial +
+                ", nº de produtos não satisfeitos=" + nprodutosnaosatisfeito +
+                ", percentagem total do cabaz satisfeito=" + percentagem +
+                ", nº de produtores=" + nprodutor +
+                '}';
+    }
 
 }

@@ -55,5 +55,14 @@ distintos que fornecem cabazes para o hub.
     public void setNhub(int nhub) {
         this.nhub = nhub;
     }
+    public String toString() {
+        return "Produtor{" +
+                "nº de cabazes totalmente satisfeitos=" + ncabazestotal +
+                ", nº de cabazes parcialmente satisfeitos =" + ncabazesparcial +
+                ", nº de clientes=" + nclientes +
+                ", nº de produtos esgotados=" + nprodutoesgotado +
+                ", nº de hubs=" + nhub +
+                '}';
+    }
 
 }

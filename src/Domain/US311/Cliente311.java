@@ -28,4 +28,11 @@ public class Cliente311 {
         this.fornecedores = fornecedores;
     }
 
+    public String toString() {
+        return "Cliente{" +
+                "nº de cabazes totalmente satisfeitos=" + ctotal +
+                ", nº de cabazes parcialmente satisfeitos=" + cparcial +
+                ", nº defornecedores=" + fornecedores +
+                '}';
+    }
 }

@@ -10,6 +10,7 @@ import Shared.constants.Files;
 import US.US304;
 import US.US308;
 import US.US309;
+import US.US310;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -100,16 +101,17 @@ public class main {
             System.out.println(x.getName() + " - " + x.getDestinatário());
         }
         */
-        /*
-        US308 us308 = new US308();
+
+        /*US308 us308 = new US308();
         List<CabazExpedicao> produtores = new ArrayList<>();
         List<CabazExpedicao> clientes = new ArrayList<>();
         List<Expedicao> lista;
 
         us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
-        lista = us308.gerarLista(clientes, produtores);
-        us308.printList(lista, 1);
-        */
+        lista = us308.gerarLista(clientes, produtores, map);
+        us308.printList(lista, 3);
+
+         */
         
         /*
         //US309
@@ -122,5 +124,7 @@ public class main {
         lista = US309.generateExpeditionListNClosestProd(clients, producers, map,0);
         us308.printList(lista, 1);
         */
+
+
     }
 }

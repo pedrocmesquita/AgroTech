@@ -127,6 +127,7 @@ public class US308 {
                 System.out.println("Produto " + lista.getNumeroProduto() + " --> Produtor " + lista.getProdutor().getName());
                 System.out.println("Quantidade pedida = " + lista.getQuantidadePedida() + " --> Quantidade Possivel de Ser Expedida " + lista.getQuantidadeAFornecer());
                 System.out.println("Sobrou: " + lista.getQuantidadeSobra());
+                System.out.println("Hub: " + lista.getHub());
                 System.out.println("------------------------------------------------------------");
             }
         }

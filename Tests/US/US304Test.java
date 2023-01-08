@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class US304Test {
 CsvReader readFiles = new CsvReader();
 /*
-    @Test
+    /*@Test
     void Test1() throws Exception {
 
         List<ParClienteHub> clients = ParClienteHub.getParClienteHubList();
@@ -33,8 +33,8 @@ CsvReader readFiles = new CsvReader();
         assertEquals(clients.get(0).getCliente().getName(), "C1");
         assertEquals(clients.get(0).getHub().getName(), "A");
 
-    }
+    }*/
 
- */
+
 
     }
