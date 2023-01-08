@@ -92,4 +92,8 @@ public class Expedicao {
     public Local getHub() {
         return hub;
     }
+    public String toString(){
+
+        return "Cliente: " + cliente + " Produtor: " + produtor + " Quantidade Pedida: " + quantidadePedida + " Quantidade a Fornecer: " + quantidadeAFornecer + " Quantidade Sobra: " + quantidadeSobra + " Numero Produto: " + numeroProduto + " Dia: " + dia;
+    }
 }

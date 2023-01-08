@@ -356,3 +356,14 @@ CREATE TABLE operacao_fator (
     CONSTRAINT fk_id_fator FOREIGN KEY (id_fator) REFERENCES fator_producao(id_fator),
     CONSTRAINT ck_forma_fator CHECK (forma_aplicacao = 'foliar' or forma_aplicacao = 'fertirrega' or forma_aplicacao = 'solo')
 );
+
+CREATE TABLE pistas_auditoria(
+    id_registo           INT GENERATED AS IDENTITY START WITH 1 INCREMENT BY 1,
+    id_parcela             INT constraint nn_idOperacao NOT NULL,
+    utilizador          varchar(128) constraint nn_utilizador NOT NULL,
+    data_tempo_operacao    date constraint nn_dataOperacao_RegistoOperacoesAgricolas NOT NULL,
+    tipo_alteracao       char(6) constraint nn_tipoAlteracao_RegistoOperacoesAgricolas NOT NULL,
+    constraint pk_RegistoOperacoesAgricolas PRIMARY KEY (id_registo),
+    constraint check_type CHECK (lower(tipo_alteracao) IN ('delete', 'update', 'insert')),
+    constraint fk_id_parcela FOREIGN KEY (id_parcela) REFERENCES parcela(id_parcela)
+);

@@ -1,10 +1,13 @@
 package US;
 
+import CsvReader.CsvReader;
 import Domain.*;
 import Domain.US304.ParClienteHub;
 import Shared.GraphCommon.Algorithms;
 import Shared.GraphCommon.Graph;
+import Shared.constants.Files;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -16,18 +19,31 @@ import java.util.*;
  * @author Pedro Mesquita 12111171
  */
 public class US310 {
-    static void US310call(int dia, int numeroHubs, int numeroProdutores, Graph<Local, Integer> map){
-
+    static void US310call(int dia, int numeroHubs, int numeroProdutores, Graph<Local, Integer> map) throws Exception {
+        CsvReader readFiles = new CsvReader();
+        File file3 = new File(Files.s_cabazes);
+        final Map<Integer, Map<Destinatário, List<float[]>>> cabazes = new HashMap<>();
+        readFiles.ReadCabaz(file3, ",", cabazes);//mapa dos Cabazes
         List<Local> hubs = US303.findHubs(map, numeroHubs);
-        List<Local> produtores = map.vertices().stream().filter(p -> p.getName().charAt(0) == 'P').toList();
         List<Expedicao> expList;
-/*
+        List<CabazExpedicao> produtores = new ArrayList<>();
+        List<CabazExpedicao> clientes = new ArrayList<>();
+        List<Expedicao> lista;
+        List<Local> produtores1 = map.vertices().stream().filter(p -> p.getName().charAt(0) == 'P').toList();
+
+        US308 us308 = new US308();
+
+        us308.gerarListaClientesEProdutores(cabazes, produtores, clientes);
+
         if(numeroProdutores == 0){
-            expList = new US308().gerarLista(); --------
-                    minPath(hubs, produtores, expList, map);
+            expList = new US308().gerarLista(clientes, produtores, map);
+            assert hubs != null;
+            minPath(hubs, produtores1, expList, map);
         }else{
-            expList = US309.generateExpeditionListNClosestProd(,,,dia); -------
-                    minPath(hubs, produtores, expList, map);
+            expList = US309.generateExpeditionListNClosestProd(clientes,produtores,map,dia);
+            assert hubs != null;
+            minPath(hubs, produtores1, expList, map);
+
         }
     }
 
@@ -105,7 +121,7 @@ public class US310 {
             List<Expedicao> produtosEntregues = hubComOsSeusProdutos.get(hub);
 
             for(Expedicao produto : produtosEntregues){
-                System.out.println("\tQuantidade Entregue: " + produto.getQuantidadeFornecida() + " | Quantidade Pedida: " + produto.getQuantidadePedida());
+                System.out.println("\tQuantidade Entregue: " + produto.getQuantidadeAFornecer() + " | Quantidade Pedida: " + produto.getQuantidadePedida());
             }
             System.out.println();
         }
@@ -224,7 +240,5 @@ public class US310 {
 
 
         return minDist;
-
- */
     }
 }
