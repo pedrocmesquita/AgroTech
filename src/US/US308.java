@@ -53,7 +53,7 @@ public class US308 {
                         for (int j = 0; j < arrC.length; j++) {
 
                             if (arrC[j] <= arrP[j] && arrC[j] != 0) {
-                                lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia(),delivery_hub.get(0).getEmpresa()));
+                                lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia(),delivery_hub.get(i).getEmpresa()));
                                 //lista.add(new Expedicao(c.getDestinatario(), p.getDestinatario(), arrC[j], arrP[j], arrP[j] - arrC[j], j + 1, c.getDia()));
                             }
                         }
