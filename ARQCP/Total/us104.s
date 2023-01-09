@@ -1,7 +1,7 @@
-.global .text
-    .global limit_sensor
+.section .text
+    .global limite_sensor
 
-limit_sensor:
+limite_sensor:
 
     loop:
         cmpl %edx, %edi
@@ -20,7 +20,7 @@ limit_sensor:
             ret
 
         end:
-            movl $0, %eax
+            movl $-1, %eax
             ret
 
             

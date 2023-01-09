@@ -1,5 +1,0 @@
-SENSOR,FREQUENCIAS
-freq1,3
-freq2,4
-freq3,5
-freq4,7

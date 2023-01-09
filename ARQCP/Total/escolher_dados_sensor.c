@@ -6,18 +6,17 @@
 
 
 char escolher_max_min(float max, float min, float valor, char tentativas, Sensor *sensores){
-    int res = limite_sensor(max,min, valor);
+    int res = limite_sensor(max, min, valor);
 
 
-    while(res == 0){
+    while(res == -1){
         for(int j = 1; j < tentativas; j++){
-            printf("======== ERRO ========\nValor fora de limite!\nTem mais %d opções.\n", tentativas-j );
+            printf("\n======== ERRO ========\nValor fora de limite!\nTem mais %d opções.\n", tentativas-j );
             printf("Minimo:");
             scanf("%f", &min);
             printf("Máximo");
             scanf("%f", &max);
 
-            res = limite_sensor(max,min, valor);
             if(tentativas - j == 0){
                 printf("NÃO TEM MAIS TENTATIVAS!\n\n\n REINICIANDO ... ");
 
@@ -29,19 +28,22 @@ char escolher_max_min(float max, float min, float valor, char tentativas, Sensor
                     printf("An error occured initializing the random number generator.\n");
                     return 0;
                 }
+                res = limite_sensor(max,min, valor);
                 break;
             }
         }
     }
 
-    printf("Os valores são possiveis");
+    printf("\nOs valores são possiveis");
     return 1;
 }
 
 char escolher_frequencia(unsigned long freq2){
     unsigned long freq;
+    printf("\nDeseja: \n1- Inserir frequencia \n2-Inserir através de um ficheiro\n");
 
-    int opc_freq = scanf("Deseja: \n1- Inserir frequencia \n2-Inserir através de um ficheiro\n");
+    int opc_freq;
+    scanf("%d",&opc_freq);
     while (opc_freq < 1 || opc_freq > 2){
         printf("Opção Inválida. Tente novamente.\n");
         scanf("%d", &opc_freq);

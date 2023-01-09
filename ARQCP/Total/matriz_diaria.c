@@ -1,6 +1,6 @@
 #include "arqcp.h"
 
-void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int limitesuperior, int limiteinferior){
+void matriz_diaria(int periodo, unsigned short * sensor, float matriz[6][3], int linha, int limitesuperior, int limiteinferior){
     int minValue, maxValue, genValue, sum;
     float medValue, count;
 
@@ -12,7 +12,7 @@ void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int
     for (int i = 0; i < periodo; i++){
         genValue = *(sensor + i);
 
-        if(isValid(genValue, limitesuperior, limiteinferior)){
+        //if(isValid(genValue, limitesuperior, limiteinferior)){
             if(genValue > maxValue){
                 maxValue = genValue;
             }
@@ -21,7 +21,7 @@ void matriz_diaria(int periodo, int * sensor, float matriz[6][3], int linha, int
             }
             sum += genValue;
             count++;
-        }
+        //}
     }
 
     if (count != 0){

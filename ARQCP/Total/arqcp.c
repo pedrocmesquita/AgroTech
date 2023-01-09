@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include "arqcp.h"
 #include "asm.h"
@@ -12,25 +13,13 @@
 char n_sensor = 0;
 
 int main(){
-    printf("\n---> US101:\n");
-
-    //us101
-    if (!initialize())    //initialization successful
-    {
-        for (int i = 0; i < 10; i++) {
-            printf("%u\n", pcg32_random_r());
-        }
-    } else {
-        printf("An error occured initializing the random number generator.\n");
-    }
 
 
 // ===========================================================================================================================
-    printf("\n---> US102:\n");
+
 
     if (!initialize())	//initialization successful
     {
-        int sec = 2;
 
         char tmp = pcg32_random_r() % 61 - 20;					//[0, 60] - 20 = [-20, 40] (ºC)
         unsigned char wind_vel = pcg32_random_r() % 51;			//[0, 50] (km/h)
@@ -39,38 +28,34 @@ int main(){
         unsigned char humd_grnd = pcg32_random_r() % 101;		//[0, 100] (%)
         unsigned char rain = pcg32_random_r() % 26;				//[0,25] (mm)
 
-        while(1)
-        {
-            char rand = (char) ((pcg32_random_r() % 14) - 7);
-            tmp = sens_temp(tmp, rand);
 
-            rand = (char) ((pcg32_random_r() % 51) - 25);
-            wind_vel = sens_velc_vento(wind_vel, rand);
+        char rand = (char) ((pcg32_random_r() % 14) - 7);
+        tmp = sens_temp(tmp, rand);
 
-            rand = (short) pcg32_random_r();
-            wind_dir = sens_dir_vento(wind_dir, rand);
+        rand = (char) ((pcg32_random_r() % 51) - 25);
+        wind_vel = sens_velc_vento(wind_vel, rand);
 
-            rand = (char) pcg32_random_r();
-            humd_atm = sens_humd_atm(humd_atm, rain, rand);
+        rand = (short) pcg32_random_r();
+        wind_dir = sens_dir_vento(wind_dir, rand);
 
-            rand = (char) pcg32_random_r();
-            humd_grnd = sens_humd_solo(humd_grnd, rain, rand);
+        rand = (char) pcg32_random_r();
+        humd_atm = sens_humd_atm(humd_atm, rain, rand);
 
-            rand = (char) ((pcg32_random_r() % 14) - 7);
-            rain = sens_pluvio(rain, tmp, rand);
+        rand = (char) pcg32_random_r();
+        humd_grnd = sens_humd_solo(humd_grnd, rain, rand);
+
+        rand = (char) ((pcg32_random_r() % 14) - 7);
+        rain = sens_pluvio(rain, tmp, rand);
 
 
-            printf("\n----------------------------\n");
-            printf("Temperatura: %dºC\n",tmp);		//%d because %c converts to ascii
-            printf("Velocidade do vento: %ukm/h\n",wind_vel);	//%u for unsigned
-            printf("Direção do vento: %huº\n",wind_dir);	//short
-            printf("Humidade atmosférica: %u%%\n",humd_atm);
-            printf("Humidade do solo: %u%%\n",humd_grnd);
-            printf("Pluviosidade: %umm\n",rain);
-            printf("----------------------------\n");
-
-        }
-
+        printf("\n----------------------------\n");
+        printf("Temperatura: %dºC\n",tmp);		//%d because %c converts to ascii
+        printf("Velocidade do vento: %ukm/h\n",wind_vel);	//%u for unsigned
+        printf("Direção do vento: %huº\n",wind_dir);	//short
+        printf("Humidade atmosférica: %u%%\n",humd_atm);
+        printf("Humidade do solo: %u%%\n",humd_grnd);
+        printf("Pluviosidade: %umm\n",rain);
+        printf("----------------------------\n");
     }
 
     else
@@ -82,9 +67,8 @@ int main(){
 
 // ===========================================================================================================================
     int opc;
-    char tentativas = 3, periodo = 20, periodoVento = 10;
+    char tentativas = 3, periodo = 20;
     float matrix[6][3];
-    unsigned short *aux;
 
     for (int i = 0; i < 6; ++i) {
         for (int j = 0; j < 3; ++j) {
@@ -94,8 +78,8 @@ int main(){
 
 
 
-    printf("Bem vindo\nEscolha uma das seguintes:\n1) Inserir sensor \n2) Matriz diaria de resumo dos sensores\n3)Exportar para ficheiro CSV");
-    scanf("%d", &opc);
+    printf("Bem vindo\nEscolha uma das seguintes:\n1) Inserir sensor \n2) Matriz diaria de resumo dos sensores\n3)Exportar para ficheiro CSV\n");
+    scanf("\n%d", &opc);
 
 
     switch (opc) {
@@ -103,10 +87,9 @@ int main(){
             printf("\n\n");
             printf(">>>>>>>>>> INSERIR SENSOR <<<<<<<<<<\n");
             printf("Quantos sensores deseja inserir?\n");
-            n_sensor = 0;
-            int i = 0, j = i + 1;
+            int n_sensor, i = 0, j = i + 1;
             float valor, max, min, freq = 0;
-            scanf("%s", &n_sensor);
+            scanf("%d", &n_sensor);
 
             Sensor *sensores = malloc(n_sensor * sizeof(Sensor));
 
@@ -114,13 +97,12 @@ int main(){
                 fprintf(stderr, "Erro: Alocacao de memoria\n");
                 return 0;
             }
-
             /* =================================== INSERIR DADOS CONFORME O RESTO DAS USs =================================================== */
 
 
 
             while (n_sensor != 0){
-                printf("<<< SENSOR %d >>>\n", j );
+                printf("\n\n<<< SENSOR %d >>>\n", j );
                 int opc_sensor;
                 printf("\n-> Selecione o tipo do Sensor:\n1- Temperatura\n2- Velocidade do Vento\n3- Direcao do Vento\n4- Humidade Atmosferica\n5- Humidade Solo\n6- Pluviosidade\n");
                 scanf("%d",&opc_sensor);
@@ -132,29 +114,24 @@ int main(){
 
                 // Array Leituras
                 // matriz_diaria(); -------------------------------------------------> IMPORTANTE !!!!
+                matriz_diaria(periodo, &sensores[i].id, matrix, opc_sensor - 1, 1000, 0);
 
-                printf("Valor Limite Maximo:\n");
-                scanf("%f", &max);
-
-                printf("Valor Limite Minimo\n");
+                printf("Valor Limite Minimo:\n");
                 scanf("%f", &min);
+
+                printf("Valor Limite Maximo\n");
+                scanf("%f", &max);
 
                 while (max - min < 0){
                     printf("Valores maximo e minimo nao sao compativeis. Tente novamente\n");
-                    printf("Valor Limite Maximo:\n");
-                    scanf("%f", &max);
-
-                    printf("Valor Limite Minimo\n");
+                    printf("Valor Limite Minimo:\n");
                     scanf("%f", &min);
+
+                    printf("Valor Limite Maximo\n");
+                    scanf("%f", &max);
                 }
 
                 valor = *(*(matrix + opc_sensor - 1) + 2);
-
-                if(valor == 0){
-                    printf("Nao há dados ainda! Valores maximos e minimos igual a 0");
-                    max = 0;
-                    min = 0;
-                }
 
                 // maximo e minimo
                 if(escolher_max_min(max, min, valor,tentativas, sensores) == 1) {
@@ -175,13 +152,8 @@ int main(){
                         sensores[i].frequency = freq;
                         sensores[i].readings_size = sensores[i].frequency;
 
-                        //dados
-                        sensores[i].readings = matrix;
-
-
-
-                        printf("Registo concluido com sucesso!\n\n");
-                        printf("ID Sensor: %d", sensores[i].id);
+                        printf("ID SENSOR: %d", sensores[i].id);
+                        printf("\nRegisto concluido com sucesso!\n\n");
                     } else {
                         printf("Ocorreu um erro durante o registo. Saindo...\n");
                         break;
@@ -192,8 +164,9 @@ int main(){
                 }
                 n_sensor--;
                 i++;
+                j++;
             }
-            printf("Registo Terminado!");
+            printf("\n\n========== Registo Terminado! ==========");
             break;
 
 
