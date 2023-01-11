@@ -70,4 +70,18 @@ public class US311Test {
         String expected = "Cabaz{nº de produtos totalmente satisfeitos =0, nº de produtos parcialmente satisfeitos=1, nº de produtos não satisfeitos=0, percentagem total do cabaz satisfeito=0, nº de produtores=1}";
         assertEquals(expected,actual.get(2).toString());
     }
+    @Test
+    public void testlapr() throws Exception{
+        BST<Local> locais = readFiles.ReadClientesProdutores(new File(Files.s_clientes_produtores),",");
+        readFiles.ReadDistancias(new File(Files.s_distancias), new File(Files.s_clientes_produtores), ",", graph, locais);
+        readFiles.ReadCabaz(new File(Files.s_cabazes), ",", cabazes);
+        US308 us308 = new US308();
+        us308.gerarListaClientesEProdutores(cabazes, producers, clients);
+        lista = us308.gerarLista(clients, producers,graph);
+        List <Object> actual = US311.CalcularEstatisticas(lista);
+        System.out.println(actual.get(1).toString());
+        System.out.println(actual.get(2).toString());
+        System.out.println(actual.get(3).toString());
+        System.out.println(actual.get(4).toString());
+    }
 }
