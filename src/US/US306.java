@@ -15,7 +15,7 @@ public class US306 {
         String[] array = {"","",""};
         if (ctrl1.getStartDate().plusMonths(1).isAfter(LocalDate.now())) {
             switch (ctrl1.getRegularidade()) {
-                case "t" -> {
+                case "t" : {
                     //todos os dias
                     for (String s : Horas) {
                         String[] a = (s.split(":", 0));
@@ -33,7 +33,7 @@ public class US306 {
                     }
                     array[0] = "Não está a regar";
                 }
-                case "i" -> {
+                case "i" : {
                     //dias impares
                     if (LocalDate.now().getDayOfMonth() % 2 == 0) {
                         System.out.println("Não rega");
@@ -54,7 +54,7 @@ public class US306 {
                     }
                     array[0] = "Não está a regar";
                 }
-                case "p" -> {
+                case "p" : {
                     //dias pares
                     if (LocalDate.now().getDayOfMonth() % 2 != 0) {
                         array[0] = "Não rega";
