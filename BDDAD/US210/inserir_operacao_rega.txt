@@ -6,8 +6,7 @@ create or replace procedure inserir_operacao_rega (
     p_tipo OPERACAO.tipo%type,
     p_quantidade OPERACAO.QUANTIDADE%type,
     p_unidade OPERACAO.UNIDADE%type,
-    p_forma OPERACAO_REGA.FORMA_APLICACAO%type,
-    p_id_sistema OPERACAO_REGA.ID_SISTEMA%type)
+    p_forma OPERACAO_REGA.FORMA_APLICACAO%type)
 as
     v_id_operacao OPERACAO.ID_OPERACAO%type;
     v_count_id OPERACAO.ID_OPERACAO%type;
@@ -34,8 +33,8 @@ begin
         raise_application_error(-20000, 'Dados Inválidos!');
     end if;
 
-    insert into OPERACAO_REGA(id_operacao, id_rega, forma_aplicacao, id_sistema)
-    VALUES (p_id_operacao,p_id_rega, p_forma, p_id_sistema);
+    insert into OPERACAO_REGA(id_operacao, id_rega, forma_aplicacao)
+    VALUES (p_id_operacao,p_id_rega, p_forma);
 
     dbms_output.put_line('Operação Concluida');
 end;

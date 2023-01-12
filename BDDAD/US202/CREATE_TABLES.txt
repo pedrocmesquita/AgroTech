@@ -256,11 +256,11 @@ CREATE TABLE parcela_cultura (
 );
 
 CREATE TABLE parcela_colheita (
-    id_cultura INT NOT NULL,
+    id_parcela INT NOT NULL,
     id_colheita INT NOT NULL,
-    CONSTRAINT FK_cultura_colheita FOREIGN KEY (id_cultura) REFERENCES cultura(ID_Cultura),
-    CONSTRAINT FK_colheita_colheita FOREIGN KEY (id_colheita) REFERENCES colheita(numero_colheita),
-    CONSTRAINT PK_colheita_cultura PRIMARY KEY (id_cultura, id_colheita)
+    CONSTRAINT FK_p_colheita FOREIGN KEY (id_parcela) REFERENCES PARCELA(ID_PARCELA),
+    CONSTRAINT FK_p_c FOREIGN KEY (id_colheita) REFERENCES colheita(numero_colheita),
+    CONSTRAINT PK_colheita_p PRIMARY KEY (id_parcela, id_colheita)
 );
 
 CREATE TABLE estacao_meteorologica (
@@ -337,7 +337,7 @@ CREATE TABLE operacao (
     quantidade INT NOT NULL,
     tipo VARCHAR(1) NOT NULL,
     CONSTRAINT fk_parcela_operacao1 FOREIGN KEY (id_parcela) REFERENCES parcela(id_parcela),
-    CONSTRAINT ck_operacao_estado CHECK (estado = 'concluido' OR estado = 'cancelado'),
+    CONSTRAINT ck_operacao_estado CHECK (estado = 'concluido' OR estado = 'cancelado' OR estado = 'espera'),
     CONSTRAINT ck_operacao_tipo CHECK (tipo = 'r' OR tipo = 'f') /* r - rega      f - fator */
 );
 

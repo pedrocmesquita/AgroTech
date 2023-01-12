@@ -1,0 +1,39 @@
+-- REGA E FATORES
+begin
+    inserir_operacao_rega(1,1,1,TO_DATE('10-02-2023', 'DD-MM-YYYY'),'r', 10,'kg','foliar');
+    inserir_operacao_rega(2,2,1,TO_DATE('11-02-2023', 'DD-MM-YYYY'),'r', 10,'kg','foliar');
+    inserir_operacao_rega(3,2,2,TO_DATE('12-02-2023', 'DD-MM-YYYY'),'r', 10,'kg','foliar');
+end;
+
+begin
+    INSERIR_OPERACAO_FATOR(4,1,1,TO_DATE('10-02-2023', 'DD-MM-YYYY'),'f',10,'kg','foliar');
+    INSERIR_OPERACAO_FATOR(5,2,1,TO_DATE('11-02-2023', 'DD-MM-YYYY'),'f',10,'kg','foliar');
+    INSERIR_OPERACAO_FATOR(6,2,2,TO_DATE('12-02-2023', 'DD-MM-YYYY'),'f',10,'kg','foliar');
+end;
+
+select * from operacao;
+
+
+
+
+-- RESTRICOES
+begin
+    INSERIR_RESTRICAO(1,1,1,TO_DATE('10-02-2023','DD-MM-YYYY'),TO_DATE('17-02-2023','DD-MM-YYYY'));
+    INSERIR_RESTRICAO(2,1,2,TO_DATE('10-02-2023','DD-MM-YYYY'),TO_DATE('17-02-2023','DD-MM-YYYY'));
+    INSERIR_RESTRICAO(3,2,2,TO_DATE('12-02-2023','DD-MM-YYYY'),TO_DATE('19-02-2023','DD-MM-YYYY'));
+    INSERIR_RESTRICAO(4,1,1,TO_DATE('12-01-2023','DD-MM-YYYY'),TO_DATE('19-02-2023','DD-MM-YYYY'));
+end;
+
+
+
+
+-- LISTAR RESTRICOES
+begin
+    listar_operacoes_periodo(TO_DATE('10-02-2023','DD-MM-YYYY'), TO_DATE('20-02-2023','DD-MM-YYYY'));
+end;
+
+
+-- RESTRICOES PROXIMA SEMANA
+begin
+    restricoes_proxima_semana(1);
+end;
